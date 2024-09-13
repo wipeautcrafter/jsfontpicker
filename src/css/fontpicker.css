@@ -1,0 +1,44 @@
+.font-picker {
+  text-align: start;
+  min-width: 240px;
+}
+
+.fp__hide-s,
+.fp__hide-c,
+.fp__hide-l {
+  display: none;
+}
+
+#fp__preview {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.fp__font-item {
+  color: var(--bs-dark);
+}
+.fp__font-item:hover {
+  background: var(--bs-gray-300);
+}
+.fp__font-item.fp__selected {
+  color: var(--bs-light);
+  background: var(--bs-primary);
+}
+
+.fp__heart > svg {
+  fill: none;
+  stroke: var(--bs-light);
+  height: 1em;
+}
+.fp__heart:hover > svg {
+  fill: var(--bs-light);
+}
+.fp__heart.fp__fav > svg {
+  stroke: var(--bs-danger);
+  fill: var(--bs-danger);
+}
+.fp__selected > .fp__heart.fp__fav > svg {
+  stroke: var(--bs-light);
+  fill: var(--bs-light);
+}
