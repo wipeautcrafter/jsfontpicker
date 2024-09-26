@@ -1,4 +1,5 @@
 export type FontWeight = keyof typeof Font.weightNames
+
 export class Font {
   static weightNames = {
     100: 'Thin',
@@ -23,11 +24,7 @@ export class Font {
   weight: FontWeight
   italic: boolean
 
-  constructor(
-    family: string,
-    weight: FontWeight = 400,
-    italic: boolean = false
-  ) {
+  constructor(family: string, weight: FontWeight = 400, italic: boolean = false) {
     this.family = family
     this.weight = weight
     this.italic = italic

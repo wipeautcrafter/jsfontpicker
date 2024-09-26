@@ -1,12 +1,10 @@
-.font-picker {
+[is='font-picker'] {
   text-align: start;
-  min-width: 240px;
 }
 
-.fp__hide-s,
-.fp__hide-c,
-.fp__hide-l {
-  display: none;
+#fp__modal .accordion-button {
+  color: var(--bs-modal-color) !important;
+  background-color: var(--bs-modal-bg) !important;
 }
 
 #fp__preview {
@@ -41,4 +39,29 @@
 .fp__selected > .fp__heart.fp__fav > svg {
   stroke: var(--bs-light);
   fill: var(--bs-light);
+}
+
+#fp__sort-order > * {
+  transition: transform 0.25s ease-in-out;
+}
+#fp__sort-order.active > * {
+  transform: scaleY(-1);
+}
+
+#fp__variants:has(#fp__italic.active) {
+  font-style: italic !important;
+}
+
+.fp__btn-badge {
+  /* match button styles to that of a badge */
+  --bs-btn-border-radius: var(--bs-border-radius-pill);
+  --bs-btn-padding-x: 0.65em;
+  --bs-btn-padding-y: 0.35em;
+  --bs-btn-font-size: 0.75em;
+  --bs-btn-line-height: 1;
+
+  /* override so it doesn't look toggled on hover */
+  --bs-btn-hover-color: var(--bs-btn-color);
+  --bs-btn-hover-bg: var(--bs-btn-bg);
+  --bs-btn-hover-border-color: var(--bs-btn-border-color);
 }

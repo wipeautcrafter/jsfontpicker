@@ -1,19 +1,22 @@
 {
   "name": "fontpicker",
-  "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
+  "module": "src/FontPicker.ts",
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",
     "@types/bun": "latest",
     "bootstrap": "^5.3.3",
+    "leven": "^4.0.0",
+    "prettier": "^3.3.3",
     "typescript": "^5.5.3",
     "vite": "^5.4.1"
   },
-  "module": "src/FontPicker.ts"
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "format": "prettier -w ."
+  },
+  "type": "module"
 }

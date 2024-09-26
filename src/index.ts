@@ -1,9 +1,9 @@
 import './css/fontpicker.css'
 
-import { FontPickerDialogElement } from './custom/FontPickerDialog'
-import { FontPickerButtonElement } from './custom/FontPickerButton'
+import { PickerDialog } from './custom/PickerDialog'
+import { FontPicker } from './custom/FontPicker'
 
-customElements.define('font-picker-dialog', FontPickerDialogElement)
-customElements.define('font-picker', FontPickerButtonElement, {
+customElements.define('font-picker-dialog', PickerDialog)
+customElements.define('font-picker', FontPicker, {
   extends: 'button',
 })

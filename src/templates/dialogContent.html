@@ -1,0 +1,119 @@
+<div id="fp__modal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="fp__title" class="modal-title fw-bold"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div id="fp__accord" class="accordion accordion-flush border-bottom">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button py-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#fp__accord-0"
+            >
+              Filters
+            </button>
+          </h2>
+          <div
+            id="fp__accord-0"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#fp__accord"
+          >
+            <div class="accordion-body py-2">
+              <div class="row">
+                <div class="col-sm-6 pb-2">
+                  <input id="fp__search" class="form-control" />
+                </div>
+                <div class="col-sm-6 pb-2">
+                  <select id="fp__subsets" class="form-select"></select>
+                </div>
+                <div class="col-sm-12">
+                  <div id="fp__categories" class="d-flex overflow-x-auto gap-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed py-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#fp__accord-1"
+            >
+              Metrics
+            </button>
+          </h2>
+          <div id="fp__accord-1" class="accordion-collapse collapse" data-bs-parent="#fp__accord">
+            <div class="accordion-body pt-2 pb-0">
+              <div class="row">
+                <div class="col-sm-6 pb-2">
+                  <select id="fp__width" class="form-select"></select>
+                </div>
+                <div class="col-sm-6 pb-2">
+                  <select id="fp__thickness" class="form-select"></select>
+                </div>
+                <div class="col-sm-6 pb-2">
+                  <select id="fp__complexity" class="form-select"></select>
+                </div>
+                <div class="col-sm-6 pb-2">
+                  <select id="fp__curvature" class="form-select"></select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed py-2"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#fp__accord-2"
+            >
+              Sort
+            </button>
+          </h2>
+          <div id="fp__accord-2" class="accordion-collapse collapse" data-bs-parent="#fp__accord">
+            <div class="accordion-body py-2">
+              <div class="input-group">
+                <select id="fp__sort" class="form-select"></select>
+                <button
+                  id="fp__sort-order"
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="button"
+                >
+                  <div>&#8645;</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="fp__fonts" class="modal-body border-bottom p-1"></div>
+
+      <div class="py-1 px-3 border-bottom">
+        <div id="fp__preview" class="text-center fs-5" contenteditable spellcheck="false"></div>
+      </div>
+
+      <div id="fp__variants" class="py-2 px-3 d-flex flex-wrap gap-2 justify-content-center"></div>
+
+      <div class="modal-footer">
+        <button
+          id="fp__cancel"
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        ></button>
+        <button id="fp__pick" type="button" class="btn btn-primary"></button>
+      </div>
+    </div>
+  </div>
+</div>
