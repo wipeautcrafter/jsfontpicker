@@ -320,6 +320,8 @@ export class PickerDialog extends HTMLElement {
     await new Promise<void>((resolve) => {
       this.$modal.addEventListener('hidden.bs.modal', () => resolve())
     })
+
+    this.picker.dispatchEvent(new Event('close'))
   }
 
   submit() {
@@ -334,7 +336,6 @@ export class PickerDialog extends HTMLElement {
   }
 
   close() {
-    this.picker.dispatchEvent(new Event('close'))
     this.opened = false
     this.modal.hide()
   }
