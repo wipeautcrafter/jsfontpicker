@@ -6,13 +6,6 @@ import { Font } from '../helpers/Font'
 import type { Category, Criterion, Metric, Subset, translations } from '../data/translations'
 import type { FontFamily } from '../helpers/FontFamily'
 
-interface PickerEventMap extends HTMLElementEventMap {
-  open: Event
-  pick: Event
-  cancel: Event
-  close: Event
-}
-
 export interface PickerConfig {
   language: keyof typeof translations
   container: HTMLElement
@@ -34,6 +27,13 @@ export interface PickerConfig {
   googleFonts: string[] | null
   systemFonts: string[] | null
   extraFonts: FontFamily[] | null
+}
+
+interface PickerEventMap extends HTMLElementEventMap {
+  open: Event
+  pick: Event
+  cancel: Event
+  close: Event
 }
 
 export interface FontPicker {

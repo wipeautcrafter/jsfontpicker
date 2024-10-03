@@ -1,6 +1,6 @@
 import leven from 'leven'
 
-import type { FontFamily } from '../data/fonts'
+import type { FontFamily } from '../helpers/FontFamily'
 import type { Category, Criterion, Metric, Subset } from '../data/translations'
 
 export type Filters = {
@@ -15,7 +15,7 @@ export type Filters = {
 
 export const familySort = (a: FontFamily, b: FontFamily, key: Criterion) => {
   // direct properties
-  if (key === 'family') return a.name.localeCompare(b.name)
+  if (key === 'name') return a.name.localeCompare(b.name)
   if (key === 'popularity') {
     if (a.popularity === undefined && b.popularity === undefined) return 0
     if (a.popularity === undefined) return Infinity
