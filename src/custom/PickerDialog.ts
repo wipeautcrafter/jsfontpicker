@@ -282,6 +282,7 @@ export class PickerDialog extends HTMLElement {
 
     this.$variants.addEventListener('click', () => this.updateVariant())
     this.$pickBtn.addEventListener('click', () => this.submit())
+    this.$cancelBtn.addEventListener('click', () => this.cancel())
   }
 
   private assignDefaults() {
