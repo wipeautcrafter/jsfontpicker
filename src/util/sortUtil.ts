@@ -4,7 +4,7 @@ import type { FontFamily } from '../data/fonts'
 import type { Category, Criterion, Metric, Subset } from '../data/translations'
 
 export type Filters = {
-  family: string
+  name: string
   subset: Subset
   categories: Category[]
   width: Metric
@@ -15,7 +15,7 @@ export type Filters = {
 
 export const familySort = (a: FontFamily, b: FontFamily, key: Criterion) => {
   // direct properties
-  if (key === 'family') return a.family.localeCompare(b.family)
+  if (key === 'family') return a.name.localeCompare(b.name)
   if (key === 'popularity') {
     if (a.popularity === undefined && b.popularity === undefined) return 0
     if (a.popularity === undefined) return Infinity
@@ -45,9 +45,9 @@ const compareMetric = (value: number | undefined, target: Metric) => {
 
 export const familyFilter = (a: FontFamily, filters: Filters) => {
   // direct properties
-  if (filters.family) {
-    const difference = leven(a.family.toLowerCase(), filters.family.toLowerCase())
-    const threshold = [...a.family].length - [...filters.family].length
+  if (filters.name) {
+    const difference = leven(a.name.toLowerCase(), filters.name.toLowerCase())
+    const threshold = [...a.name].length - [...filters.name].length
     if (difference > threshold) return false
   }
 

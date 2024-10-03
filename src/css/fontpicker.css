@@ -53,6 +53,8 @@
 }
 
 .fp__btn-badge {
+  white-space: nowrap;
+
   /* match button styles to that of a badge */
   --bs-btn-border-radius: var(--bs-border-radius-pill);
   --bs-btn-padding-x: 0.65em;

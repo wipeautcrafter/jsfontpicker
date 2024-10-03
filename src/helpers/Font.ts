@@ -1,3 +1,5 @@
+import type { FontFamily } from './FontFamily'
+
 export type FontWeight = keyof typeof Font.weightNames
 
 export class Font {
@@ -13,18 +15,11 @@ export class Font {
     900: 'Black',
   }
 
-  static parse(input: string) {
-    const [family, style = '400'] = input.split(':')
-    const weight = parseInt(style) as FontWeight
-    const italic = style.endsWith('i')
-    return new Font(family, weight, italic)
-  }
-
-  family: string
+  family: FontFamily
   weight: FontWeight
   italic: boolean
 
-  constructor(family: string, weight: FontWeight = 400, italic: boolean = false) {
+  constructor(family: FontFamily, weight: FontWeight, italic: boolean) {
     this.family = family
     this.weight = weight
     this.italic = italic
@@ -43,7 +38,7 @@ export class Font {
   }
 
   toString() {
-    const entries = [this.family]
+    const entries = [this.family.name]
 
     if (this.weight !== 400) entries.push(Font.weightNames[this.weight])
     if (this.italic) entries.push('Italic')
@@ -52,5 +47,11 @@ export class Font {
     }
 
     return entries.join(' ')
+  }
+
+  static parse(family: FontFamily, variant = family.getDefaultVariant()) {
+    const weight = parseInt(variant) as FontWeight
+    const italic = variant.endsWith('i')
+    return new Font(family, weight, italic)
   }
 }

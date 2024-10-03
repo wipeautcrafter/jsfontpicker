@@ -45,7 +45,7 @@ type Metrics = {
   '0.9': string
 }
 type Criteria = {
-  family: string
+  name: string
   popularity: string
   width: string
   thickness: string
@@ -170,7 +170,7 @@ export const translations: Translations = {
 
     sort: 'Sort',
     sorts: {
-      family: 'Sort by Name',
+      name: 'Sort by Name',
       popularity: 'Sort by Popularity',
       width: 'Sort by Width',
       thickness: 'Sort by Thickness',

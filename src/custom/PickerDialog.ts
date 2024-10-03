@@ -3,31 +3,24 @@ import dialogContent from '../templates/dialogContent.html?raw'
 import * as bootstrap from 'bootstrap'
 import * as DOM from '../util/DOMUtil'
 import { familyFilter, familySort } from '../util/sortUtil'
-import { Font } from '../helpers/Font'
+import { Font, type FontWeight } from '../helpers/Font'
 import { FontLoader } from '../helpers/FontLoader'
 import { translations } from '../data/translations'
 
-import type { FontFamily } from '../data/fonts'
+import type { FontFamily } from '../helpers/FontFamily'
 import type { FontPicker } from './FontPicker'
 import type { Category, Criterion, Metric, Subset } from '../data/translations'
 import type { Filters } from '../util/sortUtil'
-import type { FontWeight } from '../helpers/Font'
 
 export class PickerDialog extends HTMLElement {
   private opened = false
   private picker: FontPicker
-  private fontList: FontFamily[]
 
   private modal: bootstrap.Modal
   private observer: IntersectionObserver
 
-  private selectedVariant: {
-    weight: number
-    italic: boolean
-  }
-
-  private selectedFont: FontFamily
-  private hoveredFont: FontFamily | null = null
+  private selected: Font
+  private hovered: Font | null = null
 
   private $modal: HTMLDivElement
   private $title: HTMLDivElement
@@ -51,7 +44,7 @@ export class PickerDialog extends HTMLElement {
 
     this.modal = new bootstrap.Modal(this.$modal)
     this.observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+      for (const entry of entries) {
         if (entry.intersectionRatio <= 0) return
 
         const $target = entry.target as HTMLDivElement
@@ -59,7 +52,7 @@ export class PickerDialog extends HTMLElement {
 
         if (family) FontLoader.load(family)
         this.observer.unobserve($target)
-      })
+      }
     })
   }
 
@@ -89,46 +82,54 @@ export class PickerDialog extends HTMLElement {
     this.$pickBtn = this.querySelector('#fp__pick')!
   }
 
-  private getFontFamily(family: string) {
-    return this.fontList.find((font) => font.family === family)
+  private getElementFor(family: FontFamily) {
+    return this.$fonts.querySelector(`[data-family="${family.name}"]`)
   }
 
-  private getElementFor(family: string) {
-    return this.$fonts.querySelector(`[data-family="${family}"]`)
+  private getFamilyFor($element: HTMLElement) {
+    const name = $element.dataset.family
+    if (!name) return null
+    return this.picker.getFamily(name)
   }
 
-  private getFontFor($element: HTMLElement) {
-    return this.getFontFamily($element.dataset.family!)
+  private getFamilies() {
+    return Array.from(this.picker.families.values())
   }
 
-  private sortFonts(orderBy: Criterion, reverse = false) {
-    const sorted = this.fontList.sort((a, b) => familySort(a, b, orderBy))
+  private sortFamilies(orderBy: Criterion, reverse = false) {
+    const families = this.getFamilies()
+
+    const sorted = families.sort((a, b) => familySort(a, b, orderBy))
     if (reverse) sorted.reverse()
-    sorted.forEach((font) => {
-      const $element = this.getElementFor(font.family)
+
+    for (const family of sorted) {
+      const $element = this.getElementFor(family)
       if ($element) this.$fonts.appendChild($element)
-    })
+    }
   }
 
-  private filterFonts(filters: Filters) {
-    const filtered = this.fontList.filter((a) => familyFilter(a, filters))
-    const families = filtered.map((filtered) => filtered.family)
-    Array.from(this.$fonts.children).forEach(($font) => {
-      const family = ($font as HTMLElement).dataset.family!
-      const hidden = !families.includes(family)
+  private filterFamilies(filters: Filters) {
+    const families = this.getFamilies()
+
+    const filtered = families.filter((a) => familyFilter(a, filters))
+    const familyNames = filtered.map((filtered) => filtered.name)
+
+    for (const $font of this.$fonts.children) {
+      const name = ($font as HTMLElement).dataset.family!
+      const hidden = !familyNames.includes(name)
       $font.classList.toggle('d-none', hidden)
-    })
+    }
   }
 
   private updateSort() {
     const orderBy = this.$sort.value as Criterion
     const reverse = this.$sortOrder.classList.contains('active')
-    this.sortFonts(orderBy, reverse)
+    this.sortFamilies(orderBy, reverse)
   }
 
   private updateFilter() {
-    this.filterFonts({
-      family: this.$search.value,
+    this.filterFamilies({
+      name: this.$search.value,
       subset: this.$subset.value as Subset,
       categories: DOM.getActiveBadges(this.$categories) as Category[],
       complexity: this.$complexity.value as Metric,
@@ -139,51 +140,67 @@ export class PickerDialog extends HTMLElement {
   }
 
   private updatePreview() {
-    const font = this.hoveredFont ?? this.selectedFont
+    // only use selected variants for selected font, otherwise use defaults
+    const font = this.hovered ?? this.selected
+
     this.$preview.style.fontFamily = `"${font.family}"`
+    this.$preview.style.fontWeight = font.weight.toString()
+    this.$preview.style.fontStyle = font.style
   }
 
-  private updateSelected() {
+  private selectFont(font: Font) {
     // deselect previously selected fonts
-    Array.from(this.$fonts.querySelectorAll('.fp__selected')).forEach(($font) =>
-      $font.classList.remove('fp__selected'),
-    )
+    for (const $font of this.$fonts.querySelectorAll('.fp__selected')) {
+      $font.classList.remove('fp__selected')
+    }
 
-    this.$variants.textContent = ''
-    if (!this.selectedFont) return
+    // set selected font
+    this.selected = font
 
-    const $element = this.getElementFor(this.selectedFont.family)
-    if (!$element) throw new TypeError('Could not find element for selected font.')
-
+    const $element = this.getElementFor(font.family)
+    if (!$element) throw new Error('Could not find element for selected font.')
     $element.classList.add('fp__selected')
 
-    this.$variants.append(...DOM.createVariants(this.selectedFont.variants))
+    // create variants
+    this.$variants.textContent = ''
+    this.$variants.append(...DOM.createVariants(font.family.variants))
+
+    // set current variant
+    const $weight = this.$variants.querySelector<HTMLInputElement>(`[value="${font.weight}"]`)
+    const $italic = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+    if (!$weight) throw new Error('Could not find weight button for selected font.')
+    if (!$italic) throw new Error('Could not find italic button for selected font.')
+
+    $weight.checked = true
+    $italic.classList.toggle('active', font.italic)
+
     this.updateVariant()
+    this.updatePreview()
   }
 
   private updateVariant() {
-    const $variant = this.$variants.querySelector('.fp__weight:checked') as HTMLInputElement
-    const $italic = this.$variants.querySelector('#fp__italic') as HTMLInputElement
+    const $weight = this.$variants.querySelector<HTMLInputElement>('.fp__weight:checked')
+    const $italic = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+    if (!$weight) throw new Error('Could not find weight button for selected font.')
+    if (!$italic) throw new Error('Could not find italic button for selected font.')
 
-    const weight = parseInt($variant.value)
-    const italic = $italic.classList.contains('active')
+    this.selected.weight = parseInt($weight.value) as FontWeight
+    this.selected.italic = $italic.classList.contains('active')
 
-    this.$preview.style.fontWeight = weight.toString()
-    this.$preview.style.fontStyle = italic ? 'italic' : 'normal'
-    this.selectedVariant = { weight, italic }
+    this.updatePreview()
 
     // disable 'italic' button if font does not support it
-    const hasItalic = this.selectedFont.variants.includes(weight + 'i')
+    const hasItalic = this.selected.family.variants.includes(this.selected.weight + 'i')
     if (!hasItalic) $italic.classList.remove('active')
     $italic.disabled = !hasItalic
   }
 
   private createFonts() {
-    this.fontList.forEach((font) => {
+    for (const font of this.getFamilies()) {
       const $item = DOM.createFont(font)
       this.$fonts.append($item)
       this.observer.observe($item)
-    })
+    }
   }
 
   private applyTranslations() {
@@ -206,30 +223,41 @@ export class PickerDialog extends HTMLElement {
     this.$pickBtn.textContent = dict.select
   }
 
+  private getEventTarget(event: MouseEvent) {
+    return this.getFamilyFor(event.target as HTMLElement)
+  }
+
   private onFontHover(event: MouseEvent) {
-    const font = this.getFontFor(event.target as HTMLElement)
-    if (!font) return
-    this.hoveredFont = font
+    const family = this.getEventTarget(event)
+    if (!family) return
+
+    // to prevent different variant for selected font being previewed
+    if (family === this.selected.family) {
+      this.hovered = null
+    } else {
+      this.hovered = Font.parse(family)
+    }
+
     this.updatePreview()
   }
 
   private onFontUnhover(event: MouseEvent) {
-    if (!this.getFontFor(event.target as HTMLElement)) return
-    this.hoveredFont = null
+    if (!this.getEventTarget(event)) return
+
+    this.hovered = null
     this.updatePreview()
   }
 
   private onFontClick(event: MouseEvent) {
-    const font = this.getFontFor(event.target as HTMLElement)
-    if (!font) return
-    if (this.selectedFont === font) return
-    this.selectedFont = font
-    this.updateSelected()
-    this.updatePreview()
+    const family = this.getEventTarget(event)
+    if (!family) return
+
+    if (this.selected.family === family) return
+    this.selectFont(Font.parse(family))
   }
 
   private onFontDoubleClick(event: MouseEvent) {
-    if (!this.getFontFor(event.target as HTMLElement)) return
+    if (!this.getEventTarget(event)) return
     this.submit()
   }
 
@@ -274,11 +302,6 @@ export class PickerDialog extends HTMLElement {
 
     this.opened = true
     this.picker = picker
-    this.fontList = picker.getFontList()
-
-    const defaultFont = this.getFontFamily(picker.font.family)
-    if (!defaultFont) throw new TypeError('Could not find the picked font!')
-    this.selectedFont = defaultFont
 
     this.createFonts()
     this.applyTranslations()
@@ -287,10 +310,11 @@ export class PickerDialog extends HTMLElement {
     this.assignDefaults()
     this.updateSort()
     this.updateFilter()
-    this.updatePreview()
-    this.updateSelected()
+
+    this.selectFont(picker.font)
 
     this.modal.show()
+    this.picker.dispatchEvent(new Event('open'))
 
     await new Promise<void>((resolve) => {
       this.$modal.addEventListener('hidden.bs.modal', () => resolve())
@@ -298,20 +322,18 @@ export class PickerDialog extends HTMLElement {
   }
 
   submit() {
-    const font = new Font(
-      this.selectedFont.family,
-      this.selectedVariant.weight as FontWeight,
-      this.selectedVariant.italic,
-    )
-    this.picker.setFont(font)
+    this.picker.setFont(this.selected)
+    this.picker.dispatchEvent(new Event('pick'))
     this.close()
   }
 
   cancel() {
+    this.picker.dispatchEvent(new Event('cancel'))
     this.close()
   }
 
   close() {
+    this.picker.dispatchEvent(new Event('close'))
     this.opened = false
     this.modal.hide()
   }
