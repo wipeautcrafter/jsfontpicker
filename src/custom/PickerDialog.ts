@@ -83,11 +83,13 @@ export class PickerDialog extends HTMLElement {
   }
 
   private getElementFor(family: FontFamily) {
-    return this.$fonts.querySelector(`[data-family="${family.name}"]`)
+    const $font = this.$fonts.querySelector(`[data-family="${family.name}"]`)
+    if (!$font) throw new Error(`Could not find element for '${family.name}'!`)
+    return $font
   }
 
-  private getFamilyFor($element: HTMLElement) {
-    const name = $element.dataset.family
+  private getFamilyFor($element: Element | EventTarget) {
+    const name = ($element as HTMLElement).dataset.family
     if (!name) return null
     return this.picker.getFamily(name)
   }
@@ -103,9 +105,19 @@ export class PickerDialog extends HTMLElement {
     if (reverse) sorted.reverse()
 
     for (const family of sorted) {
-      const $element = this.getElementFor(family)
-      if ($element) this.$fonts.appendChild($element)
+      this.$fonts.append(this.getElementFor(family))
     }
+
+    // put selected and favourites at the top
+    for (const favourite of this.picker.favourites) {
+      const $favourite = this.getElementFor(favourite)
+      this.$fonts.prepend($favourite)
+    }
+
+    const $selected = this.getElementFor(this.selected.family)
+    this.$fonts.prepend($selected)
+
+    this.$fonts.scrollTop = 0
   }
 
   private filterFamilies(filters: Filters) {
@@ -156,10 +168,9 @@ export class PickerDialog extends HTMLElement {
 
     // set selected font
     this.selected = font
+    this.getElementFor(font.family).classList.add('fp__selected')
 
-    const $element = this.getElementFor(font.family)
-    if (!$element) throw new Error('Could not find element for selected font.')
-    $element.classList.add('fp__selected')
+    if (!this.picker.config.variants) return
 
     // create variants
     this.$variants.textContent = ''
@@ -175,24 +186,40 @@ export class PickerDialog extends HTMLElement {
     $italic.classList.toggle('active', font.italic)
 
     this.updateVariant()
-    this.updatePreview()
+  }
+
+  private favouriteFont(font: Font) {
+    const $family = this.getElementFor(font.family)
+    const value = $family.classList.toggle('fp__fav')
+    this.picker.markFavourite(font.family, value)
+    this.updateSort()
   }
 
   private updateVariant() {
+    if (!this.picker.config.variants) return
+
     const $weight = this.$variants.querySelector<HTMLInputElement>('.fp__weight:checked')
     const $italic = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+
     if (!$weight) throw new Error('Could not find weight button for selected font.')
     if (!$italic) throw new Error('Could not find italic button for selected font.')
 
-    this.selected.weight = parseInt($weight.value) as FontWeight
-    this.selected.italic = $italic.classList.contains('active')
+    let weight = parseInt($weight.value) as FontWeight
+    let italic = $italic.classList.contains('active')
+
+    // check if font doesn't have italic/regular variants for current font
+    const hasRegular = this.selected.family.variants.includes(`${weight}`)
+    const hasItalic = this.selected.family.variants.includes(`${weight}i`)
+
+    $italic.disabled = !hasRegular || !hasItalic
+    if (!hasRegular) italic = true
+    if (!hasItalic) italic = false
+    $italic.classList.toggle('active', italic)
+
+    this.selected.weight = weight
+    this.selected.italic = italic
 
     this.updatePreview()
-
-    // disable 'italic' button if font does not support it
-    const hasItalic = this.selected.family.variants.includes(this.selected.weight + 'i')
-    if (!hasItalic) $italic.classList.remove('active')
-    $italic.disabled = !hasItalic
   }
 
   private createFonts() {
@@ -223,12 +250,8 @@ export class PickerDialog extends HTMLElement {
     this.$pickBtn.textContent = dict.select
   }
 
-  private getEventTarget(event: MouseEvent) {
-    return this.getFamilyFor(event.target as HTMLElement)
-  }
-
   private onFontHover(event: MouseEvent) {
-    const family = this.getEventTarget(event)
+    const family = this.getFamilyFor(event.target!)
     if (!family) return
 
     // to prevent different variant for selected font being previewed
@@ -242,22 +265,33 @@ export class PickerDialog extends HTMLElement {
   }
 
   private onFontUnhover(event: MouseEvent) {
-    if (!this.getEventTarget(event)) return
+    if (!this.getFamilyFor(event.target!)) return
 
     this.hovered = null
     this.updatePreview()
   }
 
   private onFontClick(event: MouseEvent) {
-    const family = this.getEventTarget(event)
-    if (!family) return
+    const $target = event.target as HTMLElement
 
-    if (this.selected.family === family) return
+    // when favourite is clicked
+    if ($target.classList.contains('fp__heart')) {
+      const family = this.getFamilyFor($target.parentElement!)
+      if (!family) return
+      const font = Font.parse(family)
+      this.selectFont(font)
+      this.favouriteFont(font)
+      return
+    }
+
+    // when font is clicked
+    const family = this.getFamilyFor($target)
+    if (!family || this.selected.family === family) return
     this.selectFont(Font.parse(family))
   }
 
   private onFontDoubleClick(event: MouseEvent) {
-    if (!this.getEventTarget(event)) return
+    if (!this.getFamilyFor(event.target!)) return
     this.submit()
   }
 
@@ -296,6 +330,12 @@ export class PickerDialog extends HTMLElement {
 
     this.$sort.value = this.picker.config.sortBy
     this.$sortOrder.classList.toggle('active', this.picker.config.sortReverse)
+
+    // set favourites
+    this.picker.favourites.forEach((family) => this.getElementFor(family).classList.add('fp__fav'))
+
+    // hide variants
+    this.$variants.classList.toggle('d-none', !this.picker.config.variants)
   }
 
   async open(picker: FontPicker) {
@@ -308,11 +348,11 @@ export class PickerDialog extends HTMLElement {
     this.applyTranslations()
     this.bindEvents()
 
+    this.selectFont(picker.font)
+
     this.assignDefaults()
     this.updateSort()
     this.updateFilter()
-
-    this.selectFont(picker.font)
 
     this.modal.show()
     this.picker.dispatchEvent(new Event('open'))

@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!picker) return
 
   picker.configure({
-    font: 'Open Sans:800i',
+    font: 'Open Sans',
     defaultSubset: 'latin',
     defaultCategories: ['sans-serif', 'display'],
     language: 'en',
     verbose: true,
+    variants: false,
+    favourites: ['Open Sans'],
   })
 
   picker.addEventListener('open', () => console.log('Picker open!'))

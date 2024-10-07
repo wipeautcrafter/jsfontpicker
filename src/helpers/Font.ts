@@ -38,13 +38,14 @@ export class Font {
   }
 
   toString() {
+    // if this is the default variant, return that
+    if (this.family.getDefaultVariant() === this.variant) return this.family.name
+
     const entries = [this.family.name]
 
-    if (this.weight !== 400) entries.push(Font.weightNames[this.weight])
+    entries.push(Font.weightNames[this.weight])
     if (this.italic) entries.push('Italic')
-    if (this.weight !== 400 || this.italic) {
-      entries.push(`(${this.variant})`)
-    }
+    entries.push(`(${this.variant})`)
 
     return entries.join(' ')
   }

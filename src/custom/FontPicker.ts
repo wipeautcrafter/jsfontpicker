@@ -4,7 +4,7 @@ import { googleFonts, systemFonts } from '../data/fonts'
 import { Font } from '../helpers/Font'
 
 import type { Category, Criterion, Metric, Subset, translations } from '../data/translations'
-import type { FontFamily } from '../helpers/FontFamily'
+import { FontFamily } from '../helpers/FontFamily'
 
 export interface PickerConfig {
   language: keyof typeof translations
@@ -13,6 +13,11 @@ export interface PickerConfig {
 
   font: string
   verbose: boolean
+  variants: boolean
+
+  favourites: string[]
+  saveFavourites: boolean
+  storageKey: string
 
   defaultSubset: Subset
   defaultCategories: Category[]
@@ -45,10 +50,11 @@ export interface FontPicker {
 }
 
 export class FontPicker extends HTMLButtonElement {
-  static dialogs = new Set<PickerDialog>()
+  static dialog: PickerDialog | null = null
 
   font: Font
   families: Map<string, FontFamily>
+  favourites: Set<FontFamily>
 
   private initialized = false
 
@@ -58,6 +64,11 @@ export class FontPicker extends HTMLButtonElement {
 
     font: 'Arial',
     verbose: false,
+    variants: true,
+
+    favourites: [],
+    saveFavourites: true,
+    storageKey: 'fp__favourites',
 
     defaultSubset: 'all',
     defaultCategories: ['display', 'handwriting', 'monospace', 'sans-serif', 'serif'],
@@ -106,6 +117,14 @@ export class FontPicker extends HTMLButtonElement {
   private initialize() {
     this.initialized = true
     this.disabled = false
+
+    // load favourites
+    const favourites: string[] = this.config.favourites.slice()
+    if (this.config.saveFavourites) {
+      const names = localStorage.getItem(this.config.storageKey)
+      if (names) favourites.push(...JSON.parse(names))
+    }
+    this.favourites = new Set(favourites.map((name) => this.getFamily(name)))
   }
 
   private updateFamilies() {
@@ -153,20 +172,40 @@ export class FontPicker extends HTMLButtonElement {
     FontLoader.load(this.font.family.name)
   }
 
+  markFavourite(family: FontFamily, value?: boolean) {
+    if (value === undefined) value = !this.favourites.has(family)
+
+    if (value) {
+      this.favourites.add(family)
+    } else {
+      this.favourites.delete(family)
+    }
+
+    // save to storage
+    if (this.config.saveFavourites) {
+      const data = Array.from(this.favourites).map((font) => font.name)
+      localStorage.setItem(this.config.storageKey, JSON.stringify(data))
+    }
+
+    return value
+  }
+
   async open() {
-    // close existing dialogs, which should be cleant up automatically
-    // (when promise resolves, the open() script removes the element)
-    FontPicker.dialogs.forEach((dialog) => dialog.close())
+    // close existing fontpicker
+    this.close()
 
-    const dialog = document.createElement('font-picker-dialog') as PickerDialog
-    this.config.container.append(dialog)
+    FontPicker.dialog = document.createElement('font-picker-dialog') as PickerDialog
+    this.config.container.append(FontPicker.dialog)
 
-    FontPicker.dialogs.add(dialog)
-    await dialog.open(this)
+    await FontPicker.dialog.open(this)
 
-    dialog.remove()
-    FontPicker.dialogs.delete(dialog)
+    FontPicker.dialog.remove()
+    FontPicker.dialog = null
 
     return this.font
+  }
+
+  async close() {
+    FontPicker.dialog?.close()
   }
 }

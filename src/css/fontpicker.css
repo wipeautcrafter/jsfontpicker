@@ -15,6 +15,8 @@
 
 .fp__font-item {
   color: var(--bs-dark);
+  display: flex;
+  justify-content: space-between;
 }
 .fp__font-item:hover {
   background: var(--bs-gray-300);
@@ -24,21 +26,22 @@
   background: var(--bs-primary);
 }
 
-.fp__heart > svg {
+.fp__heart svg {
   fill: none;
   stroke: var(--bs-light);
   height: 1em;
+  pointer-events: none;
 }
-.fp__heart:hover > svg {
+.fp__heart:hover svg {
   fill: var(--bs-light);
 }
-.fp__heart.fp__fav > svg {
+.fp__fav .fp__heart svg {
   stroke: var(--bs-danger);
   fill: var(--bs-danger);
 }
-.fp__selected > .fp__heart.fp__fav > svg {
+.fp__selected.fp__fav .fp__heart svg {
   stroke: var(--bs-light);
-  fill: var(--bs-light);
+  fill: var(--bs-danger);
 }
 
 #fp__sort-order > * {

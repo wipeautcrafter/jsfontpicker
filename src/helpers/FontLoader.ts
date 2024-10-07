@@ -2,7 +2,6 @@ import { googleFonts, systemFonts } from '../data/fonts'
 import type { FontFamily } from './FontFamily'
 
 export class FontLoader {
-  static #wrapper: HTMLElement
   static #cache = new Map<string, Promise<void>>()
 
   static loaded(name: string) {
@@ -10,17 +9,11 @@ export class FontLoader {
   }
 
   static async #appendStylesheet(url: string) {
-    if (!this.#wrapper) {
-      document.body.insertAdjacentHTML('beforeend', '<!-- FontPicker Fonts -->')
-      this.#wrapper = document.createElement('div')
-      document.body.appendChild(this.#wrapper)
-    }
-
     const link = document.createElement('link')
     link.href = url
     link.rel = 'stylesheet'
     link.type = 'text/css'
-    this.#wrapper.appendChild(link)
+    document.head.append(link)
   }
 
   static async #loadGoogleFont(font: FontFamily) {

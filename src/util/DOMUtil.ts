@@ -1,5 +1,15 @@
 import type { FontFamily } from '../helpers/FontFamily'
 
+const heartSVG = `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg>`
+
+export const createHeart = () => {
+  const $heart = document.createElement('div')
+  $heart.className = 'fp__heart'
+  $heart.role = 'button'
+  $heart.innerHTML = heartSVG
+  return $heart
+}
+
 export const createFont = (font: FontFamily) => {
   const $item = document.createElement('div')
   $item.className = 'px-3 py-1 fp__font-item rounded-pill user-select-none'
@@ -12,7 +22,7 @@ export const createFont = (font: FontFamily) => {
   $family.textContent = font.name
   $family.style.fontFamily = `"${font.name}"`
 
-  $item.append($family)
+  $item.append($family, createHeart())
   return $item
 }
 
