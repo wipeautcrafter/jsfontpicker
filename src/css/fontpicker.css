@@ -1,5 +1,9 @@
 .font-picker {
   text-align: start;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #fp__modal .accordion-button {

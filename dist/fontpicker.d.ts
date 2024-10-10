@@ -4,9 +4,9 @@ declare type Criterion = 'name' | 'popularity' | 'width' | 'thickness' | 'comple
 
 declare interface FamilyProps {
     name: string;
-    category: Category;
     variants: string[];
-    subsets: Subset[];
+    category?: Category;
+    subsets?: Subset[];
     popularity?: number;
     metrics?: {
         width: number;

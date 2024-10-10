@@ -100,11 +100,22 @@ export class FontPicker extends HTMLButtonElement {
 
     // load favourites
     const favourites: string[] = this._config.favourites.slice()
+
     if (this._config.saveFavourites) {
       const names = localStorage.getItem(this._config.storageKey)
       if (names) favourites.push(...JSON.parse(names))
     }
-    this._favourites = new Set(favourites.map((name) => this.getFamily(name)))
+
+    this._favourites = new Set()
+
+    for (const name of favourites) {
+      try {
+        const family = this.getFamily(name)
+        this._favourites.add(family)
+      } catch (error) {
+        console.warn(`Font from favourites is not available: '${name}'!`)
+      }
+    }
   }
 
   private updateFamilies() {

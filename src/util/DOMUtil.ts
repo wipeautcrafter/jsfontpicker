@@ -31,7 +31,7 @@ export const createVariants = (variants: string[]) => {
   const weights = Array.from(new Set(variants.map((v) => parseInt(v))))
 
   const $badge = document.createElement('button')
-  $badge.className = 'btn btn-outline-secondary fp__btn-badge'
+  $badge.className = 'btn btn-outline-light fp__btn-badge'
   $badge.dataset.bsToggle = 'button'
   $badge.textContent = 'Italic'
   $badge.id = 'fp__italic'

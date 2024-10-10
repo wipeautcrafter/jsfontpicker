@@ -152,7 +152,7 @@ const j = `<div id="fp__modal" class="modal fade" tabindex="-1">
   return i.className = "fs-6 pe-none", i.textContent = t.name, i.style.fontFamily = `"${t.name}"`, a.append(i, R()), a;
 }, D = (t) => {
   const a = Array.from(new Set(t.map((e) => parseInt(e)))), i = document.createElement("button");
-  return i.className = "btn btn-outline-secondary fp__btn-badge", i.dataset.bsToggle = "button", i.textContent = "Italic", i.id = "fp__italic", [
+  return i.className = "btn btn-outline-light fp__btn-badge", i.dataset.bsToggle = "button", i.textContent = "Italic", i.id = "fp__italic", [
     ...a.flatMap((e) => {
       const n = `fp__weight-${e}`, l = document.createElement("input");
       l.type = "radio", l.className = "btn-check fp__weight", l.value = e.toString(), l.id = n, l.name = "fp__weight";
@@ -202,7 +202,7 @@ const z = (t, a, i) => i === "name" ? t.name.localeCompare(a.name) : i === "popu
     const r = V(t.name.toLowerCase(), a.name.toLowerCase()), o = [...t.name].length - [...a.name].length;
     if (r > o) return !1;
   }
-  return !(a.subset !== "all" && !t.subsets.includes(a.subset) || !a.categories.includes(t.category) || !S((i = t.metrics) == null ? void 0 : i.width, a.width) || !S((e = t.metrics) == null ? void 0 : e.complexity, a.complexity) || !S((n = t.metrics) == null ? void 0 : n.curvature, a.curvature) || !S((l = t.metrics) == null ? void 0 : l.thickness, a.thickness));
+  return !(t.subsets && a.subset !== "all" && !t.subsets.includes(a.subset) || t.category && !a.categories.includes(t.category) || !S((i = t.metrics) == null ? void 0 : i.width, a.width) || !S((e = t.metrics) == null ? void 0 : e.complexity, a.complexity) || !S((n = t.metrics) == null ? void 0 : n.curvature, a.curvature) || !S((l = t.metrics) == null ? void 0 : l.thickness, a.thickness));
 }, u = class u {
   constructor(a, i, e) {
     s(this, "family");
@@ -953,7 +953,14 @@ class X extends HTMLButtonElement {
       const e = localStorage.getItem(this._config.storageKey);
       e && i.push(...JSON.parse(e));
     }
-    this._favourites = new Set(i.map((e) => this.getFamily(e)));
+    this._favourites = /* @__PURE__ */ new Set();
+    for (const e of i)
+      try {
+        const n = this.getFamily(e);
+        this._favourites.add(n);
+      } catch {
+        console.warn(`Font from favourites is not available: '${e}'!`);
+      }
   }
   updateFamilies() {
     const i = [

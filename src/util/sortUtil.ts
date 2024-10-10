@@ -42,8 +42,8 @@ export const familyFilter = (a: FontFamily, filters: Filters) => {
     if (difference > threshold) return false
   }
 
-  if (filters.subset !== 'all' && !a.subsets.includes(filters.subset)) return false
-  if (!filters.categories.includes(a.category)) return false
+  if (a.subsets && filters.subset !== 'all' && !a.subsets.includes(filters.subset)) return false
+  if (a.category && !filters.categories.includes(a.category)) return false
 
   // metrics properties
   if (!compareMetric(a.metrics?.width, filters.width)) return false

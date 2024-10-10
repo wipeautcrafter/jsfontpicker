@@ -2,9 +2,9 @@ import type { Category, Subset } from './translations'
 
 export interface FamilyProps {
   name: string
-  category: Category
   variants: string[]
-  subsets: Subset[]
+  category?: Category
+  subsets?: Subset[]
   popularity?: number
   metrics?: {
     width: number
