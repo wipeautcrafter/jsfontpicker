@@ -1,4 +1,4 @@
-import { googleFonts, systemFonts } from '../data/fonts'
+import { googleFonts } from '../data/fonts'
 import type { FontFamily } from './FontFamily'
 
 export class FontLoader {
@@ -30,14 +30,12 @@ export class FontLoader {
     let promise: Promise<void>
 
     const googleFont = googleFonts.find((font) => font.name === name)
-    const systemFont = systemFonts.find((font) => font.name === name)
 
     if (googleFont) {
       promise = this.#loadGoogleFont(googleFont)
-    } else if (systemFont) {
-      throw new Error('System font loading is not implemented yet!')
     } else {
-      throw new Error(`Font '${name}' does not exist!`)
+      // system and extra fonts are always loaded!
+      promise = Promise.resolve()
     }
 
     this.#cache.set(name, promise)
