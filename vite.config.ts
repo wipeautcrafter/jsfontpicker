@@ -17,6 +17,7 @@ export default defineConfig({
         globals: {
           bootstrap: 'bootstrap',
         },
+        assetFileNames: 'fontpicker.[ext]',
       },
     },
   },
