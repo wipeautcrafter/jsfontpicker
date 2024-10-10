@@ -1,5 +1,4 @@
-import type { FontPicker } from '../src/custom/FontPicker'
-import '../src/index'
+import { FontPicker } from '../src/index'
 
 document.addEventListener('DOMContentLoaded', () => {
   const picker = document.querySelector<FontPicker>('#picker')
@@ -11,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     defaultCategories: ['sans-serif', 'display'],
     language: 'en',
     verbose: true,
-    variants: false,
+    variants: true,
     favourites: ['Open Sans'],
   })
 

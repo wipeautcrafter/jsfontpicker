@@ -1,18 +1,5 @@
-import type { Category, Subset } from '../data/translations'
-
-export interface FamilyProps {
-  name: string
-  category: Category
-  variants: string[]
-  subsets: Subset[]
-  popularity?: number
-  metrics?: {
-    width: number
-    thickness: number
-    complexity: number
-    curvature: number
-  }
-}
+import type { FamilyProps } from '../types/fonts'
+import type { Category, Subset } from '../types/translations'
 
 export interface FontFamily extends FamilyProps {}
 

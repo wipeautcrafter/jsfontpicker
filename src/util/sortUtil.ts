@@ -1,17 +1,8 @@
 import leven from 'leven'
 
 import type { FontFamily } from '../helpers/FontFamily'
-import type { Category, Criterion, Metric, Subset } from '../data/translations'
-
-export type Filters = {
-  name: string
-  subset: Subset
-  categories: Category[]
-  width: Metric
-  thickness: Metric
-  complexity: Metric
-  curvature: Metric
-}
+import type { Criterion, Metric } from '../types/translations'
+import type { Filters } from '../types/util'
 
 export const familySort = (a: FontFamily, b: FontFamily, key: Criterion) => {
   // direct properties

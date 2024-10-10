@@ -3,18 +3,21 @@ import dialogContent from '../templates/dialogContent.html?raw'
 import * as bootstrap from 'bootstrap'
 import * as DOM from '../util/DOMUtil'
 import { familyFilter, familySort } from '../util/sortUtil'
-import { Font, type FontWeight } from '../helpers/Font'
+import { Font } from '../helpers/Font'
 import { FontLoader } from '../helpers/FontLoader'
 import { translations } from '../data/translations'
 
 import type { FontFamily } from '../helpers/FontFamily'
 import type { FontPicker } from './FontPicker'
-import type { Category, Criterion, Metric, Subset } from '../data/translations'
-import type { Filters } from '../util/sortUtil'
+import type { Filters } from '../types/util'
+import type { FontWeight } from '../types/fonts'
+import type { Category, Criterion, Metric, Subset } from '../types/translations'
+import type { PickerConfig } from '../types/fontpicker'
 
 export class PickerDialog extends HTMLElement {
   private opened = false
   private picker: FontPicker
+  private config: PickerConfig
 
   private modal: bootstrap.Modal
   private observer: IntersectionObserver
@@ -170,7 +173,7 @@ export class PickerDialog extends HTMLElement {
     this.selected = font
     this.getElementFor(font.family).classList.add('fp__selected')
 
-    if (!this.picker.config.variants) return
+    if (!this.config.variants) return
 
     // create variants
     this.$variants.textContent = ''
@@ -196,7 +199,7 @@ export class PickerDialog extends HTMLElement {
   }
 
   private updateVariant() {
-    if (!this.picker.config.variants) return
+    if (!this.config.variants) return
 
     const $weight = this.$variants.querySelector<HTMLInputElement>('.fp__weight:checked')
     const $italic = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
@@ -231,7 +234,7 @@ export class PickerDialog extends HTMLElement {
   }
 
   private applyTranslations() {
-    const dict = translations[this.picker.config.language]
+    const dict = translations[this.config.language]
 
     this.$title.textContent = dict.selectFont
     this.$search.placeholder = dict.search
@@ -245,7 +248,7 @@ export class PickerDialog extends HTMLElement {
     this.$curvature.append(...DOM.createOptions(dict.curvatures))
     this.$sort.append(...DOM.createOptions(dict.sorts))
 
-    this.$preview.textContent = this.picker.config.previewText ?? dict.sampleText
+    this.$preview.textContent = this.config.previewText ?? dict.sampleText
     this.$cancelBtn.textContent = dict.cancel
     this.$pickBtn.textContent = dict.select
   }
@@ -320,22 +323,22 @@ export class PickerDialog extends HTMLElement {
   }
 
   private assignDefaults() {
-    DOM.setActiveBadges(this.$categories, this.picker.config.defaultCategories)
+    DOM.setActiveBadges(this.$categories, this.config.defaultCategories)
 
-    this.$subset.value = this.picker.config.defaultSubset
-    this.$width.value = this.picker.config.defaultWidth
-    this.$thickness.value = this.picker.config.defaultThickness
-    this.$complexity.value = this.picker.config.defaultComplexity
-    this.$curvature.value = this.picker.config.defaultCurvature
+    this.$subset.value = this.config.defaultSubset
+    this.$width.value = this.config.defaultWidth
+    this.$thickness.value = this.config.defaultThickness
+    this.$complexity.value = this.config.defaultComplexity
+    this.$curvature.value = this.config.defaultCurvature
 
-    this.$sort.value = this.picker.config.sortBy
-    this.$sortOrder.classList.toggle('active', this.picker.config.sortReverse)
+    this.$sort.value = this.config.sortBy
+    this.$sortOrder.classList.toggle('active', this.config.sortReverse)
 
     // set favourites
     this.picker.favourites.forEach((family) => this.getElementFor(family).classList.add('fp__fav'))
 
     // hide variants
-    this.$variants.classList.toggle('d-none', !this.picker.config.variants)
+    this.$variants.classList.toggle('d-none', !this.config.variants)
   }
 
   async open(picker: FontPicker) {
@@ -343,6 +346,7 @@ export class PickerDialog extends HTMLElement {
 
     this.opened = true
     this.picker = picker
+    this.config = this.picker.getConfig()
 
     this.createFonts()
     this.applyTranslations()

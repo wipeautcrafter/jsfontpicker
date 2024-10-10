@@ -1,9 +1,8 @@
 import type { FontFamily } from './FontFamily'
-
-export type FontWeight = keyof typeof Font.weightNames
+import type { FontWeight } from '../types/fonts'
 
 export class Font {
-  static weightNames = {
+  static weightNames: { [weight in FontWeight]: string } = {
     100: 'Thin',
     200: 'Extra Light',
     300: 'Light',

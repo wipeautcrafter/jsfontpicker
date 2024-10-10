@@ -1,45 +1,10 @@
 import { PickerDialog } from './PickerDialog'
-import { FontLoader } from '../helpers/FontLoader'
-import { googleFonts, systemFonts } from '../data/fonts'
 import { Font } from '../helpers/Font'
-
-import type { Category, Criterion, Metric, Subset, translations } from '../data/translations'
+import { FontLoader } from '../helpers/FontLoader'
 import { FontFamily } from '../helpers/FontFamily'
+import { googleFonts, systemFonts } from '../data/fonts'
 
-export interface PickerConfig {
-  language: keyof typeof translations
-  container: HTMLElement
-  previewText?: string
-
-  font: string
-  verbose: boolean
-  variants: boolean
-
-  favourites: string[]
-  saveFavourites: boolean
-  storageKey: string
-
-  defaultSubset: Subset
-  defaultCategories: Category[]
-  defaultWidth: Metric
-  defaultThickness: Metric
-  defaultComplexity: Metric
-  defaultCurvature: Metric
-
-  sortBy: Criterion
-  sortReverse: boolean
-
-  googleFonts: string[] | null
-  systemFonts: string[] | null
-  extraFonts: FontFamily[] | null
-}
-
-interface PickerEventMap extends HTMLElementEventMap {
-  open: Event
-  pick: Event
-  cancel: Event
-  close: Event
-}
+import type { PickerConfig, PickerEventMap } from '../types/fontpicker'
 
 export interface FontPicker {
   addEventListener<K extends keyof PickerEventMap>(
@@ -49,16 +14,27 @@ export interface FontPicker {
   ): void
 }
 
+let pickerDialog: PickerDialog | null = null
+
 export class FontPicker extends HTMLButtonElement {
-  static dialog: PickerDialog | null = null
-
-  font: Font
-  families: Map<string, FontFamily>
-  favourites: Set<FontFamily>
-
   private initialized = false
 
-  config: PickerConfig = {
+  private _font: Font
+  get font() {
+    return this._font
+  }
+
+  private _families: Map<string, FontFamily>
+  get families() {
+    return this._families
+  }
+
+  private _favourites: Set<FontFamily>
+  get favourites() {
+    return this._favourites
+  }
+
+  private _config: PickerConfig = {
     language: 'en',
     container: document.body,
 
@@ -82,7 +58,11 @@ export class FontPicker extends HTMLButtonElement {
 
     googleFonts: null,
     systemFonts: null,
-    extraFonts: null,
+
+    extraFonts: [],
+  }
+  getConfig() {
+    return { ...this._config }
   }
 
   connectedCallback() {
@@ -92,7 +72,7 @@ export class FontPicker extends HTMLButtonElement {
   }
 
   configure(options: Partial<PickerConfig>) {
-    Object.assign(this.config, options)
+    Object.assign(this._config, options)
 
     const keys = Object.keys(options)
 
@@ -108,7 +88,7 @@ export class FontPicker extends HTMLButtonElement {
 
     // when font hasn't been assigned, or a new one has been passed
     if (!this.font || keys.includes('font')) {
-      this.setFont(this.config.font)
+      this.setFont(this._config.font)
     }
 
     if (!this.initialized) this.initialize()
@@ -119,22 +99,22 @@ export class FontPicker extends HTMLButtonElement {
     this.disabled = false
 
     // load favourites
-    const favourites: string[] = this.config.favourites.slice()
-    if (this.config.saveFavourites) {
-      const names = localStorage.getItem(this.config.storageKey)
+    const favourites: string[] = this._config.favourites.slice()
+    if (this._config.saveFavourites) {
+      const names = localStorage.getItem(this._config.storageKey)
       if (names) favourites.push(...JSON.parse(names))
     }
-    this.favourites = new Set(favourites.map((name) => this.getFamily(name)))
+    this._favourites = new Set(favourites.map((name) => this.getFamily(name)))
   }
 
   private updateFamilies() {
     const families = [
-      ...googleFonts.filter((font) => this.config.googleFonts?.includes(font.name) ?? true),
-      ...systemFonts.filter((font) => this.config.systemFonts?.includes(font.name) ?? true),
-      ...(this.config.extraFonts ?? []),
+      ...googleFonts.filter((font) => this._config.googleFonts?.includes(font.name) ?? true),
+      ...systemFonts.filter((font) => this._config.systemFonts?.includes(font.name) ?? true),
+      ...this._config.extraFonts.map((font) => new FontFamily(font)),
     ]
 
-    this.families = new Map<string, FontFamily>()
+    this._families = new Map<string, FontFamily>()
     families.forEach((family) => this.families.set(family.name, family))
   }
 
@@ -147,15 +127,15 @@ export class FontPicker extends HTMLButtonElement {
   setFont(font: Font | FontFamily | string) {
     if (font instanceof Font) {
       // directly set font
-      this.font = font
+      this._font = font
     } else if (typeof font === 'string') {
       // set font parsed from name
       const [name, variant] = font.split(':')
       const family = this.getFamily(name)
-      this.font = Font.parse(family, variant)
+      this._font = Font.parse(family, variant)
     } else {
       // set font from font family
-      this.font = Font.parse(font)
+      this._font = Font.parse(font)
     }
 
     // check if font variant is supported by font family
@@ -163,7 +143,7 @@ export class FontPicker extends HTMLButtonElement {
       throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`)
     }
 
-    this.textContent = this.config.verbose ? this.font.toString() : this.font.toId()
+    this.textContent = this._config.verbose ? this.font.toString() : this.font.toId()
 
     this.style.fontFamily = `${this.font.family}`
     this.style.fontWeight = this.font.weight.toString()
@@ -182,9 +162,9 @@ export class FontPicker extends HTMLButtonElement {
     }
 
     // save to storage
-    if (this.config.saveFavourites) {
+    if (this._config.saveFavourites) {
       const data = Array.from(this.favourites).map((font) => font.name)
-      localStorage.setItem(this.config.storageKey, JSON.stringify(data))
+      localStorage.setItem(this._config.storageKey, JSON.stringify(data))
     }
 
     return value
@@ -194,18 +174,18 @@ export class FontPicker extends HTMLButtonElement {
     // close existing fontpicker
     this.close()
 
-    FontPicker.dialog = document.createElement('font-picker-dialog') as PickerDialog
-    this.config.container.append(FontPicker.dialog)
+    pickerDialog = document.createElement('font-picker-dialog') as PickerDialog
+    this._config.container.append(pickerDialog)
 
-    await FontPicker.dialog.open(this)
+    await pickerDialog.open(this)
 
-    FontPicker.dialog.remove()
-    FontPicker.dialog = null
+    pickerDialog.remove()
+    pickerDialog = null
 
     return this.font
   }
 
   async close() {
-    FontPicker.dialog?.close()
+    pickerDialog?.close()
   }
 }

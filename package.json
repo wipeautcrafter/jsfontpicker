@@ -9,14 +9,16 @@
     "leven": "^4.0.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "vite-plugin-dts": "^4.2.3"
   },
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "release": "bun run format && bun run build"
   },
   "type": "module"
 }
