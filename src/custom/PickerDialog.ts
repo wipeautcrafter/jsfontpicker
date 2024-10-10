@@ -341,7 +341,11 @@ export class PickerDialog extends HTMLElement {
 
   private onKeyPressed(event: KeyboardEvent) {
     if (!this.opened) return
-    if (event.target !== this.$modal) return
+
+    const $target = event.target as HTMLElement | null
+    if ($target && $target !== this.$modal && !this.$fonts.contains($target)) {
+      return // an element is focused that requires keyboard input, don't handle.
+    }
 
     let handled = true
 
