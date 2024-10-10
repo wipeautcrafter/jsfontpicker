@@ -127,13 +127,13 @@ const j = `<div id="fp__modal" class="modal fade" tabindex="-1">
         <button
           id="fp__cancel"
           type="button"
-          class="btn btn-link text-decoration-none fp__has-icon"
+          class="btn btn-link text-decoration-none rounded-pill fp__has-icon"
         >
           <!-- prettier-ignore -->
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M5.64 5.64c3.51 -3.51 9.21 -3.51 12.73 0c3.51 3.51 3.51 9.21 0 12.73c-3.51 3.51 -9.21 3.51 -12.73 0c-3.51 -3.51 -3.51 -9.21 -0 -12.73Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0"/></path><path stroke-dasharray="20" stroke-dashoffset="20" d="M6 6l12 12"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="20;0"/></path></g></svg>
           <span id="fp__t-cancel"></span>
         </button>
-        <button id="fp__pick" type="button" class="btn btn-primary fp__has-icon">
+        <button id="fp__pick" type="button" class="btn btn-primary rounded-pill fp__has-icon">
           <!-- prettier-ignore -->
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg>
           <span id="fp__t-pick"></span>
@@ -152,7 +152,7 @@ const j = `<div id="fp__modal" class="modal fade" tabindex="-1">
   return i.className = "fs-6 pe-none", i.textContent = t.name, i.style.fontFamily = `"${t.name}"`, a.append(i, R()), a;
 }, D = (t) => {
   const a = Array.from(new Set(t.map((e) => parseInt(e)))), i = document.createElement("button");
-  return i.className = "btn btn-outline-light fp__btn-badge", i.dataset.bsToggle = "button", i.textContent = "Italic", i.id = "fp__italic", [
+  return i.className = "btn btn-outline-warning fp__btn-badge", i.dataset.bsToggle = "button", i.textContent = "Italic", i.id = "fp__italic", [
     ...a.flatMap((e) => {
       const n = `fp__weight-${e}`, l = document.createElement("input");
       l.type = "radio", l.className = "btn-check fp__weight", l.value = e.toString(), l.id = n, l.name = "fp__weight";
@@ -882,7 +882,7 @@ class Q extends HTMLElement {
     H(this.$categories, this.config.defaultCategories), this.$subset.value = this.config.defaultSubset, this.$width.value = this.config.defaultWidth, this.$thickness.value = this.config.defaultThickness, this.$complexity.value = this.config.defaultComplexity, this.$curvature.value = this.config.defaultCurvature, this.$sort.value = this.config.sortBy, this.$sortOrder.classList.toggle("active", this.config.sortReverse), this.picker.favourites.forEach((i) => this.getElementFor(i).classList.add("fp__fav")), this.$variants.classList.toggle("d-none", !this.config.variants);
   }
   async open(i) {
-    this.opened || (this.opened = !0, this.picker = i, this.config = this.picker.getConfig(), this.createFonts(), this.applyTranslations(), this.bindEvents(), this.selectFont(i.font), this.assignDefaults(), this.updateSort(), this.updateFilter(), this.modal.show(), this.picker.dispatchEvent(new Event("open")), await new Promise((e) => {
+    this.opened || (this.opened = !0, this.picker = i, this.config = this.picker.getConfig(), this.createFonts(), this.applyTranslations(), this.bindEvents(), this.selectFont(i.font), this.assignDefaults(), this.updateSort(), this.updateFilter(), this.modal.show(), this.$modal.focus(), this.picker.dispatchEvent(new Event("open")), await new Promise((e) => {
       this.$modal.addEventListener("hidden.bs.modal", () => e());
     }), this.picker.dispatchEvent(new Event("close")));
   }

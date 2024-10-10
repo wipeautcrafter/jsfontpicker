@@ -361,6 +361,7 @@ export class PickerDialog extends HTMLElement {
     this.updateFilter()
 
     this.modal.show()
+    this.$modal.focus() // prevent previously opened dialog from taking focus
     this.picker.dispatchEvent(new Event('open'))
 
     await new Promise<void>((resolve) => {
