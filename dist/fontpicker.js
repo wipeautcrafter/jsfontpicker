@@ -882,8 +882,8 @@ class Q extends HTMLElement {
     H(this.$categories, this.config.defaultCategories), this.$subset.value = this.config.defaultSubset, this.$width.value = this.config.defaultWidth, this.$thickness.value = this.config.defaultThickness, this.$complexity.value = this.config.defaultComplexity, this.$curvature.value = this.config.defaultCurvature, this.$sort.value = this.config.sortBy, this.$sortOrder.classList.toggle("active", this.config.sortReverse), this.picker.favourites.forEach((i) => this.getElementFor(i).classList.add("fp__fav")), this.$variants.classList.toggle("d-none", !this.config.variants);
   }
   async open(i) {
-    this.opened || (this.opened = !0, this.picker = i, this.config = this.picker.getConfig(), this.createFonts(), this.applyTranslations(), this.bindEvents(), this.selectFont(i.font), this.assignDefaults(), this.updateSort(), this.updateFilter(), this.modal.show(), this.$modal.focus(), this.picker.dispatchEvent(new Event("open")), await new Promise((e) => {
-      this.$modal.addEventListener("hidden.bs.modal", () => e());
+    this.opened || (this.opened = !0, this.picker = i, this.config = this.picker.getConfig(), this.applyTranslations(), this.bindEvents(), this.modal.show(), this.createFonts(), this.selectFont(i.font), this.assignDefaults(), this.updateSort(), this.updateFilter(), this.picker.dispatchEvent(new Event("open")), await new Promise((e) => {
+      this.$modal.addEventListener("shown.bs.modal", () => this.$modal.focus()), this.$modal.addEventListener("hidden.bs.modal", () => e());
     }), this.picker.dispatchEvent(new Event("close")));
   }
   submit() {

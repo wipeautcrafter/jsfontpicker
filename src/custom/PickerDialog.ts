@@ -350,9 +350,11 @@ export class PickerDialog extends HTMLElement {
     this.picker = picker
     this.config = this.picker.getConfig()
 
-    this.createFonts()
     this.applyTranslations()
     this.bindEvents()
+
+    this.modal.show()
+    this.createFonts()
 
     this.selectFont(picker.font)
 
@@ -360,11 +362,10 @@ export class PickerDialog extends HTMLElement {
     this.updateSort()
     this.updateFilter()
 
-    this.modal.show()
-    this.$modal.focus() // prevent previously opened dialog from taking focus
     this.picker.dispatchEvent(new Event('open'))
 
     await new Promise<void>((resolve) => {
+      this.$modal.addEventListener('shown.bs.modal', () => this.$modal.focus())
       this.$modal.addEventListener('hidden.bs.modal', () => resolve())
     })
 
