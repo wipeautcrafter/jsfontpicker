@@ -10,3 +10,4 @@ customElements.define('font-picker', FontPicker, {
 })
 
 export { FontPicker, FontLoader }
+export type { PickerConfig } from './types/fontpicker'
