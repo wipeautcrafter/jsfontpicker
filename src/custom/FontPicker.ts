@@ -67,7 +67,7 @@ export class FontPicker extends HTMLButtonElement {
 
   connectedCallback() {
     this.disabled = true
-    this.classList.add('form-select')
+    this.classList.add('font-picker', 'form-select')
     this.addEventListener('click', this.open.bind(this))
   }
 

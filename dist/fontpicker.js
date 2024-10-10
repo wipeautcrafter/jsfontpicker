@@ -942,7 +942,7 @@ class X extends HTMLButtonElement {
     return { ...this._config };
   }
   connectedCallback() {
-    this.disabled = !0, this.classList.add("form-select"), this.addEventListener("click", this.open.bind(this));
+    this.disabled = !0, this.classList.add("font-picker", "form-select"), this.addEventListener("click", this.open.bind(this));
   }
   configure(i) {
     Object.assign(this._config, i);
