@@ -44,7 +44,7 @@ export class PickerDialog extends HTMLElement {
   connectedCallback() {
     this.createLayout()
 
-    this.modal = new bootstrap.Modal(this.$modal)
+    this.modal = new bootstrap.Modal(this.$modal, { keyboard: false })
     this.observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.intersectionRatio <= 0) return
@@ -86,7 +86,7 @@ export class PickerDialog extends HTMLElement {
   private getElementFor(family: FontFamily) {
     const $font = this.$fonts.querySelector(`[data-family="${family.name}"]`)
     if (!$font) throw new Error(`Could not find element for '${family.name}'!`)
-    return $font
+    return $font as HTMLElement
   }
 
   private getFamilyFor($element: Element | EventTarget) {
@@ -300,6 +300,91 @@ export class PickerDialog extends HTMLElement {
     this.submit()
   }
 
+  private selectClosestFont(excluded: boolean, reverse: boolean, $from?: Element | null) {
+    let $target = $from ? ($from as HTMLElement) : this.getElementFor(this.selected.family)
+
+    while (excluded || $target.classList.contains('d-none')) {
+      excluded = false
+
+      const $next = reverse ? $target.previousElementSibling : $target.nextElementSibling
+      if (!$next) return
+
+      $target = $next as HTMLElement
+    }
+
+    $target.click()
+    $target.scrollIntoView({
+      behavior: 'instant',
+      block: 'center',
+    })
+  }
+
+  private selectClosestVariant(reverse: boolean) {
+    const $origin = this.$variants.querySelector('.fp__weight:checked')
+    const $next = reverse
+      ? $origin?.previousElementSibling?.previousElementSibling
+      : $origin?.nextElementSibling?.nextElementSibling
+    if (!$next) return
+
+    const $target = $next as HTMLInputElement
+    $target.checked = true
+
+    this.updateVariant()
+  }
+
+  private toggleVariantItalic() {
+    const $target = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+    if (!$target) return
+    $target.classList.toggle('active')
+    this.updateVariant()
+  }
+
+  private onKeyPressed(event: KeyboardEvent) {
+    if (!this.opened) return
+    if (event.target !== this.$modal) return
+
+    let handled = true
+
+    if (event.key === 'Escape') {
+      // cancel font picker modal
+      this.cancel()
+    } else if (event.key === 'f') {
+      // toggle favourite for selected font
+      this.favouriteFont(this.selected)
+    } else if (event.key === 'PageUp') {
+      // select first font
+      this.selectClosestFont(false, false, this.$fonts.firstElementChild)
+    } else if (event.key === 'PageDown') {
+      // select last font
+      this.selectClosestFont(false, true, this.$fonts.lastElementChild)
+    } else if (event.key === 'ArrowUp') {
+      // select previous font
+      this.selectClosestFont(true, true, null)
+    } else if (event.key === 'ArrowDown') {
+      // select next font
+      this.selectClosestFont(true, false, null)
+    } else if (event.key === 'ArrowLeft') {
+      // select previous font variant
+      this.selectClosestVariant(true)
+    } else if (event.key === 'ArrowRight') {
+      // select next font variant
+      this.selectClosestVariant(false)
+    } else if (event.key === 'i') {
+      // toggle font italic
+      this.toggleVariantItalic()
+    } else if (event.key === '/') {
+      // focus search input
+      this.$search.focus()
+    } else if (event.key === 'Enter') {
+      // submit font picker modal
+      this.submit()
+    } else {
+      handled = false
+    }
+
+    if (handled) event.preventDefault()
+  }
+
   private bindEvents() {
     const filterCallback = () => this.updateFilter()
     this.$categories.addEventListener('click', filterCallback)
@@ -319,9 +404,12 @@ export class PickerDialog extends HTMLElement {
     this.$fonts.addEventListener('click', (event) => this.onFontClick(event))
     this.$fonts.addEventListener('dblclick', (event) => this.onFontDoubleClick(event))
 
+    this.$variants.addEventListener('input', () => this.updateVariant())
     this.$variants.addEventListener('click', () => this.updateVariant())
     this.$pickBtn.addEventListener('click', () => this.submit())
     this.$cancelBtn.addEventListener('click', () => this.cancel())
+
+    this.$modal.addEventListener('keydown', (event) => this.onKeyPressed(event))
   }
 
   private assignDefaults() {

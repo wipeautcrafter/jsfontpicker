@@ -2,10 +2,10 @@ var L = Object.defineProperty;
 var M = (t) => {
   throw TypeError(t);
 };
-var F = (t, a, i) => a in t ? L(t, a, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[a] = i;
-var s = (t, a, i) => F(t, typeof a != "symbol" ? a + "" : a, i), A = (t, a, i) => a.has(t) || M("Cannot " + i);
-var w = (t, a, i) => (A(t, a, "read from private field"), i ? i.call(t) : a.get(t)), b = (t, a, i) => a.has(t) ? M("Cannot add the same private member more than once") : a instanceof WeakSet ? a.add(t) : a.set(t, i);
-var C = (t, a, i) => (A(t, a, "access private method"), i);
+var F = (t, e, i) => e in t ? L(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i;
+var r = (t, e, i) => F(t, typeof e != "symbol" ? e + "" : e, i), A = (t, e, i) => e.has(t) || M("Cannot " + i);
+var w = (t, e, i) => (A(t, e, "read from private field"), i ? i.call(t) : e.get(t)), b = (t, e, i) => e.has(t) ? M("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, i);
+var C = (t, e, i) => (A(t, e, "access private method"), i);
 import * as _ from "bootstrap";
 const j = `<div id="fp__modal" class="modal fade" tabindex="-1">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -112,7 +112,7 @@ const j = `<div id="fp__modal" class="modal fade" tabindex="-1">
         </div>
       </div>
 
-      <div id="fp__fonts" class="modal-body border-bottom p-1"></div>
+      <div id="fp__fonts" class="modal-body border-bottom p-1" tabindex="-1"></div>
 
       <div class="py-1 px-3">
         <div id="fp__preview" class="text-center fs-5" contenteditable spellcheck="false"></div>
@@ -142,73 +142,73 @@ const j = `<div id="fp__modal" class="modal fade" tabindex="-1">
     </div>
   </div>
 </div>
-`, G = '<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg>', R = () => {
+`, E = '<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg>', G = () => {
   const t = document.createElement("div");
-  return t.className = "fp__heart", t.role = "button", t.innerHTML = G, t;
-}, E = (t) => {
-  const a = document.createElement("div");
-  a.className = "px-3 py-1 fp__font-item rounded-pill user-select-none", a.role = "button", a.dataset.family = t.name;
+  return t.className = "fp__heart", t.role = "button", t.innerHTML = E, t;
+}, R = (t) => {
+  const e = document.createElement("div");
+  e.className = "px-3 py-1 fp__font-item rounded-pill user-select-none", e.role = "button", e.dataset.family = t.name;
   const i = document.createElement("span");
-  return i.className = "fs-6 pe-none", i.textContent = t.name, i.style.fontFamily = `"${t.name}"`, a.append(i, R()), a;
+  return i.className = "fs-6 pe-none", i.textContent = t.name, i.style.fontFamily = `"${t.name}"`, e.append(i, G()), e;
 }, D = (t) => {
-  const a = Array.from(new Set(t.map((e) => parseInt(e)))), i = document.createElement("button");
+  const e = Array.from(new Set(t.map((a) => parseInt(a)))), i = document.createElement("button");
   return i.className = "btn btn-outline-warning fp__btn-badge", i.dataset.bsToggle = "button", i.textContent = "Italic", i.id = "fp__italic", [
-    ...a.flatMap((e) => {
-      const n = `fp__weight-${e}`, l = document.createElement("input");
-      l.type = "radio", l.className = "btn-check fp__weight", l.value = e.toString(), l.id = n, l.name = "fp__weight";
-      const r = document.createElement("label");
-      return r.className = "btn btn-outline-primary fp__btn-badge", r.htmlFor = n, r.textContent = e.toString(), [l, r];
+    ...e.flatMap((a) => {
+      const n = `fp__weight-${a}`, l = document.createElement("input");
+      l.type = "radio", l.className = "btn-check fp__weight", l.value = a.toString(), l.id = n, l.name = "fp__weight";
+      const s = document.createElement("label");
+      return s.className = "btn btn-outline-primary fp__btn-badge", s.htmlFor = n, s.textContent = a.toString(), [l, s];
     }),
     i
   ];
-}, $ = (t, a) => {
+}, $ = (t, e) => {
   const i = document.createElement("option");
-  return i.value = t, i.textContent = a, i;
-}, y = (t) => Object.entries(t).map(([a, i]) => $(a, i)), K = (t, a) => {
+  return i.value = t, i.textContent = e, i;
+}, y = (t) => Object.entries(t).map(([e, i]) => $(e, i)), K = (t, e) => {
   const i = document.createElement("button");
-  return i.className = "btn btn-outline-primary fp__btn-badge", i.dataset.value = t, i.dataset.bsToggle = "button", i.textContent = a, i;
-}, I = (t) => Object.entries(t).map(([a, i]) => K(a, i)), H = (t, a) => {
+  return i.className = "btn btn-outline-primary fp__btn-badge", i.dataset.value = t, i.dataset.bsToggle = "button", i.textContent = e, i;
+}, I = (t) => Object.entries(t).map(([e, i]) => K(e, i)), H = (t, e) => {
   for (const i of t.children) {
-    const e = i.dataset.value;
-    i.classList.toggle("active", a.includes(e));
+    const a = i.dataset.value;
+    i.classList.toggle("active", e.includes(a));
   }
 }, q = (t) => Array.from(t.querySelectorAll(".active")).map(
-  (a) => a.dataset.value
+  (e) => e.dataset.value
 ), N = [], P = [];
-function V(t, a) {
-  if (t === a)
+function V(t, e) {
+  if (t === e)
     return 0;
   const i = t;
-  t.length > a.length && (t = a, a = i);
-  let e = t.length, n = a.length;
-  for (; e > 0 && t.charCodeAt(~-e) === a.charCodeAt(~-n); )
-    e--, n--;
+  t.length > e.length && (t = e, e = i);
+  let a = t.length, n = e.length;
+  for (; a > 0 && t.charCodeAt(~-a) === e.charCodeAt(~-n); )
+    a--, n--;
   let l = 0;
-  for (; l < e && t.charCodeAt(l) === a.charCodeAt(l); )
+  for (; l < a && t.charCodeAt(l) === e.charCodeAt(l); )
     l++;
-  if (e -= l, n -= l, e === 0)
+  if (a -= l, n -= l, a === 0)
     return n;
-  let r, o, c, x, d = 0, h = 0;
-  for (; d < e; )
+  let s, o, c, x, d = 0, h = 0;
+  for (; d < a; )
     P[d] = t.charCodeAt(l + d), N[d] = ++d;
   for (; h < n; )
-    for (r = a.charCodeAt(l + h), c = h++, o = h, d = 0; d < e; d++)
-      x = r === P[d] ? c : c + 1, c = N[d], o = N[d] = c > o ? x > o ? o + 1 : x : x > c ? c + 1 : x;
+    for (s = e.charCodeAt(l + h), c = h++, o = h, d = 0; d < a; d++)
+      x = s === P[d] ? c : c + 1, c = N[d], o = N[d] = c > o ? x > o ? o + 1 : x : x > c ? c + 1 : x;
   return o;
 }
-const z = (t, a, i) => i === "name" ? t.name.localeCompare(a.name) : i === "popularity" ? t.popularity === void 0 && a.popularity === void 0 ? 0 : t.popularity === void 0 ? 1 / 0 : a.popularity === void 0 ? -1 / 0 : t.popularity - a.popularity : t.metrics === void 0 && a.metrics === void 0 ? 0 : t.metrics === void 0 ? 1 / 0 : a.metrics === void 0 ? -1 / 0 : i === "complexity" ? a.metrics.complexity - t.metrics.complexity : i === "curvature" ? a.metrics.curvature - t.metrics.curvature : i === "thickness" ? a.metrics.thickness - t.metrics.thickness : i === "width" ? a.metrics.width - t.metrics.width : 0, S = (t, a) => a === "all" ? !0 : t === void 0 ? !1 : Math.abs(t - parseFloat(a)) < 0.1, U = (t, a) => {
-  var i, e, n, l;
-  if (a.name) {
-    const r = V(t.name.toLowerCase(), a.name.toLowerCase()), o = [...t.name].length - [...a.name].length;
-    if (r > o) return !1;
+const z = (t, e, i) => i === "name" ? t.name.localeCompare(e.name) : i === "popularity" ? t.popularity === void 0 && e.popularity === void 0 ? 0 : t.popularity === void 0 ? 1 / 0 : e.popularity === void 0 ? -1 / 0 : t.popularity - e.popularity : t.metrics === void 0 && e.metrics === void 0 ? 0 : t.metrics === void 0 ? 1 / 0 : e.metrics === void 0 ? -1 / 0 : i === "complexity" ? e.metrics.complexity - t.metrics.complexity : i === "curvature" ? e.metrics.curvature - t.metrics.curvature : i === "thickness" ? e.metrics.thickness - t.metrics.thickness : i === "width" ? e.metrics.width - t.metrics.width : 0, S = (t, e) => e === "all" ? !0 : t === void 0 ? !1 : Math.abs(t - parseFloat(e)) < 0.1, U = (t, e) => {
+  var i, a, n, l;
+  if (e.name) {
+    const s = V(t.name.toLowerCase(), e.name.toLowerCase()), o = [...t.name].length - [...e.name].length;
+    if (s > o) return !1;
   }
-  return !(t.subsets && a.subset !== "all" && !t.subsets.includes(a.subset) || t.category && !a.categories.includes(t.category) || !S((i = t.metrics) == null ? void 0 : i.width, a.width) || !S((e = t.metrics) == null ? void 0 : e.complexity, a.complexity) || !S((n = t.metrics) == null ? void 0 : n.curvature, a.curvature) || !S((l = t.metrics) == null ? void 0 : l.thickness, a.thickness));
+  return !(t.subsets && e.subset !== "all" && !t.subsets.includes(e.subset) || t.category && !e.categories.includes(t.category) || !S((i = t.metrics) == null ? void 0 : i.width, e.width) || !S((a = t.metrics) == null ? void 0 : a.complexity, e.complexity) || !S((n = t.metrics) == null ? void 0 : n.curvature, e.curvature) || !S((l = t.metrics) == null ? void 0 : l.thickness, e.thickness));
 }, u = class u {
-  constructor(a, i, e) {
-    s(this, "family");
-    s(this, "weight");
-    s(this, "italic");
-    this.family = a, this.weight = i, this.italic = e;
+  constructor(e, i, a) {
+    r(this, "family");
+    r(this, "weight");
+    r(this, "italic");
+    this.family = e, this.weight = i, this.italic = a;
   }
   get style() {
     return this.italic ? "italic" : "normal";
@@ -221,15 +221,15 @@ const z = (t, a, i) => i === "name" ? t.name.localeCompare(a.name) : i === "popu
   }
   toString() {
     if (this.family.getDefaultVariant() === this.variant) return this.family.name;
-    const a = [this.family.name];
-    return a.push(u.weightNames[this.weight]), this.italic && a.push("Italic"), a.push(`(${this.variant})`), a.join(" ");
+    const e = [this.family.name];
+    return e.push(u.weightNames[this.weight]), this.italic && e.push("Italic"), e.push(`(${this.variant})`), e.join(" ");
   }
-  static parse(a, i = a.getDefaultVariant()) {
-    const e = parseInt(i), n = i.endsWith("i");
-    return new u(a, e, n);
+  static parse(e, i = e.getDefaultVariant()) {
+    const a = parseInt(i), n = i.endsWith("i");
+    return new u(e, a, n);
   }
 };
-s(u, "weightNames", {
+r(u, "weightNames", {
   100: "Thin",
   200: "Extra Light",
   300: "Light",
@@ -242,24 +242,24 @@ s(u, "weightNames", {
 });
 let m = u;
 class v {
-  constructor(a) {
-    Object.assign(this, a);
+  constructor(e) {
+    Object.assign(this, e);
   }
   toString() {
     return this.name;
   }
   getDefaultVariant() {
-    return Array.from(new Set(this.variants)).toSorted((i, e) => Math.abs(parseInt(i) - 400) - Math.abs(parseInt(e) - 400))[0];
+    return Array.from(new Set(this.variants)).toSorted((i, a) => Math.abs(parseInt(i) - 400) - Math.abs(parseInt(a) - 400))[0];
   }
   // parse font family from compressed format
-  static parse(a) {
-    const [i, e, n, l, r, o, c, x, d] = a.split("/"), h = new v({
+  static parse(e) {
+    const [i, a, n, l, s, o, c, x, d] = e.split("/"), h = new v({
       name: i,
-      category: e,
+      category: a,
       variants: n.split(","),
       subsets: l.split(",")
     });
-    return r && (h.popularity = parseInt(r)), o && c && x && d && (h.metrics = {
+    return s && (h.popularity = parseInt(s)), o && c && x && d && (h.metrics = {
       width: parseFloat(o),
       thickness: parseFloat(c),
       complexity: parseFloat(x),
@@ -271,21 +271,21 @@ const J = "Roboto/sans-serif/100,100i,300,300i,400,400i,500,500i,700,700i,900,90
 `, B = J.split("|").map(v.parse), Z = W.split("|").map(v.parse);
 var g, p, T, O;
 class k {
-  static loaded(a) {
-    return w(this, g).has(a);
+  static loaded(e) {
+    return w(this, g).has(e);
   }
-  static async load(a) {
+  static async load(e) {
     let i;
-    const e = B.find((n) => n.name === a);
-    e ? i = C(this, p, O).call(this, e) : i = Promise.resolve(), w(this, g).set(a, i), await i;
+    const a = B.find((n) => n.name === e);
+    a ? i = C(this, p, O).call(this, a) : i = Promise.resolve(), w(this, g).set(e, i), await i;
   }
 }
-g = new WeakMap(), p = new WeakSet(), T = async function(a) {
+g = new WeakMap(), p = new WeakSet(), T = async function(e) {
   const i = document.createElement("link");
-  i.href = a, i.rel = "stylesheet", i.type = "text/css", document.head.append(i);
-}, O = async function(a) {
-  const i = new URL("https://fonts.googleapis.com/css"), e = a.name + ":" + a.variants.join(",");
-  i.searchParams.set("family", e), i.searchParams.set("display", "swap"), C(this, p, T).call(this, i.toString()), await document.fonts.load(`1em "${a.name}"`);
+  i.href = e, i.rel = "stylesheet", i.type = "text/css", document.head.append(i);
+}, O = async function(e) {
+  const i = new URL("https://fonts.googleapis.com/css"), a = e.name + ":" + e.variants.join(",");
+  i.searchParams.set("family", a), i.searchParams.set("display", "swap"), C(this, p, T).call(this, i.toString()), await document.fonts.load(`1em "${e.name}"`);
 }, b(k, p), b(k, g, /* @__PURE__ */ new Map());
 const Y = {
   en: {
@@ -732,34 +732,34 @@ const Y = {
 class Q extends HTMLElement {
   constructor() {
     super(...arguments);
-    s(this, "opened", !1);
-    s(this, "picker");
-    s(this, "config");
-    s(this, "modal");
-    s(this, "observer");
-    s(this, "selected");
-    s(this, "hovered", null);
-    s(this, "$modal");
-    s(this, "$search");
-    s(this, "$subset");
-    s(this, "$categories");
-    s(this, "$width");
-    s(this, "$thickness");
-    s(this, "$complexity");
-    s(this, "$curvature");
-    s(this, "$sort");
-    s(this, "$sortOrder");
-    s(this, "$preview");
-    s(this, "$fonts");
-    s(this, "$variants");
-    s(this, "$cancelBtn");
-    s(this, "$pickBtn");
+    r(this, "opened", !1);
+    r(this, "picker");
+    r(this, "config");
+    r(this, "modal");
+    r(this, "observer");
+    r(this, "selected");
+    r(this, "hovered", null);
+    r(this, "$modal");
+    r(this, "$search");
+    r(this, "$subset");
+    r(this, "$categories");
+    r(this, "$width");
+    r(this, "$thickness");
+    r(this, "$complexity");
+    r(this, "$curvature");
+    r(this, "$sort");
+    r(this, "$sortOrder");
+    r(this, "$preview");
+    r(this, "$fonts");
+    r(this, "$variants");
+    r(this, "$cancelBtn");
+    r(this, "$pickBtn");
   }
   connectedCallback() {
-    this.createLayout(), this.modal = new _.Modal(this.$modal), this.observer = new IntersectionObserver((i) => {
-      for (const e of i) {
-        if (e.intersectionRatio <= 0) return;
-        const n = e.target, l = n.dataset.family;
+    this.createLayout(), this.modal = new _.Modal(this.$modal, { keyboard: !1 }), this.observer = new IntersectionObserver((i) => {
+      for (const a of i) {
+        if (a.intersectionRatio <= 0) return;
+        const n = a.target, l = n.dataset.family;
         l && k.load(l), this.observer.unobserve(n);
       }
     });
@@ -768,39 +768,39 @@ class Q extends HTMLElement {
     this.innerHTML = j, this.$modal = this.querySelector("#fp__modal"), this.$search = this.querySelector("#fp__search"), this.$subset = this.querySelector("#fp__subsets"), this.$categories = this.querySelector("#fp__categories"), this.$width = this.querySelector("#fp__width"), this.$thickness = this.querySelector("#fp__thickness"), this.$complexity = this.querySelector("#fp__complexity"), this.$curvature = this.querySelector("#fp__curvature"), this.$sort = this.querySelector("#fp__sort"), this.$sortOrder = this.querySelector("#fp__sort-order"), this.$preview = this.querySelector("#fp__preview"), this.$fonts = this.querySelector("#fp__fonts"), this.$variants = this.querySelector("#fp__variants"), this.$cancelBtn = this.querySelector("#fp__cancel"), this.$pickBtn = this.querySelector("#fp__pick");
   }
   getElementFor(i) {
-    const e = this.$fonts.querySelector(`[data-family="${i.name}"]`);
-    if (!e) throw new Error(`Could not find element for '${i.name}'!`);
-    return e;
+    const a = this.$fonts.querySelector(`[data-family="${i.name}"]`);
+    if (!a) throw new Error(`Could not find element for '${i.name}'!`);
+    return a;
   }
   getFamilyFor(i) {
-    const e = i.dataset.family;
-    return e ? this.picker.getFamily(e) : null;
+    const a = i.dataset.family;
+    return a ? this.picker.getFamily(a) : null;
   }
   getFamilies() {
     return Array.from(this.picker.families.values());
   }
-  sortFamilies(i, e = !1) {
+  sortFamilies(i, a = !1) {
     const l = this.getFamilies().sort((o, c) => z(o, c, i));
-    e && l.reverse();
+    a && l.reverse();
     for (const o of l)
       this.$fonts.append(this.getElementFor(o));
     for (const o of this.picker.favourites) {
       const c = this.getElementFor(o);
       this.$fonts.prepend(c);
     }
-    const r = this.getElementFor(this.selected.family);
-    this.$fonts.prepend(r), this.$fonts.scrollTop = 0;
+    const s = this.getElementFor(this.selected.family);
+    this.$fonts.prepend(s), this.$fonts.scrollTop = 0;
   }
   filterFamilies(i) {
-    const l = this.getFamilies().filter((r) => U(r, i)).map((r) => r.name);
-    for (const r of this.$fonts.children) {
-      const o = r.dataset.family, c = !l.includes(o);
-      r.classList.toggle("d-none", c);
+    const l = this.getFamilies().filter((s) => U(s, i)).map((s) => s.name);
+    for (const s of this.$fonts.children) {
+      const o = s.dataset.family, c = !l.includes(o);
+      s.classList.toggle("d-none", c);
     }
   }
   updateSort() {
-    const i = this.$sort.value, e = this.$sortOrder.classList.contains("active");
-    this.sortFamilies(i, e);
+    const i = this.$sort.value, a = this.$sortOrder.classList.contains("active");
+    this.sortFamilies(i, a);
   }
   updateFilter() {
     this.filterFamilies({
@@ -822,10 +822,10 @@ class Q extends HTMLElement {
       l.classList.remove("fp__selected");
     if (this.selected = i, this.getElementFor(i.family).classList.add("fp__selected"), !this.config.variants) return;
     this.$variants.textContent = "", this.$variants.append(...D(i.family.variants));
-    const e = this.$variants.querySelector(`[value="${i.weight}"]`), n = this.$variants.querySelector("#fp__italic");
-    if (!e) throw new Error("Could not find weight button for selected font.");
+    const a = this.$variants.querySelector(`[value="${i.weight}"]`), n = this.$variants.querySelector("#fp__italic");
+    if (!a) throw new Error("Could not find weight button for selected font.");
     if (!n) throw new Error("Could not find italic button for selected font.");
-    e.checked = !0, n.classList.toggle("active", i.italic), this.updateVariant();
+    a.checked = !0, n.classList.toggle("active", i.italic), this.updateVariant();
   }
   favouriteFont(i) {
     const n = this.getElementFor(i.family).classList.toggle("fp__fav");
@@ -833,17 +833,17 @@ class Q extends HTMLElement {
   }
   updateVariant() {
     if (!this.config.variants) return;
-    const i = this.$variants.querySelector(".fp__weight:checked"), e = this.$variants.querySelector("#fp__italic");
+    const i = this.$variants.querySelector(".fp__weight:checked"), a = this.$variants.querySelector("#fp__italic");
     if (!i) throw new Error("Could not find weight button for selected font.");
-    if (!e) throw new Error("Could not find italic button for selected font.");
-    let n = parseInt(i.value), l = e.classList.contains("active");
-    const r = this.selected.family.variants.includes(`${n}`), o = this.selected.family.variants.includes(`${n}i`);
-    e.disabled = !r || !o, r || (l = !0), o || (l = !1), e.classList.toggle("active", l), this.selected.weight = n, this.selected.italic = l, this.updatePreview();
+    if (!a) throw new Error("Could not find italic button for selected font.");
+    let n = parseInt(i.value), l = a.classList.contains("active");
+    const s = this.selected.family.variants.includes(`${n}`), o = this.selected.family.variants.includes(`${n}i`);
+    a.disabled = !s || !o, s || (l = !0), o || (l = !1), a.classList.toggle("active", l), this.selected.weight = n, this.selected.italic = l, this.updatePreview();
   }
   createFonts() {
     for (const i of this.getFamilies()) {
-      const e = E(i);
-      this.$fonts.append(e), this.observer.observe(e);
+      const a = R(i);
+      this.$fonts.append(a), this.observer.observe(a);
     }
   }
   applyTranslations() {
@@ -851,39 +851,68 @@ class Q extends HTMLElement {
     this.$search.placeholder = i.search, this.querySelector("#fp__title").textContent = i.selectFont, this.$subset.append(...y(i.subsets)), this.$categories.append(...I(i.categories)), this.$width.append(...y(i.widths)), this.$thickness.append(...y(i.thicknesses)), this.$complexity.append(...y(i.complexities)), this.$curvature.append(...y(i.curvatures)), this.$sort.append(...y(i.sorts)), this.$preview.textContent = this.config.previewText ?? i.sampleText, this.querySelector("#fp__t-filters").textContent = i.filters, this.querySelector("#fp__t-metrics").textContent = i.metrics, this.querySelector("#fp__t-sort").textContent = i.sort, this.querySelector("#fp__t-cancel").textContent = i.cancel, this.querySelector("#fp__t-pick").textContent = i.select;
   }
   onFontHover(i) {
-    const e = this.getFamilyFor(i.target);
-    e && (e === this.selected.family ? this.hovered = null : this.hovered = m.parse(e), this.updatePreview());
+    const a = this.getFamilyFor(i.target);
+    a && (a === this.selected.family ? this.hovered = null : this.hovered = m.parse(a), this.updatePreview());
   }
   onFontUnhover(i) {
     this.getFamilyFor(i.target) && (this.hovered = null, this.updatePreview());
   }
   onFontClick(i) {
-    const e = i.target;
-    if (e.classList.contains("fp__heart")) {
-      const l = this.getFamilyFor(e.parentElement);
+    const a = i.target;
+    if (a.classList.contains("fp__heart")) {
+      const l = this.getFamilyFor(a.parentElement);
       if (!l) return;
-      const r = m.parse(l);
-      this.selectFont(r), this.favouriteFont(r);
+      const s = m.parse(l);
+      this.selectFont(s), this.favouriteFont(s);
       return;
     }
-    const n = this.getFamilyFor(e);
+    const n = this.getFamilyFor(a);
     !n || this.selected.family === n || this.selectFont(m.parse(n));
   }
   onFontDoubleClick(i) {
     this.getFamilyFor(i.target) && this.submit();
   }
+  selectClosestFont(i, a, n) {
+    let l = n || this.getElementFor(this.selected.family);
+    for (; i || l.classList.contains("d-none"); ) {
+      i = !1;
+      const s = a ? l.previousElementSibling : l.nextElementSibling;
+      if (!s) return;
+      l = s;
+    }
+    l.click(), l.scrollIntoView({
+      behavior: "instant",
+      block: "center"
+    });
+  }
+  selectClosestVariant(i) {
+    var s, o;
+    const a = this.$variants.querySelector(".fp__weight:checked"), n = i ? (s = a == null ? void 0 : a.previousElementSibling) == null ? void 0 : s.previousElementSibling : (o = a == null ? void 0 : a.nextElementSibling) == null ? void 0 : o.nextElementSibling;
+    if (!n) return;
+    const l = n;
+    l.checked = !0, this.updateVariant();
+  }
+  toggleVariantItalic() {
+    const i = this.$variants.querySelector("#fp__italic");
+    i && (i.classList.toggle("active"), this.updateVariant());
+  }
+  onKeyPressed(i) {
+    if (!this.opened || i.target !== this.$modal) return;
+    let a = !0;
+    i.key === "Escape" ? this.cancel() : i.key === "f" ? this.favouriteFont(this.selected) : i.key === "PageUp" ? this.selectClosestFont(!1, !1, this.$fonts.firstElementChild) : i.key === "PageDown" ? this.selectClosestFont(!1, !0, this.$fonts.lastElementChild) : i.key === "ArrowUp" ? this.selectClosestFont(!0, !0, null) : i.key === "ArrowDown" ? this.selectClosestFont(!0, !1, null) : i.key === "ArrowLeft" ? this.selectClosestVariant(!0) : i.key === "ArrowRight" ? this.selectClosestVariant(!1) : i.key === "i" ? this.toggleVariantItalic() : i.key === "/" ? this.$search.focus() : i.key === "Enter" ? this.submit() : a = !1, a && i.preventDefault();
+  }
   bindEvents() {
     const i = () => this.updateFilter();
     this.$categories.addEventListener("click", i), this.$search.addEventListener("input", i), this.$subset.addEventListener("input", i), this.$width.addEventListener("input", i), this.$thickness.addEventListener("input", i), this.$complexity.addEventListener("input", i), this.$curvature.addEventListener("input", i);
-    const e = () => this.updateSort();
-    this.$sort.addEventListener("input", e), this.$sortOrder.addEventListener("click", e), this.$fonts.addEventListener("mouseover", (n) => this.onFontHover(n)), this.$fonts.addEventListener("mouseout", (n) => this.onFontUnhover(n)), this.$fonts.addEventListener("click", (n) => this.onFontClick(n)), this.$fonts.addEventListener("dblclick", (n) => this.onFontDoubleClick(n)), this.$variants.addEventListener("click", () => this.updateVariant()), this.$pickBtn.addEventListener("click", () => this.submit()), this.$cancelBtn.addEventListener("click", () => this.cancel());
+    const a = () => this.updateSort();
+    this.$sort.addEventListener("input", a), this.$sortOrder.addEventListener("click", a), this.$fonts.addEventListener("mouseover", (n) => this.onFontHover(n)), this.$fonts.addEventListener("mouseout", (n) => this.onFontUnhover(n)), this.$fonts.addEventListener("click", (n) => this.onFontClick(n)), this.$fonts.addEventListener("dblclick", (n) => this.onFontDoubleClick(n)), this.$variants.addEventListener("input", () => this.updateVariant()), this.$variants.addEventListener("click", () => this.updateVariant()), this.$pickBtn.addEventListener("click", () => this.submit()), this.$cancelBtn.addEventListener("click", () => this.cancel()), this.$modal.addEventListener("keydown", (n) => this.onKeyPressed(n));
   }
   assignDefaults() {
     H(this.$categories, this.config.defaultCategories), this.$subset.value = this.config.defaultSubset, this.$width.value = this.config.defaultWidth, this.$thickness.value = this.config.defaultThickness, this.$complexity.value = this.config.defaultComplexity, this.$curvature.value = this.config.defaultCurvature, this.$sort.value = this.config.sortBy, this.$sortOrder.classList.toggle("active", this.config.sortReverse), this.picker.favourites.forEach((i) => this.getElementFor(i).classList.add("fp__fav")), this.$variants.classList.toggle("d-none", !this.config.variants);
   }
   async open(i) {
-    this.opened || (this.opened = !0, this.picker = i, this.config = this.picker.getConfig(), this.applyTranslations(), this.bindEvents(), this.modal.show(), this.createFonts(), this.selectFont(i.font), this.assignDefaults(), this.updateSort(), this.updateFilter(), this.picker.dispatchEvent(new Event("open")), await new Promise((e) => {
-      this.$modal.addEventListener("shown.bs.modal", () => this.$modal.focus()), this.$modal.addEventListener("hidden.bs.modal", () => e());
+    this.opened || (this.opened = !0, this.picker = i, this.config = this.picker.getConfig(), this.applyTranslations(), this.bindEvents(), this.modal.show(), this.createFonts(), this.selectFont(i.font), this.assignDefaults(), this.updateSort(), this.updateFilter(), this.picker.dispatchEvent(new Event("open")), await new Promise((a) => {
+      this.$modal.addEventListener("shown.bs.modal", () => this.$modal.focus()), this.$modal.addEventListener("hidden.bs.modal", () => a());
     }), this.picker.dispatchEvent(new Event("close")));
   }
   submit() {
@@ -900,11 +929,11 @@ let f = null;
 class X extends HTMLButtonElement {
   constructor() {
     super(...arguments);
-    s(this, "initialized", !1);
-    s(this, "_font");
-    s(this, "_families");
-    s(this, "_favourites");
-    s(this, "_config", {
+    r(this, "initialized", !1);
+    r(this, "_font");
+    r(this, "_families");
+    r(this, "_favourites");
+    r(this, "_config", {
       language: "en",
       container: document.body,
       font: "Arial",
@@ -943,49 +972,49 @@ class X extends HTMLButtonElement {
   }
   configure(i) {
     Object.assign(this._config, i);
-    const e = Object.keys(i);
-    (!this.families || e.includes("googleFonts") || e.includes("systemFonts") || e.includes("extraFonts")) && this.updateFamilies(), (!this.font || e.includes("font")) && this.setFont(this._config.font), this.initialized || this.initialize();
+    const a = Object.keys(i);
+    (!this.families || a.includes("googleFonts") || a.includes("systemFonts") || a.includes("extraFonts")) && this.updateFamilies(), (!this.font || a.includes("font")) && this.setFont(this._config.font), this.initialized || this.initialize();
   }
   initialize() {
     this.initialized = !0, this.disabled = !1;
     const i = this._config.favourites.slice();
     if (this._config.saveFavourites) {
-      const e = localStorage.getItem(this._config.storageKey);
-      e && i.push(...JSON.parse(e));
+      const a = localStorage.getItem(this._config.storageKey);
+      a && i.push(...JSON.parse(a));
     }
     this._favourites = /* @__PURE__ */ new Set();
-    for (const e of i)
+    for (const a of i)
       try {
-        const n = this.getFamily(e);
+        const n = this.getFamily(a);
         this._favourites.add(n);
       } catch {
-        console.warn(`Font from favourites is not available: '${e}'!`);
+        console.warn(`Font from favourites is not available: '${a}'!`);
       }
   }
   updateFamilies() {
     const i = [
-      ...B.filter((e) => {
+      ...B.filter((a) => {
         var n;
-        return ((n = this._config.googleFonts) == null ? void 0 : n.includes(e.name)) ?? !0;
+        return ((n = this._config.googleFonts) == null ? void 0 : n.includes(a.name)) ?? !0;
       }),
-      ...Z.filter((e) => {
+      ...Z.filter((a) => {
         var n;
-        return ((n = this._config.systemFonts) == null ? void 0 : n.includes(e.name)) ?? !0;
+        return ((n = this._config.systemFonts) == null ? void 0 : n.includes(a.name)) ?? !0;
       }),
-      ...this._config.extraFonts.map((e) => new v(e))
+      ...this._config.extraFonts.map((a) => new v(a))
     ];
-    this._families = /* @__PURE__ */ new Map(), i.forEach((e) => this.families.set(e.name, e));
+    this._families = /* @__PURE__ */ new Map(), i.forEach((a) => this.families.set(a.name, a));
   }
   getFamily(i) {
-    const e = this.families.get(i);
-    if (!e) throw new Error(`Could not find font family '${i}'!`);
-    return e;
+    const a = this.families.get(i);
+    if (!a) throw new Error(`Could not find font family '${i}'!`);
+    return a;
   }
   setFont(i) {
     if (i instanceof m)
       this._font = i;
     else if (typeof i == "string") {
-      const [e, n] = i.split(":"), l = this.getFamily(e);
+      const [a, n] = i.split(":"), l = this.getFamily(a);
       this._font = m.parse(l, n);
     } else
       this._font = m.parse(i);
@@ -993,12 +1022,12 @@ class X extends HTMLButtonElement {
       throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
     this.textContent = this._config.verbose ? this.font.toString() : this.font.toId(), this.style.fontFamily = `${this.font.family}`, this.style.fontWeight = this.font.weight.toString(), this.style.fontStyle = this.font.style, k.load(this.font.family.name);
   }
-  markFavourite(i, e) {
-    if (e === void 0 && (e = !this.favourites.has(i)), e ? this.favourites.add(i) : this.favourites.delete(i), this._config.saveFavourites) {
+  markFavourite(i, a) {
+    if (a === void 0 && (a = !this.favourites.has(i)), a ? this.favourites.add(i) : this.favourites.delete(i), this._config.saveFavourites) {
       const n = Array.from(this.favourites).map((l) => l.name);
       localStorage.setItem(this._config.storageKey, JSON.stringify(n));
     }
-    return e;
+    return a;
   }
   async open() {
     return this.close(), f = document.createElement("font-picker-dialog"), this._config.container.append(f), await f.open(this), f.remove(), f = null, this.font;

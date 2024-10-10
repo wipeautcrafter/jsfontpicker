@@ -84,3 +84,8 @@
   align-items: center;
   gap: 0.15em;
 }
+
+/* prevent pulse animation from playing when pressing escape */
+font-picker-dialog .modal.modal-static .modal-dialog {
+  transform: none;
+}
