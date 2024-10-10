@@ -247,12 +247,12 @@ export class PickerDialog extends HTMLElement {
     this.$sort.append(...DOM.createOptions(dict.sorts))
 
     this.$preview.textContent = this.config.previewText ?? dict.sampleText
-    this.$cancelBtn.textContent = dict.cancel
-    this.$pickBtn.textContent = dict.select
 
-    this.querySelector('#fp__tab-filters')!.textContent = dict.filters
-    this.querySelector('#fp__tab-metrics')!.textContent = dict.metrics
-    this.querySelector('#fp__tab-sort')!.textContent = dict.sort
+    this.querySelector('#fp__t-filters')!.textContent = dict.filters
+    this.querySelector('#fp__t-metrics')!.textContent = dict.metrics
+    this.querySelector('#fp__t-sort')!.textContent = dict.sort
+    this.querySelector('#fp__t-cancel')!.textContent = dict.cancel
+    this.querySelector('#fp__t-pick')!.textContent = dict.select
   }
 
   private onFontHover(event: MouseEvent) {

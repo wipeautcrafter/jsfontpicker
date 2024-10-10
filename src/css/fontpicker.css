@@ -70,3 +70,9 @@
   --bs-btn-hover-bg: var(--bs-btn-bg);
   --bs-btn-hover-border-color: var(--bs-btn-border-color);
 }
+
+.fp__has-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.15em;
+}
