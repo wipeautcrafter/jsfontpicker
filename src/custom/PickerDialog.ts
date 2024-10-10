@@ -26,7 +26,6 @@ export class PickerDialog extends HTMLElement {
   private hovered: Font | null = null
 
   private $modal: HTMLDivElement
-  private $title: HTMLDivElement
   private $search: HTMLInputElement
   private $subset: HTMLSelectElement
   private $categories: HTMLDivElement
@@ -63,7 +62,6 @@ export class PickerDialog extends HTMLElement {
     this.innerHTML = dialogContent
 
     this.$modal = this.querySelector('#fp__modal')!
-    this.$title = this.querySelector('#fp__title')!
 
     this.$search = this.querySelector('#fp__search')!
     this.$subset = this.querySelector('#fp__subsets')!
@@ -236,8 +234,8 @@ export class PickerDialog extends HTMLElement {
   private applyTranslations() {
     const dict = translations[this.config.language]
 
-    this.$title.textContent = dict.selectFont
     this.$search.placeholder = dict.search
+    this.querySelector('#fp__title')!.textContent = dict.selectFont
 
     this.$subset.append(...DOM.createOptions(dict.subsets))
     this.$categories.append(...DOM.createBadges(dict.categories))
@@ -251,6 +249,10 @@ export class PickerDialog extends HTMLElement {
     this.$preview.textContent = this.config.previewText ?? dict.sampleText
     this.$cancelBtn.textContent = dict.cancel
     this.$pickBtn.textContent = dict.select
+
+    this.querySelector('#fp__tab-filters')!.textContent = dict.filters
+    this.querySelector('#fp__tab-metrics')!.textContent = dict.metrics
+    this.querySelector('#fp__tab-sort')!.textContent = dict.sort
   }
 
   private onFontHover(event: MouseEvent) {

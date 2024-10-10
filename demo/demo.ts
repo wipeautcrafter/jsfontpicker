@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     font: 'Open Sans',
     defaultSubset: 'latin',
     defaultCategories: ['sans-serif', 'display'],
-    language: 'en',
+    language: 'es',
     verbose: true,
     variants: true,
     favourites: ['Open Sans'],

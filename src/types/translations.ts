@@ -1,4 +1,4 @@
-export type Language = 'en'
+export type Language = 'en' | 'nl' | 'de' | 'es' | 'fr'
 
 export type Subset =
   | 'all'
