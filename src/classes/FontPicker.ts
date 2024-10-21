@@ -154,6 +154,7 @@ export class FontPicker extends EventEmitter<{
     }
 
     this.$el.textContent = this._config.verbose ? this.font.toString() : this.font.toId()
+    this.$el.dataset.font = this.font.toId()
     this.$el.style.fontFamily = `${this.font.family}`
     this.$el.style.fontWeight = this.font.weight.toString()
     this.$el.style.fontStyle = this.font.style

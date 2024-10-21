@@ -21,7 +21,7 @@ p && typeof p.ownKeys == "function" ? b = p.ownKeys : Object.getOwnPropertySymbo
 function Y(a) {
   console && console.warn && console.warn(a);
 }
-var E = Number.isNaN || function(i) {
+var $ = Number.isNaN || function(i) {
   return i !== i;
 };
 function c() {
@@ -44,7 +44,7 @@ Object.defineProperty(c, "defaultMaxListeners", {
     return F;
   },
   set: function(a) {
-    if (typeof a != "number" || a < 0 || E(a))
+    if (typeof a != "number" || a < 0 || $(a))
       throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + a + ".");
     F = a;
   }
@@ -53,15 +53,15 @@ c.init = function() {
   (this._events === void 0 || this._events === Object.getPrototypeOf(this)._events) && (this._events = /* @__PURE__ */ Object.create(null), this._eventsCount = 0), this._maxListeners = this._maxListeners || void 0;
 };
 c.prototype.setMaxListeners = function(i) {
-  if (typeof i != "number" || i < 0 || E(i))
+  if (typeof i != "number" || i < 0 || $(i))
     throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + i + ".");
   return this._maxListeners = i, this;
 };
-function $(a) {
+function E(a) {
   return a._maxListeners === void 0 ? c.defaultMaxListeners : a._maxListeners;
 }
 c.prototype.getMaxListeners = function() {
-  return $(this);
+  return E(this);
 };
 c.prototype.emit = function(i) {
   for (var e = [], t = 1; t < arguments.length; t++) e.push(arguments[t]);
@@ -95,7 +95,7 @@ function R(a, i, e, t) {
     e.listener ? e.listener : e
   ), l = a._events), s = l[i]), s === void 0)
     s = l[i] = e, ++a._eventsCount;
-  else if (typeof s == "function" ? s = l[i] = t ? [e, s] : [s, e] : t ? s.unshift(e) : s.push(e), n = $(a), n > 0 && s.length > n && !s.warned) {
+  else if (typeof s == "function" ? s = l[i] = t ? [e, s] : [s, e] : t ? s.unshift(e) : s.push(e), n = E(a), n > 0 && s.length > n && !s.warned) {
     s.warned = !0;
     var o = new Error("Possible EventEmitter memory leak detected. " + s.length + " " + String(i) + " listeners added. Use emitter.setMaxListeners() to increase limit");
     o.name = "MaxListenersExceededWarning", o.emitter = a, o.type = i, o.count = s.length, Y(o);
@@ -1244,7 +1244,7 @@ class C0 extends n0 {
       this._font = m.parse(e);
     if (!this.font.family.variants.includes(this.font.variant))
       throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
-    this.$el.textContent = this._config.verbose ? this.font.toString() : this.font.toId(), this.$el.style.fontFamily = `${this.font.family}`, this.$el.style.fontWeight = this.font.weight.toString(), this.$el.style.fontStyle = this.font.style, C.load(this.font.family.name);
+    this.$el.textContent = this._config.verbose ? this.font.toString() : this.font.toId(), this.$el.dataset.font = this.font.toId(), this.$el.style.fontFamily = `${this.font.family}`, this.$el.style.fontWeight = this.font.weight.toString(), this.$el.style.fontStyle = this.font.style, C.load(this.font.family.name);
   }
   markFavourite(e, t) {
     if (t === void 0 && (t = !this.favourites.has(e)), t ? this.favourites.add(e) : this.favourites.delete(e), this._config.saveFavourites) {
