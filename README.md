@@ -87,7 +87,9 @@ const picker = new FontPicker(button, {
 The picker's configuration can be changed after initialization. This is done by calling `.initialize({...})` on the element:
 
 ```js
-picker.configure({})
+picker.configure({
+  language: 'nl',
+})
 ```
 
 The picker's various methods and properties can also be accessed directly on the element:
@@ -97,9 +99,7 @@ The picker's various methods and properties can also be accessed directly on the
 picker.setFont('Roboto:800')
 
 // Handle events
-picker.on('pick', (font) => {
-  ...
-})
+picker.on('pick', (font) => { ... })
 
 // Open the FontPicker, which returns a promise!
 const font = await picker.open()
