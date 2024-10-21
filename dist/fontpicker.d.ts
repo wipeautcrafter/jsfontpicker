@@ -1,3 +1,5 @@
+import { default as default_2 } from 'events';
+
 declare type Category = 'serif' | 'sans-serif' | 'display' | 'handwriting' | 'monospace';
 
 declare type Criterion = 'name' | 'popularity' | 'width' | 'thickness' | 'complexity' | 'curvature';
@@ -47,12 +49,13 @@ export declare class FontLoader {
     static load(name: string): Promise<void>;
 }
 
-export declare interface FontPicker {
-    addEventListener<K extends keyof PickerEventMap>(type: K, listener: (this: FontPicker, ev: PickerEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-}
-
-export declare class FontPicker extends HTMLButtonElement {
-    private initialized;
+export declare class FontPicker extends default_2<{
+    open: [];
+    pick: [font: Font];
+    cancel: [];
+    close: [];
+}> {
+    private $el;
     private _font;
     get font(): Font;
     private _families;
@@ -82,7 +85,7 @@ export declare class FontPicker extends HTMLButtonElement {
         systemFonts: string[] | null;
         extraFonts: FamilyProps[];
     };
-    connectedCallback(): void;
+    constructor(el: HTMLButtonElement, config?: Partial<PickerConfig>);
     configure(options: Partial<PickerConfig>): void;
     private initialize;
     private updateFamilies;
@@ -120,13 +123,6 @@ export declare interface PickerConfig {
     googleFonts: string[] | null;
     systemFonts: string[] | null;
     extraFonts: FamilyProps[];
-}
-
-declare interface PickerEventMap extends HTMLElementEventMap {
-    open: Event;
-    pick: Event;
-    cancel: Event;
-    close: Event;
 }
 
 declare type Subset = 'all' | 'arabic' | 'bengali' | 'chinese-hongkong' | 'chinese-simplified' | 'chinese-traditional' | 'cyrillic' | 'cyrillic-ext' | 'devanagari' | 'greek' | 'greek-ext' | 'gujarati' | 'gurmukhi' | 'hebrew' | 'japanese' | 'kannada' | 'khmer' | 'korean' | 'latin' | 'latin-ext' | 'malayalam' | 'myanmar' | 'oriya' | 'sinhala' | 'tamil' | 'telugu' | 'thai' | 'tibetan' | 'vietnamese';

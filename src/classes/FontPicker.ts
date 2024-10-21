@@ -1,23 +1,21 @@
+import EventEmitter from 'events'
 import { PickerDialog } from './PickerDialog'
 import { Font } from '../helpers/Font'
 import { FontLoader } from '../helpers/FontLoader'
 import { FontFamily } from '../helpers/FontFamily'
 import { googleFonts, systemFonts } from '../data/fonts'
 
-import type { PickerConfig, PickerEventMap } from '../types/fontpicker'
-
-export interface FontPicker {
-  addEventListener<K extends keyof PickerEventMap>(
-    type: K,
-    listener: (this: FontPicker, ev: PickerEventMap[K]) => any,
-    options?: boolean | AddEventListenerOptions,
-  ): void
-}
+import type { PickerConfig } from '../types/fontpicker'
 
 let pickerDialog: PickerDialog | null = null
 
-export class FontPicker extends HTMLButtonElement {
-  private initialized = false
+export class FontPicker extends EventEmitter<{
+  open: []
+  pick: [font: Font]
+  cancel: []
+  close: []
+}> {
+  private $el: HTMLButtonElement
 
   private _font: Font
   get font() {
@@ -61,14 +59,20 @@ export class FontPicker extends HTMLButtonElement {
 
     extraFonts: [],
   }
+
   getConfig() {
     return { ...this._config }
   }
 
-  connectedCallback() {
-    this.disabled = true
-    this.classList.add('font-picker', 'form-select')
-    this.addEventListener('click', this.open.bind(this))
+  constructor(el: HTMLButtonElement, config: Partial<PickerConfig> = {}) {
+    super()
+
+    this.$el = el
+    this.$el.classList.add('font-picker', 'form-select')
+    this.$el.addEventListener('click', this.open.bind(this))
+
+    this.configure(config)
+    this.initialize()
   }
 
   configure(options: Partial<PickerConfig>) {
@@ -90,14 +94,9 @@ export class FontPicker extends HTMLButtonElement {
     if (!this.font || keys.includes('font')) {
       this.setFont(this._config.font)
     }
-
-    if (!this.initialized) this.initialize()
   }
 
   private initialize() {
-    this.initialized = true
-    this.disabled = false
-
     // load favourites
     const favourites: string[] = this._config.favourites.slice()
 
@@ -154,11 +153,10 @@ export class FontPicker extends HTMLButtonElement {
       throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`)
     }
 
-    this.textContent = this._config.verbose ? this.font.toString() : this.font.toId()
-
-    this.style.fontFamily = `${this.font.family}`
-    this.style.fontWeight = this.font.weight.toString()
-    this.style.fontStyle = this.font.style
+    this.$el.textContent = this._config.verbose ? this.font.toString() : this.font.toId()
+    this.$el.style.fontFamily = `${this.font.family}`
+    this.$el.style.fontWeight = this.font.weight.toString()
+    this.$el.style.fontStyle = this.font.style
 
     FontLoader.load(this.font.family.name)
   }
@@ -185,12 +183,8 @@ export class FontPicker extends HTMLButtonElement {
     // close existing fontpicker
     this.close()
 
-    pickerDialog = document.createElement('font-picker-dialog') as PickerDialog
-    this._config.container.append(pickerDialog)
-
+    pickerDialog = new PickerDialog(this._config.container)
     await pickerDialog.open(this)
-
-    pickerDialog.remove()
     pickerDialog = null
 
     return this.font

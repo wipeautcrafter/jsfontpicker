@@ -6,6 +6,7 @@
     "@types/bootstrap": "^5.2.10",
     "@types/bun": "latest",
     "bootstrap": "^5.3.3",
+    "events": "^3.3.0",
     "leven": "^4.0.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",

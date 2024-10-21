@@ -29,10 +29,3 @@ export interface PickerConfig {
 
   extraFonts: FamilyProps[]
 }
-
-export interface PickerEventMap extends HTMLElementEventMap {
-  open: Event
-  pick: Event
-  cancel: Event
-  close: Event
-}

@@ -67,37 +67,42 @@ import { FontPicker } from 'fontpicker.js'
 
 ## Usage
 
-To create a new FontPicker element, simply create a button with the `is="font-picker"` property:
+To create a new FontPicker element, first create a button element.
 
 ```html
-<button is="font-picker" id="picker"></button>
+<button id="picker"></button>
 ```
 
-The picker can then be accessed using the `querySelector` method:
-
-```ts
-// vanilla
-const picker = document.querySelector('#picker')
-
-// with TypeScript generics
-const picker = document.querySelector<FontPicker>('#picker')
-```
-
-The picker must be initialized before use. This is done by calling `.initialize({...})` on the element:
+The picker can then be created by instantiating the FontPicker class, and passing the button and an optional configuration:
 
 ```js
-picker.configure({
+const button = document.querySelector('#picker')
+const picker = new FontPicker(button, {
   language: 'en',
   font: 'Open Sans',
   defaultSubset: 'latin',
 })
 ```
 
+The picker's configuration can be changed after initialization. This is done by calling `.initialize({...})` on the element:
+
+```js
+picker.configure({})
+```
+
 The picker's various methods and properties can also be accessed directly on the element:
 
 ```js
+// Set the current font
 picker.setFont('Roboto:800')
-picker.open().then((font) => console.log(font))
+
+// Handle events
+picker.on('pick', (font) => {
+  ...
+})
+
+// Open the FontPicker, which returns a promise!
+const font = await picker.open()
 ```
 
 **For all methods and properties, please view the complete [documentation](DOCUMENTATION.md).**

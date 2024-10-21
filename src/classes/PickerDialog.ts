@@ -14,7 +14,7 @@ import type { FontWeight } from '../types/fonts'
 import type { Category, Criterion, Metric, Subset } from '../types/translations'
 import type { PickerConfig } from '../types/fontpicker'
 
-export class PickerDialog extends HTMLElement {
+export class PickerDialog {
   private opened = false
   private picker: FontPicker
   private config: PickerConfig
@@ -41,8 +41,8 @@ export class PickerDialog extends HTMLElement {
   private $cancelBtn: HTMLButtonElement
   private $pickBtn: HTMLButtonElement
 
-  connectedCallback() {
-    this.createLayout()
+  constructor(parent: HTMLElement) {
+    this.createLayout(parent)
 
     this.modal = new bootstrap.Modal(this.$modal, { keyboard: false })
     this.observer = new IntersectionObserver((entries) => {
@@ -58,29 +58,29 @@ export class PickerDialog extends HTMLElement {
     })
   }
 
-  private createLayout() {
-    this.innerHTML = dialogContent
+  private createLayout(parent: HTMLElement) {
+    parent.insertAdjacentHTML('afterend', dialogContent)
 
-    this.$modal = this.querySelector('#fp__modal')!
+    this.$modal = document.querySelector('#fp__modal')!
 
-    this.$search = this.querySelector('#fp__search')!
-    this.$subset = this.querySelector('#fp__subsets')!
-    this.$categories = this.querySelector('#fp__categories')!
+    this.$search = this.$modal.querySelector('#fp__search')!
+    this.$subset = this.$modal.querySelector('#fp__subsets')!
+    this.$categories = this.$modal.querySelector('#fp__categories')!
 
-    this.$width = this.querySelector('#fp__width')!
-    this.$thickness = this.querySelector('#fp__thickness')!
-    this.$complexity = this.querySelector('#fp__complexity')!
-    this.$curvature = this.querySelector('#fp__curvature')!
+    this.$width = this.$modal.querySelector('#fp__width')!
+    this.$thickness = this.$modal.querySelector('#fp__thickness')!
+    this.$complexity = this.$modal.querySelector('#fp__complexity')!
+    this.$curvature = this.$modal.querySelector('#fp__curvature')!
 
-    this.$sort = this.querySelector('#fp__sort')!
-    this.$sortOrder = this.querySelector('#fp__sort-order')!
+    this.$sort = this.$modal.querySelector('#fp__sort')!
+    this.$sortOrder = this.$modal.querySelector('#fp__sort-order')!
 
-    this.$preview = this.querySelector('#fp__preview')!
-    this.$fonts = this.querySelector('#fp__fonts')!
-    this.$variants = this.querySelector('#fp__variants')!
+    this.$preview = this.$modal.querySelector('#fp__preview')!
+    this.$fonts = this.$modal.querySelector('#fp__fonts')!
+    this.$variants = this.$modal.querySelector('#fp__variants')!
 
-    this.$cancelBtn = this.querySelector('#fp__cancel')!
-    this.$pickBtn = this.querySelector('#fp__pick')!
+    this.$cancelBtn = this.$modal.querySelector('#fp__cancel')!
+    this.$pickBtn = this.$modal.querySelector('#fp__pick')!
   }
 
   private getElementFor(family: FontFamily) {
@@ -235,7 +235,7 @@ export class PickerDialog extends HTMLElement {
     const dict = translations[this.config.language]
 
     this.$search.placeholder = dict.search
-    this.querySelector('#fp__title')!.textContent = dict.selectFont
+    this.$modal.querySelector('#fp__title')!.textContent = dict.selectFont
 
     this.$subset.append(...DOM.createOptions(dict.subsets))
     this.$categories.append(...DOM.createBadges(dict.categories))
@@ -248,11 +248,11 @@ export class PickerDialog extends HTMLElement {
 
     this.$preview.textContent = this.config.previewText ?? dict.sampleText
 
-    this.querySelector('#fp__t-filters')!.textContent = dict.filters
-    this.querySelector('#fp__t-metrics')!.textContent = dict.metrics
-    this.querySelector('#fp__t-sort')!.textContent = dict.sort
-    this.querySelector('#fp__t-cancel')!.textContent = dict.cancel
-    this.querySelector('#fp__t-pick')!.textContent = dict.select
+    this.$modal.querySelector('#fp__t-filters')!.textContent = dict.filters
+    this.$modal.querySelector('#fp__t-metrics')!.textContent = dict.metrics
+    this.$modal.querySelector('#fp__t-sort')!.textContent = dict.sort
+    this.$modal.querySelector('#fp__t-cancel')!.textContent = dict.cancel
+    this.$modal.querySelector('#fp__t-pick')!.textContent = dict.select
   }
 
   private onFontHover(event: MouseEvent) {
@@ -454,24 +454,25 @@ export class PickerDialog extends HTMLElement {
     this.updateSort()
     this.updateFilter()
 
-    this.picker.dispatchEvent(new Event('open'))
+    this.picker.emit('open')
 
     await new Promise<void>((resolve) => {
       this.$modal.addEventListener('shown.bs.modal', () => this.$modal.focus())
       this.$modal.addEventListener('hidden.bs.modal', () => resolve())
     })
 
-    this.picker.dispatchEvent(new Event('close'))
+    this.picker.emit('close')
+    this.$modal.remove()
   }
 
   submit() {
     this.picker.setFont(this.selected)
-    this.picker.dispatchEvent(new Event('pick'))
+    this.picker.emit('pick', this.selected)
     this.close()
   }
 
   cancel() {
-    this.picker.dispatchEvent(new Event('cancel'))
+    this.picker.emit('cancel')
     this.close()
   }
 
