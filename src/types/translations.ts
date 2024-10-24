@@ -32,7 +32,7 @@ export type Subset =
   | 'vietnamese'
 
 export type Category = 'serif' | 'sans-serif' | 'display' | 'handwriting' | 'monospace'
-export type Metric = 'all' | '0.1' | '0.3' | '0.5' | '0.7' | '0.9'
+export type Metric = 'all' | '0!' | '1!' | '2!' | '3!' | '4!'
 export type Criterion = 'name' | 'popularity' | 'width' | 'thickness' | 'complexity' | 'curvature'
 
 type Subsets = { [subset in Subset]: string }
@@ -59,6 +59,7 @@ export interface Translation {
   sort: string
   sorts: Criteria
 
+  clear: string
   cancel: string
   select: string
 }

@@ -100,7 +100,7 @@ declare type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 
 declare type Language = 'en' | 'nl' | 'de' | 'es' | 'fr';
 
-declare type Metric = 'all' | '0.1' | '0.3' | '0.5' | '0.7' | '0.9';
+declare type Metric = 'all' | '0!' | '1!' | '2!' | '3!' | '4!';
 
 export declare interface PickerConfig {
     language: Language;

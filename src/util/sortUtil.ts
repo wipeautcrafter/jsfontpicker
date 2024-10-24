@@ -31,7 +31,7 @@ export const familySort = (a: FontFamily, b: FontFamily, key: Criterion) => {
 const compareMetric = (value: number | undefined, target: Metric) => {
   if (target === 'all') return true
   if (value === undefined) return false
-  return Math.abs(value - parseFloat(target)) <= 0.1
+  return value === parseFloat(target)
 }
 
 export const familyFilter = (a: FontFamily, filters: Filters) => {

@@ -21,7 +21,7 @@ export class FontFamily {
 
   // parse font family from compressed format
   static parse(raw: string) {
-    const [name, cate, vari, subs, popu, widt, thic, comp, curv] = raw.split('/')
+    const [name, cate, vari, subs, popu, thic, widt, comp, curv] = raw.split('/')
 
     const family = new FontFamily({
       name,
@@ -31,10 +31,10 @@ export class FontFamily {
     })
 
     if (popu) family.popularity = parseInt(popu)
-    if (widt && thic && comp && curv)
+    if (thic && widt && comp && curv)
       family.metrics = {
-        width: parseFloat(widt),
         thickness: parseFloat(thic),
+        width: parseFloat(widt),
         complexity: parseFloat(comp),
         curvature: parseFloat(curv),
       }
