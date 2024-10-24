@@ -7,13 +7,16 @@ A font picker component supporting Google and system fonts, powered by Bootstrap
 - [Bootstrap Font Picker 2](#bootstrap-font-picker-2)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
+  - [Live Demo](#live-demo)
   - [Screenshots](#screenshots)
   - [Installation](#installation)
     - [IIFE Bundle](#iife-bundle)
     - [ESM Bundle](#esm-bundle)
   - [Getting started](#getting-started)
+    - [Create](#create)
+    - [Configure](#configure)
+    - [Interact](#interact)
   - [Documentation](#documentation)
-  - [Demo](#demo)
   - [Developing](#developing)
 
 ## Features
@@ -27,6 +30,10 @@ A font picker component supporting Google and system fonts, powered by Bootstrap
 - 📶 Property sorting
 - 🇳🇱 Translations for English, Dutch, German, Spanish and French
 - 💪 No JQuery, just pure ES6
+
+## [Live Demo](https://wipeautcrafter.github.io/fontpicker-v2/demo)
+
+👆 Try it out now!
 
 ## Screenshots
 
@@ -78,6 +85,8 @@ This allows you to use `FontPicker` and `FontLoader` directly.
 
 ## Getting started
 
+### Create
+
 To create a font picker, first create a button element:
 
 ```html
@@ -95,6 +104,8 @@ const picker = new FontPicker(button, {
 })
 ```
 
+### Configure
+
 The picker's configuration can be changed after initialization. This is done by calling `.initialize({...})` on the element:
 
 ```js
@@ -102,6 +113,8 @@ picker.configure({
   language: 'nl',
 })
 ```
+
+### Interact
 
 The picker's various methods and properties can also be accessed directly on the element:
 
@@ -118,11 +131,7 @@ const font = await picker.open()
 
 ## Documentation
 
-**For all methods and properties, please view the complete [documentation](DOCUMENTATION.md).**
-
-## Demo
-
-A minimal example can be found in the [demo](/demo) directory.
+For all methods and properties, please view the [documentation](DOCUMENTATION.md).
 
 ## Developing
 

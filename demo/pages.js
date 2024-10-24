@@ -1,4 +1,4 @@
-import { FontPicker } from '../dist/fontpicker'
+import { FontPicker } from '../dist/fontpicker.js'
 
 document.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector('#picker')

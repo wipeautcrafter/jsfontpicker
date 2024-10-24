@@ -4,7 +4,7 @@ import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   server: {
-    open: '/demo/',
+    open: '/dev/',
   },
   build: {
     lib: {
