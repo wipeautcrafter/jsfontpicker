@@ -49,6 +49,8 @@
 }
 .fp__font-item.fp__fav .fp__heart svg {
   --fp__heart-color: var(--bs-danger-rgb);
+}
+.fp__font-item.fp__fav.fp__selected .fp__heart svg {
   filter: drop-shadow(0px 0px 2px var(--bs-dark));
 }
 
