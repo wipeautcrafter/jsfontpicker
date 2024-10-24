@@ -1,6 +1,6 @@
 # Bootstrap Font Picker 2
 
-A font picker supporting Google and system fonts, powered by Bootstrap.
+A font picker component supporting Google and system fonts, powered by Bootstrap.
 
 ## Table of Contents
 
@@ -11,23 +11,29 @@ A font picker supporting Google and system fonts, powered by Bootstrap.
   - [Installation](#installation)
     - [IIFE Bundle](#iife-bundle)
     - [ESM Bundle](#esm-bundle)
-  - [Usage](#usage)
+  - [Getting started](#getting-started)
+  - [Documentation](#documentation)
+  - [Demo](#demo)
   - [Developing](#developing)
 
 ## Features
 
-- dynamically loads fonts
-- stores favourites and recents
-- support for custom (local) fonts
-- search, category and language filters
-- translations for en, nl, de, es, fr
-- no JQuery, pure ES6
+- ❤️ Favourites
+- ⌨️ Keyboard shortcuts
+- ⚡ Dynamic font loading
+- 🔤 Custom font support
+- 🔎 Fuzzy search
+- 📐 Advanced metrics filters
+- 📶 Property sorting
+- 🇳🇱 Translations for English, Dutch, German, Spanish and French
+- 💪 No JQuery, just pure ES6
 
 ## Screenshots
 
-![FontPicker Button](screenshots/button.png)
-
-![FontPicker Dialog](screenshots/dialog.png)
+|            |                         Light                          |                         Dark                          |
+| :--------- | :----------------------------------------------------: | :---------------------------------------------------: |
+| **Button** | <img src="screenshots/button-light.png" width="200" /> | <img src="screenshots/button-dark.png" width="200" /> |
+| **Dialog** | <img src="screenshots/dialog-light.png" width="300" /> | <img src="screenshots/dialog-dark.png" width="300" /> |
 
 ## Installation
 
@@ -45,7 +51,10 @@ It is also **highly recommended** to include a preconnect to Google fonts:
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 ```
 
-Now, depending on your implementation details, follow these instructions.
+Now, depending on your environment, choose one of the following:
+
+- [IIFE Bundle](#iife-bundle) → When using vanilla JavaScript, without ES modules
+- [ESM Bundle](#esm-bundle) → When using ES modules or a bundler
 
 ### IIFE Bundle
 
@@ -55,25 +64,27 @@ Please import the IIFE script using a `script` tag in your HTML:
 <script src="fontpicker.iife.js"></script>
 ```
 
-The class can then be accessed with the `FontPicker` variable.
+This exposes the `FontPicker` and `FontLoader` classes (on window).
 
 ### ESM Bundle
 
 Please import the ESM bundle using the `import` directive in your script:
 
 ```js
-import { FontPicker } from 'fontpicker.js'
+import { FontPicker, FontLoader } from 'fontpicker.js'
 ```
 
-## Usage
+This allows you to use `FontPicker` and `FontLoader` directly.
 
-To create a new FontPicker element, first create a button element.
+## Getting started
+
+To create a font picker, first create a button element:
 
 ```html
 <button id="picker"></button>
 ```
 
-The picker can then be created by instantiating the FontPicker class, and passing the button and an optional configuration:
+Next instantiate the FontPicker, passing a button element and (optional) configuration:
 
 ```js
 const button = document.querySelector('#picker')
@@ -105,18 +116,24 @@ picker.on('pick', (font) => { ... })
 const font = await picker.open()
 ```
 
+## Documentation
+
 **For all methods and properties, please view the complete [documentation](DOCUMENTATION.md).**
+
+## Demo
+
+A minimal example can be found in the [demo](/demo) directory.
 
 ## Developing
 
 To install dependencies:
 
 ```bash
-bun install
+bun|deno|npm|pnpm|yarn install
 ```
 
 To run:
 
 ```bash
-bun run dev
+bun|deno|npm|pnpm|yarn run dev
 ```

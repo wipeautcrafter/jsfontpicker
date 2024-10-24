@@ -4,7 +4,7 @@ import type { FamilyProps } from '../types/fonts'
 export interface PickerConfig {
   language: Language
   container: HTMLElement
-  previewText?: string
+  previewText: string | null
 
   font: string
   verbose: boolean
