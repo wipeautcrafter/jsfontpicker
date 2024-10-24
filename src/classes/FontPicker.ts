@@ -35,6 +35,7 @@ export class FontPicker extends EventEmitter<{
   private _config: PickerConfig = {
     language: 'en',
     container: document.body,
+    previewText: null,
 
     font: 'Arial',
     verbose: false,
