@@ -1,6 +1,8 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
+
 import dts from 'vite-plugin-dts'
+import viteHTML from './plugins/viteHTML'
 
 export default defineConfig({
   server: {
@@ -9,21 +11,21 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(import.meta.dirname, 'src/index.ts'),
-      name: 'window',
+      name: 'FontPicker',
       fileName: 'fontpicker',
       formats: ['iife', 'es'],
     },
-    minify: true,
     rollupOptions: {
       external: ['bootstrap'],
       output: {
-        extend: true,
         globals: {
           bootstrap: 'bootstrap',
         },
         assetFileNames: 'fontpicker.[ext]',
       },
     },
+    minify: false,
+    cssMinify: false,
   },
-  plugins: [dts({ rollupTypes: true })],
+  plugins: [dts({ rollupTypes: true }), viteHTML()],
 })

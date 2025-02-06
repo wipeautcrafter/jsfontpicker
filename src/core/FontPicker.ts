@@ -15,6 +15,8 @@ export class FontPicker extends EventEmitter<{
   cancel: []
   close: []
 }> {
+  static FontLoader = FontLoader
+
   private $el: HTMLButtonElement
 
   private _font: Font

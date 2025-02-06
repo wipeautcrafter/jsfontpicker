@@ -16,7 +16,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "tsc": "tsc",
+    "build": "vite build",
     "preview": "vite preview",
     "format": "prettier -w .",
     "release": "bun run format && bun run build"

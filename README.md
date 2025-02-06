@@ -71,17 +71,17 @@ Please import the IIFE script using a `script` tag in your HTML:
 <script src="fontpicker.iife.js"></script>
 ```
 
-This exposes the `FontPicker` and `FontLoader` classes (on window).
+This exposes `FontPicker` and `FontPicker.FontLoader` globally (on window).
 
 ### ESM Bundle
 
 Please import the ESM bundle using the `import` directive in your script:
 
 ```js
-import { FontPicker, FontLoader } from 'fontpicker.js'
+import FontPicker from 'fontpicker.js'
 ```
 
-This allows you to use `FontPicker` and `FontLoader` directly.
+This allows you to use `FontPicker` and `FontPicker.FontLoader` directly.
 
 ## Getting started
 

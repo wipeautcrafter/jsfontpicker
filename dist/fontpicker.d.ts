@@ -43,18 +43,19 @@ declare class FontFamily {
     static parse(raw: string): FontFamily;
 }
 
-export declare class FontLoader {
+declare class FontLoader {
     #private;
     static loaded(name: string): boolean;
     static load(name: string): Promise<void>;
 }
 
-export declare class FontPicker extends default_2<{
+declare class FontPicker extends default_2<{
     open: [];
     pick: [font: Font];
     cancel: [];
     close: [];
 }> {
+    static FontLoader: typeof FontLoader;
     private $el;
     private _font;
     get font(): Font;
@@ -66,7 +67,7 @@ export declare class FontPicker extends default_2<{
     getConfig(): {
         language: Language;
         container: HTMLElement;
-        previewText?: string;
+        previewText: string | null;
         font: string;
         verbose: boolean;
         variants: boolean;
@@ -95,6 +96,7 @@ export declare class FontPicker extends default_2<{
     open(): Promise<Font>;
     close(): Promise<void>;
 }
+export default FontPicker;
 
 declare type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 
@@ -102,10 +104,10 @@ declare type Language = 'en' | 'nl' | 'de' | 'es' | 'fr';
 
 declare type Metric = 'all' | '0!' | '1!' | '2!' | '3!' | '4!';
 
-export declare interface PickerConfig {
+declare interface PickerConfig {
     language: Language;
     container: HTMLElement;
-    previewText?: string;
+    previewText: string | null;
     font: string;
     verbose: boolean;
     variants: boolean;
