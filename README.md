@@ -31,7 +31,7 @@ A font picker component supporting Google and system fonts, powered by Bootstrap
 - 🇳🇱 Translations for English, Dutch, German, Spanish and French
 - 💪 No JQuery, just pure ES6
 
-## [Live Demo](https://wipeautcrafter.github.io/fontpicker-v2/demo)
+## [Live Demo](https://wipeautcrafter.github.io/jsfontpicker/demo)
 
 👆 Try it out now!
 
