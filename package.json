@@ -9,6 +9,7 @@
     "events": "^3.3.0",
     "leven": "^4.0.0",
     "prettier": "^3.3.3",
+    "sass-embedded": "^1.85.0",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
     "vite-plugin-dts": "^4.2.3"

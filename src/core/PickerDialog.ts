@@ -1,7 +1,7 @@
 import dialogContent from '../templates/dialogContent.html?raw'
 
-import * as bootstrap from 'bootstrap'
 import * as DOM from '../util/DOMUtil'
+import { Modal } from 'bootstrap'
 import { familyFilter, familySort } from '../util/sortUtil'
 import { Font } from '../helpers/Font'
 import { FontLoader } from '../helpers/FontLoader'
@@ -19,7 +19,7 @@ export class PickerDialog {
   private picker: FontPicker
   private config: PickerConfig
 
-  private modal: bootstrap.Modal
+  private modal: Modal
   private observer: IntersectionObserver
 
   private selected: Font
@@ -45,7 +45,7 @@ export class PickerDialog {
   constructor(parent: HTMLElement) {
     this.createLayout(parent)
 
-    this.modal = new bootstrap.Modal(this.$modal, { keyboard: false })
+    this.modal = new Modal(this.$modal, { keyboard: false })
     this.observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.intersectionRatio <= 0) return

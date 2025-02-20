@@ -69,16 +69,16 @@
   white-space: nowrap;
 
   /* match button styles to that of a badge */
-  --bs-btn-border-radius: var(--bs-border-radius-pill);
-  --bs-btn-padding-x: 0.65em;
-  --bs-btn-padding-y: 0.35em;
-  --bs-btn-font-size: 0.75em;
-  --bs-btn-line-height: 1;
+  --bs-btn-border-radius: var(--bs-border-radius-pill) !important;
+  --bs-btn-padding-x: 0.65em !important;
+  --bs-btn-padding-y: 0.35em !important;
+  --bs-btn-font-size: 0.75em !important;
+  --bs-btn-line-height: 1 !important;
 
   /* override so it doesn't look toggled on hover */
-  --bs-btn-hover-color: var(--bs-btn-color);
-  --bs-btn-hover-bg: var(--bs-btn-bg);
-  --bs-btn-hover-border-color: var(--bs-btn-border-color);
+  --bs-btn-hover-color: var(--bs-btn-color) !important;
+  --bs-btn-hover-bg: var(--bs-btn-bg) !important;
+  --bs-btn-hover-border-color: var(--bs-btn-border-color) !important;
 }
 
 .fp__has-icon {

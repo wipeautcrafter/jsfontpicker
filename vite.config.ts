@@ -16,11 +16,7 @@ export default defineConfig({
       formats: ['iife', 'es'],
     },
     rollupOptions: {
-      external: ['bootstrap'],
       output: {
-        globals: {
-          bootstrap: 'bootstrap',
-        },
         assetFileNames: 'fontpicker.[ext]',
       },
     },
