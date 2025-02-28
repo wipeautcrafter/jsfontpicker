@@ -1,3 +1,4 @@
+/* Font picker button element */
 .font-picker {
   text-align: start;
 
@@ -6,88 +7,92 @@
   text-overflow: ellipsis;
 }
 
-#fp__modal .accordion-button {
-  color: var(--bs-modal-color) !important;
-  background-color: var(--bs-modal-bg) !important;
+/* Font list */
+#fp__fonts {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: scroll;
+  padding: 0.25rem;
+  border-top: 1px solid var(--fp-border-color);
+  margin-top: -1px;
 }
 
-#fp__preview {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
+/* Font item */
 .fp__font-item {
-  color: var(--bs-modal-color);
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  padding: 0.25rem 1rem;
+  min-height: 2rem;
+  user-select: none;
+  border-radius: 9999px;
 }
 .fp__font-item:hover {
-  background: var(--bs-secondary-bg);
+  background: var(--fp-border-color);
 }
 .fp__font-item.fp__selected {
-  color: var(--bs-light);
-  background: var(--bs-primary);
+  color: var(--fp-light);
+  background: var(--fp-primary);
 }
 
+.fp__font-family {
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+/* Font heart */
+.fp__heart {
+  height: 1em;
+}
 .fp__heart svg {
   height: 1em;
   pointer-events: none;
 
-  --fp__heart-color: var(--bs-secondary-bg-rgb);
+  --fp-heart-color: var(--fp-border-color-rgb);
 
-  fill: rgba(var(--fp__heart-color), 0.5);
-  stroke: rgb(var(--fp__heart-color));
+  fill: rgba(var(--fp-heart-color), 0.5);
+  stroke: rgb(var(--fp-heart-color));
 }
 .fp__heart:hover svg {
-  fill: rgb(var(--fp__heart-color));
+  fill: rgb(var(--fp-heart-color));
 }
 
 .fp__font-item:hover .fp__heart svg,
 .fp__font-item.fp__selected .fp__heart svg {
-  --fp__heart-color: var(--bs-body-bg-rgb);
+  --fp-heart-color: var(--fp-body-bg-rgb);
 }
 .fp__font-item.fp__fav .fp__heart svg {
-  --fp__heart-color: var(--bs-danger-rgb);
+  --fp-heart-color: var(--fp-danger-rgb);
 }
 .fp__font-item.fp__fav.fp__selected .fp__heart svg {
-  filter: drop-shadow(0px 0px 2px var(--bs-dark));
+  filter: drop-shadow(0px 0px 2px var(--fp-dark));
 }
 
-#fp__sort-order > * {
-  transition: transform 0.25s ease-in-out;
+/* Preview */
+.fp__preview-container {
+  padding: 0.25rem 1rem;
+  border-top: 1px solid var(--fp-border-color);
 }
-#fp__sort-order.active > * {
-  transform: scaleY(-1);
-}
-
-#fp__variants:has(#fp__italic.active) {
-  font-style: italic !important;
-}
-
-.fp__btn-badge {
+#fp__preview {
   white-space: nowrap;
-
-  /* match button styles to that of a badge */
-  --bs-btn-border-radius: var(--bs-border-radius-pill);
-  --bs-btn-padding-x: 0.65em;
-  --bs-btn-padding-y: 0.35em;
-  --bs-btn-font-size: 0.75em;
-  --bs-btn-line-height: 1;
-
-  /* override so it doesn't look toggled on hover */
-  --bs-btn-hover-color: var(--bs-btn-color);
-  --bs-btn-hover-bg: var(--bs-btn-bg);
-  --bs-btn-hover-border-color: var(--bs-btn-border-color);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 1.5;
 }
 
-.fp__has-icon {
+/* Variants */
+#fp__variants {
   display: flex;
-  align-items: center;
-  gap: 0.15em;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--fp-border-color);
 }
-
-/* prevent pulse animation from playing when pressing escape */
-font-picker-dialog .modal.modal-static .modal-dialog {
-  transform: none;
+#fp__variants:has(#fp__italic:checked) {
+  font-style: italic !important;
 }
