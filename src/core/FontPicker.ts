@@ -71,7 +71,7 @@ export class FontPicker extends EventEmitter<{
     super()
 
     this.$el = el
-    this.$el.classList.add('font-picker', 'form-select')
+    this.$el.classList.add('font-picker', 'fpb__input', 'fpb__dropdown')
     this.$el.addEventListener('click', this.open.bind(this))
 
     this.configure(config)

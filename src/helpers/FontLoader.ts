@@ -9,11 +9,11 @@ export class FontLoader {
   }
 
   static async #appendStylesheet(url: string) {
-    const link = document.createElement('link')
-    link.href = url
-    link.rel = 'stylesheet'
-    link.type = 'text/css'
-    document.head.append(link)
+    const $link = document.createElement('link')
+    $link.href = url
+    $link.rel = 'stylesheet'
+    $link.type = 'text/css'
+    document.head.append($link)
   }
 
   static async #loadGoogleFont(font: FontFamily) {
@@ -27,18 +27,21 @@ export class FontLoader {
   }
 
   static async load(name: string) {
-    let promise: Promise<void>
+    let promise = this.#cache.get(name)
 
-    const googleFont = googleFonts.find((font) => font.name === name)
+    if (!promise) {
+      const googleFont = googleFonts.find((font) => font.name === name)
 
-    if (googleFont) {
-      promise = this.#loadGoogleFont(googleFont)
-    } else {
-      // system and extra fonts are always loaded!
-      promise = Promise.resolve()
+      if (googleFont) {
+        promise = this.#loadGoogleFont(googleFont)
+      } else {
+        // system and extra fonts are always loaded!
+        promise = Promise.resolve()
+      }
+
+      this.#cache.set(name, promise)
     }
 
-    this.#cache.set(name, promise)
     await promise
   }
 }

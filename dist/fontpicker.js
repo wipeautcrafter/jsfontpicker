@@ -9,7 +9,6 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
 var _cache, _FontLoader_static, appendStylesheet_fn, loadGoogleFont_fn;
-import * as bootstrap from "bootstrap";
 function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
@@ -377,51 +376,99 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
 }
 var eventsExports = events.exports;
 const EventEmitter$1 = /* @__PURE__ */ getDefaultExportFromCjs(eventsExports);
-const dialogContent = '<div id="fp__modal" class="modal fade" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 id="fp__title" class="modal-title fw-bold"></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div id="fp__accord" class="accordion accordion-flush border-bottom"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button py-2 fp__has-icon" type="button" data-bs-toggle="collapse" data-bs-target="#fp__accord-0"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-primary"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.4s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1s" dur="0.4s" values="12;0"/></path></g></svg><span id="fp__t-filters"></span></button></h2><div id="fp__accord-0" class="accordion-collapse collapse show" data-bs-parent="#fp__accord"><div class="accordion-body py-2"><div class="row"><div class="col-sm-6 pb-2"><input id="fp__search" class="form-control" /></div><div class="col-sm-6 pb-2"><select id="fp__subsets" class="form-select"></select></div><div class="col-sm-12"><div id="fp__categories" class="d-flex overflow-x-auto gap-2"></div></div></div></div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed py-2 fp__has-icon" type="button" data-bs-toggle="collapse" data-bs-target="#fp__accord-1"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-primary"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path></svg><span id="fp__t-metrics"></span></button></h2><div id="fp__accord-1" class="accordion-collapse collapse" data-bs-parent="#fp__accord"><div class="accordion-body pt-2 pb-0"><div class="row"><div class="col-sm-6 pb-2"><select id="fp__width" class="form-select"></select></div><div class="col-sm-6 pb-2"><select id="fp__thickness" class="form-select"></select></div><div class="col-sm-6 pb-2"><select id="fp__complexity" class="form-select"></select></div><div class="col-sm-6 pb-2"><select id="fp__curvature" class="form-select"></select></div></div></div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed py-2 fp__has-icon" type="button" data-bs-toggle="collapse" data-bs-target="#fp__accord-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="text-primary"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="12" stroke-dashoffset="12" d="M17 21l0 -10.5M7 3l0 10.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="12;0"/></path><path stroke-dasharray="8" stroke-dashoffset="8" d="M17 10l-4 4M17 10l4 4M7 14l-4 -4M7 14l4 -4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.4s" values="8;0"/></path></g></svg><span id="fp__t-sort"></span></button></h2><div id="fp__accord-2" class="accordion-collapse collapse" data-bs-parent="#fp__accord"><div class="accordion-body py-2"><div class="input-group"><select id="fp__sort" class="form-select"></select><button id="fp__sort-order" type="button" class="btn btn-primary" data-bs-toggle="button"><div>&#8645;</div></button></div></div></div></div></div><div id="fp__fonts" class="modal-body border-bottom p-1" tabindex="-1"></div><div class="py-1 px-3"><div id="fp__preview" class="text-center fs-5" contenteditable spellcheck="false"></div></div><div id="fp__variants" class="py-2 px-3 d-flex flex-wrap gap-2 justify-content-center border-top"></div><div class="modal-footer"><div class="d-flex flex-grow-1"><button id="fp__clear" type="button" class="btn btn-link link-warning text-decoration-none rounded-pill fp__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="56" stroke-dashoffset="56" d="M3 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 15l6 6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="10;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 21l6 -6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.6s" dur="0.4s" values="10;0"/></path></g></svg><span id="fp__t-clear"></span></button></div><button id="fp__cancel" type="button" class="btn btn-link text-decoration-none rounded-pill fp__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M5.64 5.64c3.51 -3.51 9.21 -3.51 12.73 0c3.51 3.51 3.51 9.21 0 12.73c-3.51 3.51 -9.21 3.51 -12.73 0c-3.51 -3.51 -3.51 -9.21 -0 -12.73Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0"/></path><path stroke-dasharray="20" stroke-dashoffset="20" d="M6 6l12 12"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="20;0"/></path></g></svg><span id="fp__t-cancel"></span></button><button id="fp__pick" type="button" class="btn btn-primary rounded-pill fp__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg><span id="fp__t-pick"></span></button></div></div></div></div>';
-const heartSVG = `<svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg>`;
-const createHeart = () => {
-  const $heart = document.createElement("div");
-  $heart.className = "fp__heart";
-  $heart.role = "button";
-  $heart.innerHTML = heartSVG;
-  return $heart;
-};
-const createFont = (font) => {
+const dialogContent = '<div id="fp__modal" class="fpb__modal" tabindex="-1" role="dialog" aria-modal="true"><div class="fpb__modal-header"><h5 id="fp__title" class="fp__modal-title"></h5><button type="button" id="fp__close" class="fpb__btn-close" aria-label="Close">&times;</button></div><div class="fpb__accordion"><div class="fpb__accordion-item fpb__open"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.4s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1s" dur="0.4s" values="12;0"/></path></g></svg><span id="fp__t-filters"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><input id="fp__search" class="fpb__input" /></div><div><select id="fp__subsets" class="fpb__input fpb__dropdown"></select></div><div class="fpb__span-2"><div id="fp__categories" class="fpb__hlist"></div></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path></svg><span id="fp__t-metrics"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><select id="fp__width" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__thickness" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__complexity" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__curvature" class="fpb__input fpb__dropdown"></select></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="12" stroke-dashoffset="12" d="M17 21l0 -10.5M7 3l0 10.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="12;0"/></path><path stroke-dasharray="8" stroke-dashoffset="8" d="M17 10l-4 4M17 10l4 4M7 14l-4 -4M7 14l4 -4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.4s" values="8;0"/></path></g></svg><span id="fp__t-sort"></span></button><div class="fpb__accordion-content"><div class="fpb__input-group"><select id="fp__sort" class="fpb__input fpb__dropdown"></select><input type="checkbox" id="fp__sort-order" class="fpb__hidden-input" /><label for="fp__sort-order" type="button" class="fpb__btn fpb__btn-toggle fpb__btn-flip fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 9l4-4l4 4M7 5v14m14-4l-4 4l-4-4m4 4V5"/></svg></label></div></div></div></div><div id="fp__fonts" tabindex="0"></div><div class="fp__preview-container"><div id="fp__preview" contenteditable spellcheck="false"></div></div><div id="fp__variants"></div><div class="fpb__modal-footer"><div class="fpb__grow"><button id="fp__clear" type="button" class="fpb__btn fpb__btn-link fpb__btn-secondary fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="56" stroke-dashoffset="56" d="M3 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 15l6 6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="10;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 21l6 -6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.6s" dur="0.4s" values="10;0"/></path></g></svg><span id="fp__t-clear"></span></button></div><button id="fp__cancel" type="button" class="fpb__btn fpb__btn-link fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M5.64 5.64c3.51 -3.51 9.21 -3.51 12.73 0c3.51 3.51 3.51 9.21 0 12.73c-3.51 3.51 -9.21 3.51 -12.73 0c-3.51 -3.51 -3.51 -9.21 -0 -12.73Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0"/></path><path stroke-dasharray="20" stroke-dashoffset="20" d="M6 6l12 12"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="20;0"/></path></g></svg><span id="fp__t-cancel"></span></button><button id="fp__pick" type="button" class="fpb__btn fpb__btn-pill fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg><span id="fp__t-pick"></span></button></div></div><div id="fp__backdrop" class="fpb__backdrop"></div>';
+const heartSVG = `<div class="fp__heart" role="button"><svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg></div>`;
+const createLazyFont = (font) => {
   const $item = document.createElement("div");
-  $item.className = "px-3 py-1 fp__font-item rounded-pill user-select-none";
+  $item.className = "fp__font-item";
   $item.role = "button";
   $item.dataset.family = font.name;
+  return $item;
+};
+const hydrateFont = ($item, font) => {
   const $family = document.createElement("span");
-  $family.className = "fs-6 pe-none";
+  $family.className = "fp__font-family";
   $family.textContent = font.name;
   $family.style.fontFamily = `"${font.name}"`;
-  $item.append($family, createHeart());
-  return $item;
+  $item.append($family);
+  $item.insertAdjacentHTML("beforeend", heartSVG);
+};
+const createRadioToggle = ({
+  id,
+  name,
+  value,
+  label,
+  classes,
+  checked
+}) => {
+  const $input = document.createElement("input");
+  $input.className = "fpb__hidden-input";
+  $input.type = "radio";
+  $input.name = name;
+  $input.id = id;
+  $input.value = value;
+  $input.autocomplete = "off";
+  if (checked) $input.checked = true;
+  const $label = document.createElement("label");
+  $label.className = "fpb__btn fpb__btn-pill fpb__btn-small fpb__btn-toggle";
+  $label.htmlFor = id;
+  $label.textContent = label;
+  if (classes) $label.classList.add(...classes);
+  return [$input, $label];
+};
+const createCheckToggle = ({
+  id,
+  value,
+  label,
+  classes,
+  checked
+}) => {
+  const $input = document.createElement("input");
+  $input.className = "fpb__hidden-input";
+  $input.type = "checkbox";
+  $input.id = id;
+  $input.autocomplete = "off";
+  if (value) $input.value = value;
+  if (checked) $input.checked = true;
+  const $label = document.createElement("label");
+  $label.className = "fpb__btn fpb__btn-pill fpb__btn-small fpb__btn-toggle";
+  $label.htmlFor = id;
+  $label.textContent = label;
+  if (classes) $label.classList.add(...classes);
+  return [$input, $label];
 };
 const createVariants = (variants) => {
   const weights = Array.from(new Set(variants.map((v) => parseInt(v))));
-  const $badge = document.createElement("button");
-  $badge.className = "btn btn-outline-warning fp__btn-badge";
-  $badge.dataset.bsToggle = "button";
-  $badge.textContent = "Italic";
-  $badge.id = "fp__italic";
   return [
-    ...weights.flatMap((weight) => {
-      const id = `fp__weight-${weight}`;
-      const $radio = document.createElement("input");
-      $radio.type = "radio";
-      $radio.className = "btn-check fp__weight";
-      $radio.value = weight.toString();
-      $radio.id = id;
-      $radio.name = "fp__weight";
-      const $label = document.createElement("label");
-      $label.className = "btn btn-outline-primary fp__btn-badge";
-      $label.htmlFor = id;
-      $label.textContent = weight.toString();
-      return [$radio, $label];
-    }),
-    $badge
+    ...weights.flatMap(
+      (weight) => createRadioToggle({
+        id: `fp__weight-${weight}`,
+        name: "fp__weight",
+        label: weight.toString(),
+        value: weight.toString()
+      })
+    ),
+    ...createCheckToggle({ id: "fp__italic", label: "Italic", classes: ["fpb__btn-secondary"] })
   ];
+};
+const createBadges = (badges) => {
+  return Object.entries(badges).flatMap(
+    ([value, label]) => createCheckToggle({
+      id: `fp__category-${value}`,
+      value,
+      label
+    })
+  );
+};
+const setActiveBadges = ($parent, values) => {
+  const $inputs = $parent.querySelectorAll(".fpb__hidden-input");
+  for (const $input of $inputs) {
+    $input.checked = values.includes($input.value);
+  }
+};
+const getActiveBadges = ($parent) => {
+  const $inputs = $parent.querySelectorAll(".fpb__hidden-input:checked");
+  return [...$inputs].map(($input) => $input.value);
 };
 const createOption = (key, label) => {
   const $option = document.createElement("option");
@@ -432,28 +479,58 @@ const createOption = (key, label) => {
 const createOptions = (options) => {
   return Object.entries(options).map(([key, label]) => createOption(key, label));
 };
-const createBadge = (key, label) => {
-  const $badge = document.createElement("button");
-  $badge.className = "btn btn-outline-primary fp__btn-badge";
-  $badge.dataset.value = key;
-  $badge.dataset.bsToggle = "button";
-  $badge.textContent = label;
-  return $badge;
-};
-const createBadges = (badges) => {
-  return Object.entries(badges).map(([key, label]) => createBadge(key, label));
-};
-const setActiveBadges = ($parent, values) => {
-  for (const $category of $parent.children) {
-    const value = $category.dataset.value;
-    $category.classList.toggle("active", values.includes(value));
+class Modal extends EventEmitter$1 {
+  constructor($el) {
+    super();
+    __publicField(this, "$el");
+    this.$el = $el;
   }
-};
-const getActiveBadges = ($parent) => {
-  return Array.from($parent.querySelectorAll(".active")).map(
-    (item) => item.dataset.value
-  );
-};
+  get isOpen() {
+    return this.$el.classList.contains("fpb__open");
+  }
+  toggle(force) {
+    const open2 = this.$el.classList.toggle("fpb__open", force);
+    this.emit(open2 ? "opening" : "closing");
+    setTimeout(() => this.emit(open2 ? "opened" : "closed"), 500);
+  }
+  open() {
+    if (!this.isOpen) this.toggle(true);
+  }
+  close() {
+    if (this.isOpen) this.toggle(false);
+  }
+}
+class Accordion {
+  constructor($el) {
+    __publicField(this, "$el");
+    this.$el = $el;
+    this.$el.addEventListener("click", (event) => {
+      const $target = event.target;
+      const $accordionToggle = $target.closest(".fpb__accordion-toggle");
+      if ($accordionToggle) this.toggleItem($accordionToggle.parentElement);
+    });
+  }
+  getItems() {
+    return this.$el.querySelectorAll(".fpb__accordion-item");
+  }
+  _toggle($item, force) {
+    const $content = $item.querySelector(".fpb__accordion-content");
+    const height = $content.children[0].clientHeight + "px";
+    $content.style.setProperty("--fpb-height", height);
+    setTimeout(() => {
+      const open2 = $item.classList.toggle("fpb__open", force);
+      setTimeout(() => $content.style.removeProperty("--fpb-height"), open2 ? 500 : 0);
+    }, 1);
+    return open;
+  }
+  toggleItem($item) {
+    const open2 = this._toggle($item);
+    if (!open2) return;
+    this.getItems().forEach(($otherItem) => {
+      if ($otherItem !== $item) this._toggle($otherItem, false);
+    });
+  }
+}
 const array = [];
 const characterCodeCache = [];
 function leven(first, second) {
@@ -625,25 +702,27 @@ class FontLoader {
     return __privateGet(this, _cache).has(name);
   }
   static async load(name) {
-    let promise;
-    const googleFont = googleFonts.find((font) => font.name === name);
-    if (googleFont) {
-      promise = __privateMethod(this, _FontLoader_static, loadGoogleFont_fn).call(this, googleFont);
-    } else {
-      promise = Promise.resolve();
+    let promise = __privateGet(this, _cache).get(name);
+    if (!promise) {
+      const googleFont = googleFonts.find((font) => font.name === name);
+      if (googleFont) {
+        promise = __privateMethod(this, _FontLoader_static, loadGoogleFont_fn).call(this, googleFont);
+      } else {
+        promise = Promise.resolve();
+      }
+      __privateGet(this, _cache).set(name, promise);
     }
-    __privateGet(this, _cache).set(name, promise);
     await promise;
   }
 }
 _cache = new WeakMap();
 _FontLoader_static = new WeakSet();
 appendStylesheet_fn = async function(url) {
-  const link = document.createElement("link");
-  link.href = url;
-  link.rel = "stylesheet";
-  link.type = "text/css";
-  document.head.append(link);
+  const $link = document.createElement("link");
+  $link.href = url;
+  $link.rel = "stylesheet";
+  $link.type = "text/css";
+  document.head.append($link);
 };
 loadGoogleFont_fn = async function(font) {
   const url = new URL("https://fonts.googleapis.com/css");
@@ -1107,11 +1186,13 @@ class PickerDialog {
     __publicField(this, "opened", false);
     __publicField(this, "picker");
     __publicField(this, "config");
-    __publicField(this, "modal");
     __publicField(this, "observer");
     __publicField(this, "selected");
     __publicField(this, "hovered", null);
+    __publicField(this, "modal");
     __publicField(this, "$modal");
+    __publicField(this, "$modalBackdrop");
+    __publicField(this, "$closeBtn");
     __publicField(this, "$search");
     __publicField(this, "$subset");
     __publicField(this, "$categories");
@@ -1128,20 +1209,25 @@ class PickerDialog {
     __publicField(this, "$cancelBtn");
     __publicField(this, "$pickBtn");
     this.createLayout(parent);
-    this.modal = new bootstrap.Modal(this.$modal, { keyboard: false });
     this.observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        if (entry.intersectionRatio <= 0) return;
         const $target = entry.target;
-        const family = $target.dataset.family;
-        if (family) FontLoader.load(family);
-        this.observer.unobserve($target);
+        if (entry.isIntersecting && !$target.childElementCount) {
+          const family = this.getFamilyFor($target);
+          if (!family) continue;
+          hydrateFont($target, family);
+          FontLoader.load(family.name);
+        } else if (!entry.isIntersecting && $target.childElementCount) {
+          $target.textContent = "";
+        }
       }
     });
   }
   createLayout(parent) {
     parent.insertAdjacentHTML("afterend", dialogContent);
     this.$modal = document.querySelector("#fp__modal");
+    this.$modalBackdrop = document.querySelector("#fp__backdrop");
+    this.$closeBtn = this.$modal.querySelector("#fp__close");
     this.$search = this.$modal.querySelector("#fp__search");
     this.$subset = this.$modal.querySelector("#fp__subsets");
     this.$categories = this.$modal.querySelector("#fp__categories");
@@ -1157,6 +1243,8 @@ class PickerDialog {
     this.$clearBtn = this.$modal.querySelector("#fp__clear");
     this.$cancelBtn = this.$modal.querySelector("#fp__cancel");
     this.$pickBtn = this.$modal.querySelector("#fp__pick");
+    this.modal = new Modal(this.$modal);
+    new Accordion(this.$modal.querySelector(".fpb__accordion"));
   }
   getElementFor(family) {
     const $font = this.$fonts.querySelector(`[data-family="${family.name}"]`);
@@ -1193,12 +1281,12 @@ class PickerDialog {
     for (const $font of this.$fonts.children) {
       const name = $font.dataset.family;
       const hidden = !familyNames.includes(name);
-      $font.classList.toggle("d-none", hidden);
+      $font.classList.toggle("fpb__hidden", hidden);
     }
   }
   updateSort() {
     const orderBy = this.$sort.value;
-    const reverse = this.$sortOrder.classList.contains("active");
+    const reverse = this.$sortOrder.checked;
     this.sortFamilies(orderBy, reverse);
   }
   updateFilter() {
@@ -1227,12 +1315,12 @@ class PickerDialog {
     if (!this.config.variants) return;
     this.$variants.textContent = "";
     this.$variants.append(...createVariants(font.family.variants));
-    const $weight = this.$variants.querySelector(`[value="${font.weight}"]`);
+    const $weight = this.$variants.querySelector(`#fp__weight-${font.weight}`);
     const $italic = this.$variants.querySelector("#fp__italic");
     if (!$weight) throw new Error("Could not find weight button for selected font.");
     if (!$italic) throw new Error("Could not find italic button for selected font.");
     $weight.checked = true;
-    $italic.classList.toggle("active", font.italic);
+    $italic.checked = font.italic;
     this.updateVariant();
   }
   favouriteFont(font) {
@@ -1243,12 +1331,12 @@ class PickerDialog {
   }
   updateVariant() {
     if (!this.config.variants) return;
-    const $weight = this.$variants.querySelector(".fp__weight:checked");
+    const $weight = this.$variants.querySelector("[name=fp__weight]:checked");
     const $italic = this.$variants.querySelector("#fp__italic");
     if (!$weight) throw new Error("Could not find weight button for selected font.");
     if (!$italic) throw new Error("Could not find italic button for selected font.");
     let weight = parseInt($weight.value);
-    let italic = $italic.classList.contains("active");
+    let italic = $italic.checked;
     const hasRegular = this.selected.family.variants.includes(`${weight}`);
     const hasItalic = this.selected.family.variants.includes(`${weight}i`);
     $italic.disabled = !hasRegular || !hasItalic;
@@ -1259,9 +1347,9 @@ class PickerDialog {
     this.selected.italic = italic;
     this.updatePreview();
   }
-  createFonts() {
+  createLazyFontList() {
     for (const font of this.getFamilies()) {
-      const $item = createFont(font);
+      const $item = createLazyFont(font);
       this.$fonts.append($item);
       this.observer.observe($item);
     }
@@ -1320,7 +1408,7 @@ class PickerDialog {
   }
   selectClosestFont(excluded, reverse, $from) {
     let $target = $from ? $from : this.getElementFor(this.selected.family);
-    while (excluded || $target.classList.contains("d-none")) {
+    while (excluded || $target.classList.contains("fpb__hidden")) {
       excluded = false;
       const $next = reverse ? $target.previousElementSibling : $target.nextElementSibling;
       if (!$next) return;
@@ -1334,17 +1422,17 @@ class PickerDialog {
   }
   selectClosestVariant(reverse) {
     var _a, _b;
-    const $origin = this.$variants.querySelector(".fp__weight:checked");
+    const $origin = this.$variants.querySelector("[name=fp__weight]:checked");
     const $next = reverse ? (_a = $origin == null ? void 0 : $origin.previousElementSibling) == null ? void 0 : _a.previousElementSibling : (_b = $origin == null ? void 0 : $origin.nextElementSibling) == null ? void 0 : _b.nextElementSibling;
     if (!$next) return;
     const $target = $next;
-    $target.checked = true;
+    $target.checked = !$target.checked;
     this.updateVariant();
   }
   toggleVariantItalic() {
     const $target = this.$variants.querySelector("#fp__italic");
     if (!$target) return;
-    $target.classList.toggle("active");
+    $target.checked = !$target.checked;
     this.updateVariant();
   }
   onKeyPressed(event) {
@@ -1386,7 +1474,7 @@ class PickerDialog {
       this.filtersChanged();
       this.updateFilter();
     };
-    this.$categories.addEventListener("click", filterCallback);
+    this.$categories.addEventListener("input", filterCallback);
     this.$search.addEventListener("input", filterCallback);
     this.$subset.addEventListener("input", filterCallback);
     this.$width.addEventListener("input", filterCallback);
@@ -1398,24 +1486,25 @@ class PickerDialog {
       this.updateSort();
     };
     this.$sort.addEventListener("input", sortCallback);
-    this.$sortOrder.addEventListener("click", sortCallback);
+    this.$sortOrder.addEventListener("input", sortCallback);
     this.$fonts.addEventListener("mouseover", (event) => this.onFontHover(event));
     this.$fonts.addEventListener("mouseout", (event) => this.onFontUnhover(event));
     this.$fonts.addEventListener("click", (event) => this.onFontClick(event));
     this.$fonts.addEventListener("dblclick", (event) => this.onFontDoubleClick(event));
     this.$variants.addEventListener("input", () => this.updateVariant());
-    this.$variants.addEventListener("click", () => this.updateVariant());
     this.$clearBtn.addEventListener("click", () => this.assignDefaults());
     this.$pickBtn.addEventListener("click", () => this.submit());
     this.$cancelBtn.addEventListener("click", () => this.cancel());
+    this.$modalBackdrop.addEventListener("click", () => this.cancel());
+    this.$closeBtn.addEventListener("click", () => this.cancel());
     this.$modal.addEventListener("keydown", (event) => this.onKeyPressed(event));
   }
   applyConfiguration() {
     this.picker.favourites.forEach((family) => this.getElementFor(family).classList.add("fp__fav"));
-    this.$variants.classList.toggle("d-none", !this.config.variants);
+    this.$variants.classList.toggle("fpb__hidden", !this.config.variants);
   }
   filtersChanged(changed = true) {
-    this.$clearBtn.classList.toggle("d-none", !changed);
+    this.$clearBtn.classList.toggle("fpb__hidden", !changed);
   }
   assignDefaults() {
     setActiveBadges(this.$categories, this.config.defaultCategories);
@@ -1438,18 +1527,20 @@ class PickerDialog {
     this.config = this.picker.getConfig();
     this.applyTranslations();
     this.bindEvents();
-    this.modal.show();
-    this.createFonts();
+    this.createLazyFontList();
     this.selectFont(picker.font);
     this.applyConfiguration();
     this.assignDefaults();
-    this.picker.emit("open");
+    requestAnimationFrame(() => {
+      this.modal.open();
+      this.modal.once("opened", () => this.picker.emit("open"));
+    });
     await new Promise((resolve) => {
-      this.$modal.addEventListener("shown.bs.modal", () => this.$modal.focus());
-      this.$modal.addEventListener("hidden.bs.modal", () => resolve());
+      this.modal.once("closed", () => resolve());
     });
     this.picker.emit("close");
     this.$modal.remove();
+    this.$modalBackdrop.remove();
   }
   submit() {
     this.picker.setFont(this.selected);
@@ -1462,7 +1553,7 @@ class PickerDialog {
   }
   close() {
     this.opened = false;
-    this.modal.hide();
+    this.modal.close();
   }
 }
 let pickerDialog = null;
@@ -1496,7 +1587,7 @@ class FontPicker extends EventEmitter$1 {
       extraFonts: []
     });
     this.$el = el;
-    this.$el.classList.add("font-picker", "form-select");
+    this.$el.classList.add("font-picker", "fpb__input", "fpb__dropdown");
     this.$el.addEventListener("click", this.open.bind(this));
     this.configure(config);
     this.initialize();

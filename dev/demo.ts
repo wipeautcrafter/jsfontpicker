@@ -1,4 +1,4 @@
-import { FontPicker } from '../src/index'
+import FontPicker from '../src/index'
 
 document.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector<HTMLButtonElement>('#picker')

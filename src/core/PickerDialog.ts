@@ -1,7 +1,8 @@
 import dialogContent from '../templates/dialogContent.html?raw'
 
-import * as bootstrap from 'bootstrap'
 import * as DOM from '../util/DOMUtil'
+import { Modal, Accordion } from '../util/FPB'
+
 import { familyFilter, familySort } from '../util/sortUtil'
 import { Font } from '../helpers/Font'
 import { FontLoader } from '../helpers/FontLoader'
@@ -19,13 +20,17 @@ export class PickerDialog {
   private picker: FontPicker
   private config: PickerConfig
 
-  private modal: bootstrap.Modal
   private observer: IntersectionObserver
 
   private selected: Font
   private hovered: Font | null = null
 
+  private modal: Modal
+
   private $modal: HTMLDivElement
+  private $modalBackdrop: HTMLButtonElement
+  private $closeBtn: HTMLButtonElement
+
   private $search: HTMLInputElement
   private $subset: HTMLSelectElement
   private $categories: HTMLDivElement
@@ -34,7 +39,7 @@ export class PickerDialog {
   private $complexity: HTMLSelectElement
   private $curvature: HTMLSelectElement
   private $sort: HTMLSelectElement
-  private $sortOrder: HTMLButtonElement
+  private $sortOrder: HTMLInputElement
   private $preview: HTMLDivElement
   private $fonts: HTMLDivElement
   private $variants: HTMLDivElement
@@ -45,16 +50,19 @@ export class PickerDialog {
   constructor(parent: HTMLElement) {
     this.createLayout(parent)
 
-    this.modal = new bootstrap.Modal(this.$modal, { keyboard: false })
     this.observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        if (entry.intersectionRatio <= 0) return
-
         const $target = entry.target as HTMLDivElement
-        const family = $target.dataset.family
 
-        if (family) FontLoader.load(family)
-        this.observer.unobserve($target)
+        if (entry.isIntersecting && !$target.childElementCount) {
+          const family = this.getFamilyFor($target)
+          if (!family) continue
+
+          DOM.hydrateFont($target, family)
+          FontLoader.load(family.name)
+        } else if (!entry.isIntersecting && $target.childElementCount) {
+          $target.textContent = ''
+        }
       }
     })
   }
@@ -63,6 +71,8 @@ export class PickerDialog {
     parent.insertAdjacentHTML('afterend', dialogContent)
 
     this.$modal = document.querySelector('#fp__modal')!
+    this.$modalBackdrop = document.querySelector('#fp__backdrop')!
+    this.$closeBtn = this.$modal.querySelector('#fp__close')!
 
     this.$search = this.$modal.querySelector('#fp__search')!
     this.$subset = this.$modal.querySelector('#fp__subsets')!
@@ -83,6 +93,9 @@ export class PickerDialog {
     this.$clearBtn = this.$modal.querySelector('#fp__clear')!
     this.$cancelBtn = this.$modal.querySelector('#fp__cancel')!
     this.$pickBtn = this.$modal.querySelector('#fp__pick')!
+
+    this.modal = new Modal(this.$modal)
+    new Accordion(this.$modal.querySelector('.fpb__accordion')!)
   }
 
   private getElementFor(family: FontFamily) {
@@ -132,13 +145,13 @@ export class PickerDialog {
     for (const $font of this.$fonts.children) {
       const name = ($font as HTMLElement).dataset.family!
       const hidden = !familyNames.includes(name)
-      $font.classList.toggle('d-none', hidden)
+      $font.classList.toggle('fpb__hidden', hidden)
     }
   }
 
   private updateSort() {
     const orderBy = this.$sort.value as Criterion
-    const reverse = this.$sortOrder.classList.contains('active')
+    const reverse = this.$sortOrder.checked
     this.sortFamilies(orderBy, reverse)
   }
 
@@ -180,13 +193,13 @@ export class PickerDialog {
     this.$variants.append(...DOM.createVariants(font.family.variants))
 
     // set current variant
-    const $weight = this.$variants.querySelector<HTMLInputElement>(`[value="${font.weight}"]`)
-    const $italic = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+    const $weight = this.$variants.querySelector<HTMLInputElement>(`#fp__weight-${font.weight}`)
+    const $italic = this.$variants.querySelector<HTMLInputElement>('#fp__italic')
     if (!$weight) throw new Error('Could not find weight button for selected font.')
     if (!$italic) throw new Error('Could not find italic button for selected font.')
 
     $weight.checked = true
-    $italic.classList.toggle('active', font.italic)
+    $italic.checked = font.italic
 
     this.updateVariant()
   }
@@ -201,14 +214,14 @@ export class PickerDialog {
   private updateVariant() {
     if (!this.config.variants) return
 
-    const $weight = this.$variants.querySelector<HTMLInputElement>('.fp__weight:checked')
-    const $italic = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+    const $weight = this.$variants.querySelector<HTMLInputElement>('[name=fp__weight]:checked')
+    const $italic = this.$variants.querySelector<HTMLInputElement>('#fp__italic')
 
     if (!$weight) throw new Error('Could not find weight button for selected font.')
     if (!$italic) throw new Error('Could not find italic button for selected font.')
 
     let weight = parseInt($weight.value) as FontWeight
-    let italic = $italic.classList.contains('active')
+    let italic = $italic.checked
 
     // check if font doesn't have italic/regular variants for current font
     const hasRegular = this.selected.family.variants.includes(`${weight}`)
@@ -225,9 +238,9 @@ export class PickerDialog {
     this.updatePreview()
   }
 
-  private createFonts() {
+  private createLazyFontList() {
     for (const font of this.getFamilies()) {
-      const $item = DOM.createFont(font)
+      const $item = DOM.createLazyFont(font)
       this.$fonts.append($item)
       this.observer.observe($item)
     }
@@ -306,7 +319,7 @@ export class PickerDialog {
   private selectClosestFont(excluded: boolean, reverse: boolean, $from?: Element | null) {
     let $target = $from ? ($from as HTMLElement) : this.getElementFor(this.selected.family)
 
-    while (excluded || $target.classList.contains('d-none')) {
+    while (excluded || $target.classList.contains('fpb__hidden')) {
       excluded = false
 
       const $next = reverse ? $target.previousElementSibling : $target.nextElementSibling
@@ -323,22 +336,23 @@ export class PickerDialog {
   }
 
   private selectClosestVariant(reverse: boolean) {
-    const $origin = this.$variants.querySelector('.fp__weight:checked')
+    const $origin = this.$variants.querySelector('[name=fp__weight]:checked')
     const $next = reverse
       ? $origin?.previousElementSibling?.previousElementSibling
       : $origin?.nextElementSibling?.nextElementSibling
+
     if (!$next) return
 
     const $target = $next as HTMLInputElement
-    $target.checked = true
+    $target.checked = !$target.checked
 
     this.updateVariant()
   }
 
   private toggleVariantItalic() {
-    const $target = this.$variants.querySelector<HTMLButtonElement>('#fp__italic')
+    const $target = this.$variants.querySelector<HTMLInputElement>('#fp__italic')
     if (!$target) return
-    $target.classList.toggle('active')
+    $target.checked = !$target.checked
     this.updateVariant()
   }
 
@@ -398,7 +412,7 @@ export class PickerDialog {
       this.updateFilter()
     }
 
-    this.$categories.addEventListener('click', filterCallback)
+    this.$categories.addEventListener('input', filterCallback)
     this.$search.addEventListener('input', filterCallback)
     this.$subset.addEventListener('input', filterCallback)
     this.$width.addEventListener('input', filterCallback)
@@ -412,7 +426,7 @@ export class PickerDialog {
     }
 
     this.$sort.addEventListener('input', sortCallback)
-    this.$sortOrder.addEventListener('click', sortCallback)
+    this.$sortOrder.addEventListener('input', sortCallback)
 
     this.$fonts.addEventListener('mouseover', (event) => this.onFontHover(event))
     this.$fonts.addEventListener('mouseout', (event) => this.onFontUnhover(event))
@@ -420,11 +434,13 @@ export class PickerDialog {
     this.$fonts.addEventListener('dblclick', (event) => this.onFontDoubleClick(event))
 
     this.$variants.addEventListener('input', () => this.updateVariant())
-    this.$variants.addEventListener('click', () => this.updateVariant())
 
     this.$clearBtn.addEventListener('click', () => this.assignDefaults())
     this.$pickBtn.addEventListener('click', () => this.submit())
     this.$cancelBtn.addEventListener('click', () => this.cancel())
+
+    this.$modalBackdrop.addEventListener('click', () => this.cancel())
+    this.$closeBtn.addEventListener('click', () => this.cancel())
 
     this.$modal.addEventListener('keydown', (event) => this.onKeyPressed(event))
   }
@@ -434,11 +450,11 @@ export class PickerDialog {
     this.picker.favourites.forEach((family) => this.getElementFor(family).classList.add('fp__fav'))
 
     // hide variants
-    this.$variants.classList.toggle('d-none', !this.config.variants)
+    this.$variants.classList.toggle('fpb__hidden', !this.config.variants)
   }
 
   private filtersChanged(changed = true) {
-    this.$clearBtn.classList.toggle('d-none', !changed)
+    this.$clearBtn.classList.toggle('fpb__hidden', !changed)
   }
 
   private assignDefaults() {
@@ -473,23 +489,25 @@ export class PickerDialog {
     this.applyTranslations()
     this.bindEvents()
 
-    this.modal.show()
-    this.createFonts()
-
+    this.createLazyFontList()
     this.selectFont(picker.font)
 
     this.applyConfiguration()
     this.assignDefaults()
 
-    this.picker.emit('open')
+    requestAnimationFrame(() => {
+      this.modal.open()
+      this.modal.once('opened', () => this.picker.emit('open'))
+    })
 
     await new Promise<void>((resolve) => {
-      this.$modal.addEventListener('shown.bs.modal', () => this.$modal.focus())
-      this.$modal.addEventListener('hidden.bs.modal', () => resolve())
+      // TODO: bind new closing event
+      this.modal.once('closed', () => resolve())
     })
 
     this.picker.emit('close')
     this.$modal.remove()
+    this.$modalBackdrop.remove()
   }
 
   submit() {
@@ -505,6 +523,6 @@ export class PickerDialog {
 
   close() {
     this.opened = false
-    this.modal.hide()
+    this.modal.close()
   }
 }
