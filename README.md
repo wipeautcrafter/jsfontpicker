@@ -1,10 +1,10 @@
-# Bootstrap Font Picker 2
+# Javascript Font Picker
 
-A font picker component supporting Google and system fonts, powered by Bootstrap.
+A font picker component supporting Google and system fonts. Zero dependencies.
 
 ## Table of Contents
 
-- [Bootstrap Font Picker 2](#bootstrap-font-picker-2)
+- [JS Font Picker](#jsfontpicker)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Live Demo](#live-demo)
@@ -44,8 +44,8 @@ A font picker component supporting Google and system fonts, powered by Bootstrap
 
 ## Installation
 
-Although the FontPicker is built on Bootstrap, it does require a tiny stylesheet.
-Please include it like this:
+The FontPicker requires a small stylesheet.
+Please include the  it like this:
 
 ```html
 <link rel="stylesheet" href="fontpicker.css" />
