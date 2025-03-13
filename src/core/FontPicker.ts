@@ -17,7 +17,8 @@ export class FontPicker extends EventEmitter<{
 }> {
   static FontLoader = FontLoader
 
-  private $el: HTMLButtonElement
+  private $el: HTMLButtonElement | HTMLInputElement
+  private isInput: boolean
 
   private _font: Font
   get font() {
@@ -67,12 +68,26 @@ export class FontPicker extends EventEmitter<{
     return { ...this._config }
   }
 
-  constructor(el: HTMLButtonElement, config: Partial<PickerConfig> = {}) {
-    super()
+  private clickHandler?: () => void
+  private changeHandler?: () => void
 
-    this.$el = el
+  constructor(
+    el: HTMLButtonElement | HTMLInputElement | string,
+    config: Partial<PickerConfig> = {},
+  ) {
+    super()
+    this.$el = typeof el === 'string' ? document.querySelector(el)! : el
+
     this.$el.classList.add('font-picker', 'fpb__input', 'fpb__dropdown')
-    this.$el.addEventListener('click', this.open.bind(this))
+    this.clickHandler = this.open.bind(this)
+    this.$el.addEventListener('click', this.clickHandler)
+
+    if ((this.isInput = this.$el instanceof HTMLInputElement)) {
+      this.$el.readOnly = true
+      this.$el.role = 'button'
+      this.changeHandler = () => this.setFont(this.$el.value)
+      this.$el.addEventListener('change', this.changeHandler)
+    }
 
     this.configure(config)
     this.initialize()
@@ -156,13 +171,19 @@ export class FontPicker extends EventEmitter<{
       throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`)
     }
 
-    this.$el.textContent = this._config.verbose ? this.font.toString() : this.font.toId()
     this.$el.dataset.font = this.font.toId()
+    const text = this._config.verbose ? this.font.toString() : this.font.toId()
+    if (this.isInput) {
+      this.$el.value = text
+    } else {
+      this.$el.textContent = text
+    }
+
     this.$el.style.fontFamily = `${this.font.family}`
     this.$el.style.fontWeight = this.font.weight.toString()
     this.$el.style.fontStyle = this.font.style
 
-    FontLoader.load(this.font.family.name)
+    FontLoader.load(this.font.family)
   }
 
   markFavourite(family: FontFamily, value?: boolean) {
@@ -196,5 +217,25 @@ export class FontPicker extends EventEmitter<{
 
   async close() {
     pickerDialog?.close()
+  }
+
+  destroy() {
+    this.close()
+    pickerDialog?.destroy()
+
+    if (this.changeHandler) this.$el.removeEventListener('change', this.changeHandler)
+    if (this.clickHandler) this.$el.removeEventListener('click', this.clickHandler)
+
+    this.$el.classList.remove('font-picker', 'fpb__input', 'fpb__dropdown')
+    this.$el.value = ''
+    this.$el.removeAttribute('data-font')
+    this.$el.style.removeProperty('font-family')
+    this.$el.style.removeProperty('font-weight')
+    this.$el.style.removeProperty('font-style')
+
+    if (this.isInput) {
+      this.$el.removeAttribute('role')
+      this.$el.removeAttribute('readOnly')
+    }
   }
 }

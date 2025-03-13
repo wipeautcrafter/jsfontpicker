@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
 
-  var _cache, _FontLoader_static, appendStylesheet_fn, loadGoogleFont_fn;
+  var _cache, _FontLoader_static, appendStylesheet_fn, loadGoogleFont_fn, loadExtraFont_fn;
   function getDefaultExportFromCjs(x) {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
   }
@@ -703,13 +703,21 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     static loaded(name) {
       return __privateGet(this, _cache).has(name);
     }
-    static async load(name) {
+    static async load(font) {
+      const family = font instanceof FontFamily ? font : null;
+      const name = font instanceof FontFamily ? font.name : font;
       let promise = __privateGet(this, _cache).get(name);
       if (!promise) {
-        const googleFont = googleFonts.find((font) => font.name === name);
-        if (googleFont) {
+        const systemFont = systemFonts.find((sf) => sf.name === name);
+        const googleFont = googleFonts.find((gf) => gf.name === name);
+        if (family && family.url) {
+          promise = __privateMethod(this, _FontLoader_static, loadExtraFont_fn).call(this, family);
+        } else if (systemFont) {
+          promise = Promise.resolve();
+        } else if (googleFont) {
           promise = __privateMethod(this, _FontLoader_static, loadGoogleFont_fn).call(this, googleFont);
         } else {
+          console.error(`Could not load font ${name}!`);
           promise = Promise.resolve();
         }
         __privateGet(this, _cache).set(name, promise);
@@ -732,6 +740,11 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     url.searchParams.set("family", name);
     url.searchParams.set("display", "swap");
     __privateMethod(this, _FontLoader_static, appendStylesheet_fn).call(this, url.toString());
+    await document.fonts.load(`1em "${font.name}"`);
+  };
+  loadExtraFont_fn = async function(font) {
+    const fontFace = new FontFace(font.name, `url(${font.url})`);
+    document.fonts.add(await fontFace.load());
     await document.fonts.load(`1em "${font.name}"`);
   };
   __privateAdd(FontLoader, _FontLoader_static);
@@ -1218,7 +1231,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
             const family = this.getFamilyFor($target);
             if (!family) continue;
             hydrateFont($target, family);
-            FontLoader.load(family.name);
+            FontLoader.load(family);
           } else if (!entry.isIntersecting && $target.childElementCount) {
             $target.textContent = "";
           }
@@ -1557,12 +1570,16 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.opened = false;
       this.modal.close();
     }
+    destroy() {
+      this.$modal.remove();
+    }
   }
   let pickerDialog = null;
   class FontPicker2 extends EventEmitter$1 {
     constructor(el, config = {}) {
       super();
       __publicField(this, "$el");
+      __publicField(this, "isInput");
       __publicField(this, "_font");
       __publicField(this, "_families");
       __publicField(this, "_favourites");
@@ -1588,9 +1605,18 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         systemFonts: null,
         extraFonts: []
       });
-      this.$el = el;
+      __publicField(this, "clickHandler");
+      __publicField(this, "changeHandler");
+      this.$el = typeof el === "string" ? document.querySelector(el) : el;
       this.$el.classList.add("font-picker", "fpb__input", "fpb__dropdown");
-      this.$el.addEventListener("click", this.open.bind(this));
+      this.clickHandler = this.open.bind(this);
+      this.$el.addEventListener("click", this.clickHandler);
+      if (this.isInput = this.$el instanceof HTMLInputElement) {
+        this.$el.readOnly = true;
+        this.$el.role = "button";
+        this.changeHandler = () => this.setFont(this.$el.value);
+        this.$el.addEventListener("change", this.changeHandler);
+      }
       this.configure(config);
       this.initialize();
     }
@@ -1665,12 +1691,17 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (!this.font.family.variants.includes(this.font.variant)) {
         throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
       }
-      this.$el.textContent = this._config.verbose ? this.font.toString() : this.font.toId();
       this.$el.dataset.font = this.font.toId();
+      const text = this._config.verbose ? this.font.toString() : this.font.toId();
+      if (this.isInput) {
+        this.$el.value = text;
+      } else {
+        this.$el.textContent = text;
+      }
       this.$el.style.fontFamily = `${this.font.family}`;
       this.$el.style.fontWeight = this.font.weight.toString();
       this.$el.style.fontStyle = this.font.style;
-      FontLoader.load(this.font.family.name);
+      FontLoader.load(this.font.family);
     }
     markFavourite(family, value) {
       if (value === void 0) value = !this.favourites.has(family);
@@ -1694,6 +1725,22 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     }
     async close() {
       pickerDialog == null ? void 0 : pickerDialog.close();
+    }
+    destroy() {
+      this.close();
+      pickerDialog == null ? void 0 : pickerDialog.destroy();
+      if (this.changeHandler) this.$el.removeEventListener("change", this.changeHandler);
+      if (this.clickHandler) this.$el.removeEventListener("click", this.clickHandler);
+      this.$el.classList.remove("font-picker", "fpb__input", "fpb__dropdown");
+      this.$el.value = "";
+      this.$el.removeAttribute("data-font");
+      this.$el.style.removeProperty("font-family");
+      this.$el.style.removeProperty("font-weight");
+      this.$el.style.removeProperty("font-style");
+      if (this.isInput) {
+        this.$el.removeAttribute("role");
+        this.$el.removeAttribute("readOnly");
+      }
     }
   }
   __publicField(FontPicker2, "FontLoader", FontLoader);

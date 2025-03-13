@@ -1,6 +1,5 @@
-import { googleFonts } from '../data/fonts'
-import type { FontFamily } from './FontFamily'
-
+import { googleFonts, systemFonts } from '../data/fonts'
+import { FontFamily } from './FontFamily'
 export class FontLoader {
   static #cache = new Map<string, Promise<void>>()
 
@@ -26,16 +25,31 @@ export class FontLoader {
     await document.fonts.load(`1em "${font.name}"`)
   }
 
-  static async load(name: string) {
+  static async #loadExtraFont(font: FontFamily) {
+    const fontFace = new FontFace(font.name, `url(${font.url})`)
+
+    document.fonts.add(await fontFace.load())
+    await document.fonts.load(`1em "${font.name}"`)
+  }
+
+  static async load(font: string | FontFamily) {
+    const family = font instanceof FontFamily ? font : null
+    const name = font instanceof FontFamily ? font.name : font
+
     let promise = this.#cache.get(name)
 
     if (!promise) {
-      const googleFont = googleFonts.find((font) => font.name === name)
+      const systemFont = systemFonts.find((sf) => sf.name === name)
+      const googleFont = googleFonts.find((gf) => gf.name === name)
 
-      if (googleFont) {
+      if (family && family.url) {
+        promise = this.#loadExtraFont(family)
+      } else if (systemFont) {
+        promise = Promise.resolve()
+      } else if (googleFont) {
         promise = this.#loadGoogleFont(googleFont)
       } else {
-        // system and extra fonts are always loaded!
+        console.error(`Could not load font ${name}!`)
         promise = Promise.resolve()
       }
 

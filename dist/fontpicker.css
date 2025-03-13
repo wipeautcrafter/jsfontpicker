@@ -418,6 +418,9 @@ input:disabled + .fpb__btn-toggle {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+input.font-picker {
+  caret-color: transparent;
+}
 
 /* Font list */
 #fp__fonts {

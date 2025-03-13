@@ -16,6 +16,7 @@ declare interface FamilyProps {
         complexity: number;
         curvature: number;
     };
+    url?: string;
 }
 
 declare class Font {
@@ -46,7 +47,7 @@ declare class FontFamily {
 declare class FontLoader {
     #private;
     static loaded(name: string): boolean;
-    static load(name: string): Promise<void>;
+    static load(font: string | FontFamily): Promise<void>;
 }
 
 declare class FontPicker extends default_2<{
@@ -57,6 +58,7 @@ declare class FontPicker extends default_2<{
 }> {
     static FontLoader: typeof FontLoader;
     private $el;
+    private isInput;
     private _font;
     get font(): Font;
     private _families;
@@ -86,7 +88,9 @@ declare class FontPicker extends default_2<{
         systemFonts: string[] | null;
         extraFonts: FamilyProps[];
     };
-    constructor(el: HTMLButtonElement, config?: Partial<PickerConfig>);
+    private clickHandler?;
+    private changeHandler?;
+    constructor(el: HTMLButtonElement | HTMLInputElement | string, config?: Partial<PickerConfig>);
     configure(options: Partial<PickerConfig>): void;
     private initialize;
     private updateFamilies;
@@ -95,6 +99,7 @@ declare class FontPicker extends default_2<{
     markFavourite(family: FontFamily, value?: boolean): boolean;
     open(): Promise<Font>;
     close(): Promise<void>;
+    destroy(): void;
 }
 export default FontPicker;
 

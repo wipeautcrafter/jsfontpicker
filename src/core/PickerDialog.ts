@@ -59,7 +59,7 @@ export class PickerDialog {
           if (!family) continue
 
           DOM.hydrateFont($target, family)
-          FontLoader.load(family.name)
+          FontLoader.load(family)
         } else if (!entry.isIntersecting && $target.childElementCount) {
           $target.textContent = ''
         }
@@ -524,5 +524,9 @@ export class PickerDialog {
   close() {
     this.opened = false
     this.modal.close()
+  }
+
+  destroy() {
+    this.$modal.remove()
   }
 }

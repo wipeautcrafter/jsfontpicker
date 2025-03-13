@@ -9,6 +9,7 @@
       - [setFont](#setfont)
       - [open](#open)
       - [close](#close)
+      - [destroy](#destroy)
     - [Properties](#properties)
       - [font](#font)
     - [Events](#events)
@@ -47,14 +48,14 @@
 Creates a new FontPicker instance.
 
 ```js
-new FontPicker(button, config)
+new FontPicker(element, config)
 ```
 
 **Arguments**
 
-> **button**  
-> The button element to bind to.  
-> **Type:** [`HTMLButtonElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement)
+> **element**  
+> The (query for a) button or input element to bind to.
+> **Type:** [`HTMLButtonElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement) | [`HTMLInputElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement) | string
 
 > **config** _(partial, optional)_  
 > Picker configuration options.  
@@ -122,6 +123,14 @@ Closes the font picker dialog.
 
 ```js
 .close()
+```
+
+#### destroy
+
+Destroys the font picker dialog.
+
+```js
+.destroy()
 ```
 
 ### Properties
@@ -389,6 +398,10 @@ An object representing a Font Family.
 > > **curvature**  
 > > Font family curvature metric value.  
 > > **Type:** `number`
+
+> **url** _(optional)_
+> URL to load the font family from.
+> **Type:** `string`
 
 ## (type) Language
 

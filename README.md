@@ -4,7 +4,7 @@ A font picker component supporting Google and system fonts. Zero dependencies.
 
 ## Table of Contents
 
-- [JS Font Picker](#jsfontpicker)
+- [Javascript Font Picker](#javascript-font-picker)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
   - [Live Demo](#live-demo)
@@ -45,7 +45,7 @@ A font picker component supporting Google and system fonts. Zero dependencies.
 ## Installation
 
 The FontPicker requires a small stylesheet.
-Please include the  it like this:
+Please include the it like this:
 
 ```html
 <link rel="stylesheet" href="fontpicker.css" />
@@ -87,17 +87,16 @@ This allows you to use `FontPicker` and `FontPicker.FontLoader` directly.
 
 ### Create
 
-To create a font picker, first create a button element:
+To create a font picker, first create a button or input element:
 
 ```html
 <button id="picker"></button>
 ```
 
-Next instantiate the FontPicker, passing a button element and (optional) configuration:
+Next instantiate the FontPicker, passing the element and an (optional) configuration:
 
 ```js
-const button = document.querySelector('#picker')
-const picker = new FontPicker(button, {
+const picker = new FontPicker('#picker', {
   language: 'en',
   font: 'Open Sans',
   defaultSubset: 'latin',
@@ -106,7 +105,7 @@ const picker = new FontPicker(button, {
 
 ### Configure
 
-The picker's configuration can be changed after initialization. This is done by calling `.initialize({...})` on the element:
+The picker's configuration can be changed after initialization. This is done by calling `.configure({...})` on the element:
 
 ```js
 picker.configure({
