@@ -10,7 +10,7 @@ log_step() { echo -ne "$PURPLE$1$RESET"; }
 log_done() { echo -e "${GREEN}DONE$RESET"; }
 log_error() {
   echo -e "${RED}ERROR$RESET"
-  echo $ERROR
+  echo -e "$ERROR"
   exit $?
 }
 
@@ -19,7 +19,7 @@ rm -f dist/*
 
 # Generate types
 log_step "🔗 Generating types... "
-ERROR=$(npm run tsc 2>&1 >/dev/null) || log_error
+ERROR=$(npm run tsc -- --pretty) || log_error
 log_done
 
 # Build source
@@ -38,4 +38,3 @@ for file in *.{js,css}; do
 done
 log_done
 shopt -u nullglob
-
