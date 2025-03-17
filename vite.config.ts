@@ -7,6 +7,7 @@ import viteHTML from './plugins/viteHTML'
 export default defineConfig({
   server: {
     open: '/dev/',
+    allowedHosts: ['cure']
   },
   build: {
     lib: {

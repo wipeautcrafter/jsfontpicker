@@ -85,6 +85,7 @@ export class FontPicker extends EventEmitter<{
     if ((this.isInput = this.$el instanceof HTMLInputElement)) {
       this.$el.readOnly = true
       this.$el.role = 'button'
+      if (this.$el.value) { config.font = this.$el.value }
       this.changeHandler = () => this.setFont(this.$el.value)
       this.$el.addEventListener('change', this.changeHandler)
     }
@@ -152,7 +153,7 @@ export class FontPicker extends EventEmitter<{
     return family
   }
 
-  setFont(font: Font | FontFamily | string) {
+  setFont(font: Font | FontFamily | string, fireOnChange: boolean = false) {
     if (font instanceof Font) {
       // directly set font
       this._font = font
@@ -174,7 +175,10 @@ export class FontPicker extends EventEmitter<{
     this.$el.dataset.font = this.font.toId()
     const text = this._config.verbose ? this.font.toString() : this.font.toId()
     if (this.isInput) {
-      this.$el.value = text
+      this.$el.setAttribute('value', text) // `this.$el.value = text` doesn't work
+      if (fireOnChange) {// Fire 'change' event
+        this.$el.dispatchEvent(new Event('change'))
+      }
     } else {
       this.$el.textContent = text
     }

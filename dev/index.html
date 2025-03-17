@@ -14,7 +14,11 @@
   <body>
     <div>
       <label for="picker" class="form-label">Font</label>
-      <button id="picker"></button>
+      <!--<button id="picker"></button>-->
+      <input id="picker" value="Pacifico" onoldchange="console.log('onchange',this.value)">
     </div>
+
+    <canvas id="canvas" width="400" height="200" style="border:1px solid red"></canvas>
   </body>
+
 </html>

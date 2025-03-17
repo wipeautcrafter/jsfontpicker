@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const button = document.querySelector('#picker')
+  const element = document.querySelector('#picker')
   if (!button) return
 
-  const picker = new FontPicker(button, {
+  const picker = new FontPicker(element, {
     font: 'Open Sans',
     defaultSubset: 'latin',
     defaultCategories: ['sans-serif', 'display'],

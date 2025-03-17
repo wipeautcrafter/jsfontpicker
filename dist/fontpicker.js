@@ -734,7 +734,7 @@ appendStylesheet_fn = async function(url) {
 };
 loadGoogleFont_fn = async function(font) {
   const url = new URL("https://fonts.googleapis.com/css");
-  const name = font.name + ":" + font.variants.join(",");
+  const name = encodeURIComponent(font.name) + ":" + font.variants.join(",");
   url.searchParams.set("family", name);
   url.searchParams.set("display", "swap");
   __privateMethod(this, _FontLoader_static, appendStylesheet_fn).call(this, url.toString());
@@ -1556,7 +1556,11 @@ class PickerDialog {
     this.$modalBackdrop.remove();
   }
   submit() {
-    this.picker.setFont(this.selected);
+    this.picker.setFont(
+      this.selected,
+      true
+      /* Fire `change` event */
+    );
     this.picker.emit("pick", this.selected);
     this.close();
   }
@@ -1612,6 +1616,9 @@ class FontPicker extends EventEmitter$1 {
     if (this.isInput = this.$el instanceof HTMLInputElement) {
       this.$el.readOnly = true;
       this.$el.role = "button";
+      if (this.$el.value) {
+        config.font = this.$el.value;
+      }
       this.changeHandler = () => this.setFont(this.$el.value);
       this.$el.addEventListener("change", this.changeHandler);
     }
@@ -1676,7 +1683,7 @@ class FontPicker extends EventEmitter$1 {
     if (!family) throw new Error(`Could not find font family '${name}'!`);
     return family;
   }
-  setFont(font) {
+  setFont(font, fireOnChange = false) {
     if (font instanceof Font) {
       this._font = font;
     } else if (typeof font === "string") {
@@ -1692,7 +1699,10 @@ class FontPicker extends EventEmitter$1 {
     this.$el.dataset.font = this.font.toId();
     const text = this._config.verbose ? this.font.toString() : this.font.toId();
     if (this.isInput) {
-      this.$el.value = text;
+      this.$el.setAttribute("value", text);
+      if (fireOnChange) {
+        this.$el.dispatchEvent(new Event("change"));
+      }
     } else {
       this.$el.textContent = text;
     }

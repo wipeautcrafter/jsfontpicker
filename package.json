@@ -13,7 +13,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "tsc": "tsc",
     "build": "vite build",
     "preview": "vite preview",
