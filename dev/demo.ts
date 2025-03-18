@@ -1,17 +1,24 @@
 import FontPicker from '../src/index'
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  document.querySelector('#testBtn').onclick = () => {
+    const picker = document.querySelector('#picker');
+    picker.value = 'Quicksand';
+    picker.dispatchEvent(new Event('change'));
+  }
+
   const button = document.querySelector<HTMLButtonElement>('#picker')
   if (!button) return
 
   const canvas = document.querySelector('#canvas'), ctx = canvas.getContext('2d');
 
   const picker = new FontPicker(button, {
-    font: 'Open Sans',
-    defaultSubset: 'latin',
-    defaultCategories: ['sans-serif', 'display', 'handwriting'],
+    //font: 'Open Sans',
+    //defaultSubset: 'latin',
+    //defaultCategories: ['sans-serif', 'display', 'handwriting'],
     language: 'en',
-    verbose: true,
+    verbose: false,
     variants: false,
     favourites: ['Open Sans'],
   })
@@ -40,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     await document.fonts.load(`900 italic 1em "${fontName}"`);
     ctx.font = `900 italic 2em ${fontName}`
     ctx.fillText(fontName + ' extrabold italic ', 10, 100)
-  }
-)
+  })
   picker.on('cancel', () => console.log('Picker cancel'))
   picker.on('close', () => console.log('Picker close'))
+
 })

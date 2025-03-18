@@ -174,13 +174,12 @@ export class FontPicker extends EventEmitter<{
 
     this.$el.dataset.font = this.font.toId()
     const text = this._config.verbose ? this.font.toString() : this.font.toId()
+    this.$el.textContent = text
     if (this.isInput) {
-      this.$el.setAttribute('value', text) // `this.$el.value = text` doesn't work
-      if (fireOnChange) {// Fire 'change' event
+      this.$el.value = text
+      if (fireOnChange) {
         this.$el.dispatchEvent(new Event('change'))
       }
-    } else {
-      this.$el.textContent = text
     }
 
     this.$el.style.fontFamily = `${this.font.family}`
