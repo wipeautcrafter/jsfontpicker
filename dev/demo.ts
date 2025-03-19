@@ -1,17 +1,17 @@
 import FontPicker from '../src/index'
 
 document.addEventListener('DOMContentLoaded', () => {
-
   document.querySelector('#testBtn').onclick = () => {
-    const picker = document.querySelector('#picker');
-    picker.value = 'Quicksand';
-    picker.dispatchEvent(new Event('change'));
+    const picker = document.querySelector('#picker')
+    picker.value = 'Quicksand'
+    picker.dispatchEvent(new Event('change'))
   }
 
   const button = document.querySelector<HTMLButtonElement>('#picker')
   if (!button) return
 
-  const canvas = document.querySelector('#canvas'), ctx = canvas.getContext('2d');
+  const canvas = document.querySelector('#canvas'),
+    ctx = canvas.getContext('2d')
 
   const picker = new FontPicker(button, {
     //font: 'Open Sans',
@@ -34,21 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
     //   document.fonts.load(`900 italic 1em "${fontName}"`)
     // ])
 
-    ctx.clearRect(0,0,canvas.width,canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.textBaseline = 'top'
     ctx.fillStyle = '#fff'
     ctx.font = `2em ${fontName}`
     ctx.fillText(fontName + ' normal', 10, 0)
 
-    await document.fonts.load(`700 1em "${fontName}"`);
+    await document.fonts.load(`700 1em "${fontName}"`)
     ctx.font = `700 2em ${fontName}`
     ctx.fillText(fontName + ' bold', 10, 50)
 
-    await document.fonts.load(`900 italic 1em "${fontName}"`);
+    await document.fonts.load(`900 italic 1em "${fontName}"`)
     ctx.font = `900 italic 2em ${fontName}`
     ctx.fillText(fontName + ' extrabold italic ', 10, 100)
   })
   picker.on('cancel', () => console.log('Picker cancel'))
   picker.on('close', () => console.log('Picker close'))
-
 })

@@ -1,3 +1,5 @@
+import styleContent from '../css/fontpicker.css?raw'
+
 import EventEmitter from 'events'
 import { PickerDialog } from './PickerDialog'
 import { Font } from '../helpers/Font'
@@ -17,6 +19,7 @@ export class FontPicker extends EventEmitter<{
 }> {
   static FontLoader = FontLoader
 
+  private $host: HTMLDivElement
   private $el: HTMLButtonElement | HTMLInputElement
   private isInput: boolean
 
@@ -76,7 +79,17 @@ export class FontPicker extends EventEmitter<{
     config: Partial<PickerConfig> = {},
   ) {
     super()
+
+    this.$host = document.createElement('div')
+    const shadow = this.$host.attachShadow({ mode: 'open' })
+
+    const $style = document.createElement('style')
+    $style.innerHTML = styleContent
+
     this.$el = typeof el === 'string' ? document.querySelector(el)! : el
+
+    this.$el.replaceWith(this.$host)
+    shadow.append(this.$el, $style)
 
     this.$el.classList.add('font-picker', 'fpb__input', 'fpb__dropdown')
     this.clickHandler = this.open.bind(this)
@@ -85,7 +98,9 @@ export class FontPicker extends EventEmitter<{
     if ((this.isInput = this.$el instanceof HTMLInputElement)) {
       this.$el.readOnly = true
       this.$el.role = 'button'
-      if (this.$el.value) { config.font = this.$el.value }
+      if (this.$el.value) {
+        config.font = this.$el.value
+      }
       this.changeHandler = () => this.setFont(this.$el.value)
       this.$el.addEventListener('change', this.changeHandler)
     }
@@ -228,6 +243,9 @@ export class FontPicker extends EventEmitter<{
 
     if (this.changeHandler) this.$el.removeEventListener('change', this.changeHandler)
     if (this.clickHandler) this.$el.removeEventListener('click', this.clickHandler)
+
+    this.$host.replaceWith(this.$el)
+    this.$host.remove()
 
     this.$el.classList.remove('font-picker', 'fpb__input', 'fpb__dropdown')
     this.$el.value = ''

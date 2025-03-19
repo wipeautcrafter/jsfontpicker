@@ -1,4 +1,5 @@
 import dialogContent from '../templates/dialogContent.html?raw'
+import styleContent from '../css/fontpicker.css?raw'
 
 import * as DOM from '../util/DOMUtil'
 import { Modal, Accordion } from '../util/FPB'
@@ -27,6 +28,7 @@ export class PickerDialog {
 
   private modal: Modal
 
+  private $host: HTMLDivElement
   private $modal: HTMLDivElement
   private $modalBackdrop: HTMLButtonElement
   private $closeBtn: HTMLButtonElement
@@ -68,10 +70,18 @@ export class PickerDialog {
   }
 
   private createLayout(parent: HTMLElement) {
-    parent.insertAdjacentHTML('afterend', dialogContent)
+    this.$host = document.createElement('div')
+    const shadow = this.$host.attachShadow({ mode: 'open' })
+    shadow.innerHTML = dialogContent
 
-    this.$modal = document.querySelector('#fp__modal')!
-    this.$modalBackdrop = document.querySelector('#fp__backdrop')!
+    const $style = document.createElement('style')
+    $style.innerHTML = styleContent
+
+    parent.append(this.$host)
+    shadow.append($style)
+
+    this.$modal = shadow.querySelector('#fp__modal')!
+    this.$modalBackdrop = shadow.querySelector('#fp__backdrop')!
     this.$closeBtn = this.$modal.querySelector('#fp__close')!
 
     this.$search = this.$modal.querySelector('#fp__search')!
@@ -527,6 +537,6 @@ export class PickerDialog {
   }
 
   destroy() {
-    this.$modal.remove()
+    this.$host.remove()
   }
 }
