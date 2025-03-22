@@ -33,7 +33,7 @@
   --fp-light: #fff;
 
   --fp-primary: #0d6efd;
-  --fp-secondary: #ffcd39;
+  --fp-secondary: #ff8239;
   --fp-hover-color: #0b5ed7;
   --fp-ring-color: #86b7fe;
   --fp-ring-shadow: rgba(13, 110, 253, 0.25) 0 0 0 0.25rem;
@@ -82,7 +82,6 @@
 /* Inputs */
 .fpb__input {
   display: block;
-  width: 100%;
 
   font-size: 1rem;
   font-weight: 400;
@@ -111,6 +110,7 @@
   opacity: 0.75;
 }
 .fpb__dropdown {
+  margin: unset; /* CSS reset */
   padding: 0.375rem 2.25rem 0.375rem 0.75rem;
   background-image: var(--fp-select-toggle-img);
   background-repeat: no-repeat;
@@ -188,6 +188,9 @@
   gap: 1rem;
   border-top: 1px solid var(--fp-border-color);
 }
+.fpb__modal .fpb__input {
+  width: 100%;
+}
 
 .fpb__btn-close {
   display: grid;
@@ -231,10 +234,11 @@
   background: none;
   border: none;
   border-radius: 0;
-  border-block: 1px solid var(--fp-border-color);
+  border-block: 1px solid var(--fp-border-color) !important;
 
   padding: 0.5rem 1rem;
 }
+
 .fpb__accordion-toggle::after {
   content: '';
   margin-left: auto;
@@ -284,7 +288,6 @@ button {
   line-height: 1.5;
   color: var(--fp-light);
   text-align: center;
-  vertical-align: middle;
   user-select: none;
   border: 1px solid var(--fpb-variant);
   background-color: var(--fpb-variant);
@@ -297,12 +300,19 @@ button {
     box-shadow 0.15s,
     opacity 0.15s;
 }
+button.fpb__btn:hover {
+  text-decoration: underline;
+}
 .fpb__btn-small {
   font-size: 0.75rem;
   padding: 0.1rem 0.5rem;
 }
 .fpb__btn-pill {
   border-radius: 9999px;
+}
+button.fpb__btn-pill:hover {/* CSS reset */
+  background-color: var(--fpb-variant) !important;
+  border-color: var(--fpb-variant) !important;
 }
 .fpb__btn-secondary {
   --fpb-variant: var(--fp-secondary);
@@ -312,9 +322,12 @@ button {
   background: none;
   border: none;
 }
+.fpb__btn-link:hover {/* CSS reset */
+  background: inherit !important;
+}
 
 .fpb__hidden-input {
-  position: absolute;
+  position: absolute !important;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
 }
@@ -338,9 +351,6 @@ input:checked + .fpb__btn-flip > *,
   transform: scaleY(-1);
 }
 
-.fpb__btn:hover {
-  opacity: 0.8;
-}
 .fpb__btn:focus-visible,
 input:focus-visible + .fpb__btn-toggle {
   outline: 0;

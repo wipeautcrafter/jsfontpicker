@@ -1,8 +1,14 @@
+import { Category as Category_2 } from '../types/translations';
+import { Criterion } from '../types/translations';
 import { default as default_2 } from 'events';
+import { FamilyProps as FamilyProps_2 } from '../types/fonts';
+import { Language } from '../types/translations';
+import { Metric } from '../types/translations';
+import { Subset as Subset_2 } from '../types/translations';
 
 declare type Category = 'serif' | 'sans-serif' | 'display' | 'handwriting' | 'monospace';
 
-declare type Criterion = 'name' | 'popularity' | 'width' | 'thickness' | 'complexity' | 'curvature';
+declare type Criterion_2 = 'name' | 'popularity' | 'width' | 'thickness' | 'complexity' | 'curvature';
 
 declare interface FamilyProps {
     name: string;
@@ -76,8 +82,8 @@ declare class FontPicker extends default_2<{
         favourites: string[];
         saveFavourites: boolean;
         storageKey: string;
-        defaultSubset: Subset;
-        defaultCategories: Category[];
+        defaultSubset: Subset_2;
+        defaultCategories: Category_2[];
         defaultWidth: Metric;
         defaultThickness: Metric;
         defaultComplexity: Metric;
@@ -86,7 +92,7 @@ declare class FontPicker extends default_2<{
         sortReverse: boolean;
         googleFonts: string[] | null;
         systemFonts: string[] | null;
-        extraFonts: FamilyProps[];
+        extraFonts: FamilyProps_2[];
     };
     private clickHandler?;
     private changeHandler?;
@@ -105,12 +111,12 @@ export default FontPicker;
 
 declare type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 
-declare type Language = 'en' | 'nl' | 'de' | 'es' | 'fr';
+declare type Language_2 = 'en' | 'nl' | 'de' | 'es' | 'fr';
 
-declare type Metric = 'all' | '0!' | '1!' | '2!' | '3!' | '4!';
+declare type Metric_2 = 'all' | '0!' | '1!' | '2!' | '3!' | '4!';
 
 declare interface PickerConfig {
-    language: Language;
+    language: Language_2;
     container: HTMLElement;
     previewText: string | null;
     font: string;
@@ -121,11 +127,11 @@ declare interface PickerConfig {
     storageKey: string;
     defaultSubset: Subset;
     defaultCategories: Category[];
-    defaultWidth: Metric;
-    defaultThickness: Metric;
-    defaultComplexity: Metric;
-    defaultCurvature: Metric;
-    sortBy: Criterion;
+    defaultWidth: Metric_2;
+    defaultThickness: Metric_2;
+    defaultComplexity: Metric_2;
+    defaultCurvature: Metric_2;
+    sortBy: Criterion_2;
     sortReverse: boolean;
     googleFonts: string[] | null;
     systemFonts: string[] | null;

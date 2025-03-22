@@ -17,10 +17,9 @@ export class FontLoader {
 
   static async #loadGoogleFont(font: FontFamily) {
     const url = new URL('https://fonts.googleapis.com/css')
-    const name = encodeURIComponent(font.name) + ':' + font.variants.join(',')
+    const name = font.name + ':' + font.variants.join(',')
     url.searchParams.set('family', name)
     url.searchParams.set('display', 'swap')
-
     this.#appendStylesheet(url.toString())
     await document.fonts.load(`1em "${font.name}"`)
   }
