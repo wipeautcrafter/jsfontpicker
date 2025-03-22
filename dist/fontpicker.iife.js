@@ -1640,6 +1640,9 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       return { ...this._config };
     }
     configure(options) {
+      if ("container" in options && options.container && !(options.container instanceof HTMLElement)) {
+        options.container = document.querySelector(options.container) ?? void 0;
+      }
       Object.assign(this._config, options);
       const keys = Object.keys(options);
       if (!this.families || keys.includes("googleFonts") || keys.includes("systemFonts") || keys.includes("extraFonts")) {

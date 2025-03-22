@@ -95,6 +95,11 @@ export class FontPicker extends EventEmitter<{
   }
 
   configure(options: Partial<PickerConfig>) {
+    if ('container' in options && options.container && !(options.container instanceof HTMLElement)) {
+      // container can be a DOM element or a string
+      options.container = document.querySelector(options.container) ?? undefined
+    }
+
     Object.assign(this._config, options)
 
     const keys = Object.keys(options)

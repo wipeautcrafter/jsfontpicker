@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //font: 'Open Sans',
     //defaultSubset: 'latin',
     //defaultCategories: ['sans-serif', 'display', 'handwriting'],
-    language: 'en',
+    language: 'nl',
     verbose: false,
     variants: false,
     favourites: ['Open Sans'],
