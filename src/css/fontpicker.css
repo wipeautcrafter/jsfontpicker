@@ -20,6 +20,9 @@ input.font-picker {
   border-top: 1px solid var(--fp-border-color);
   margin-top: -1px;
 }
+#fp__fonts:focus {
+  outline: 0;
+}
 
 /* Font item */
 .fp__font-item {

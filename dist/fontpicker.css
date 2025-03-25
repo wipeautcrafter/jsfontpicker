@@ -110,7 +110,7 @@
   opacity: 0.75;
 }
 .fpb__dropdown {
-  margin: unset; /* CSS reset */
+
   padding: 0.375rem 2.25rem 0.375rem 0.75rem;
   background-image: var(--fp-select-toggle-img);
   background-repeat: no-repeat;
@@ -441,6 +441,9 @@ input.font-picker {
   padding: 0.25rem;
   border-top: 1px solid var(--fp-border-color);
   margin-top: -1px;
+}
+#fp__fonts:focus {
+  outline: 0;
 }
 
 /* Font item */
