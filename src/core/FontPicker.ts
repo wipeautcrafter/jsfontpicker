@@ -181,6 +181,8 @@ export class FontPicker extends EventEmitter<{
     const text = this._config.verbose ? this.font.toString() : this.font.toId()
     this.$el.textContent = text
     if (this.isInput) {
+      // TODO: input-value should be this.font.toId(), but display should be this.font.toString() (if verbose)
+      // Currently, there's no separation between value and display
       this.$el.value = this.font.toId()
       if (fireOnChange) {
         this.$el.dispatchEvent(new Event('change'))
