@@ -6,6 +6,7 @@
     - [Methods](#methods)
       - [getConfig](#getconfig)
       - [configure](#configure)
+      - [getFont](#getFont)
       - [setFont](#setfont)
       - [open](#open)
       - [close](#close)
@@ -89,6 +90,10 @@ Sets the picker configuration.
 > **config** _(partial)_  
 > Picker configuration options.  
 > **Type:** [`PickerConfig`](#interface-pickerconfig)
+
+#### getFont
+
+Return the currently selected font.
 
 #### setFont
 
@@ -347,7 +352,7 @@ A FontPicker configuration object.
 > Whitelist for Google Fonts.  
 > **Type:** `string[] | null`
 
-> **googleFonts**  
+> **systemFonts**  
 > Whitelist for System Fonts.  
 > **Type:** `string[] | null`
 
