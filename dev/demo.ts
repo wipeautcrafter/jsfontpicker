@@ -2,18 +2,41 @@ import FontPicker from '../src/index'
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  document.querySelector('#testBtn').onclick = () => {
-    const picker = document.querySelector('#picker');
+  const canvas = document.querySelector('#sampleCanvas'),
+    ctx = canvas.getContext('2d')
+
+  document.querySelector('#test1Btn').onclick = () => {
+    picker4button.setFont('Quicksand')
+  }
+
+  document.querySelector('#test2Btn').onclick = () => {
+    const picker = document.querySelector('#pickerInput');
     picker.value = 'Quicksand';
     picker.dispatchEvent(new Event('change'));
   }
 
-  const button = document.querySelector<HTMLButtonElement>('#picker')
-  if (!button) return
+  document.querySelector('#destroy1Btn').onclick = () => {
+    picker4button.destroy()
+  }
 
-  const canvas = document.querySelector('#canvas'), ctx = canvas.getContext('2d');
+  document.querySelector('#destroy2Btn').onclick = () => {
+    picker4input.destroy()
+  }
 
-  const picker = new FontPicker(button, {
+  const picker4button = new FontPicker('#pickerButton', {
+    variants: false,
+    verbose: true
+  })
+  .on('pick', font => {
+    console.log(font)
+    const $sample = document.querySelector('#sampleText');
+    $sample.style.fontFamily = font.family.name
+    $sample.style.fontWeight = font.weight
+    $sample.style.fontStyle = font.italic ? 'italic' : 'normal'
+  })
+
+
+  const picker4input = new FontPicker('#pickerInput', {
     //font: 'Open Sans',
     //defaultSubset: 'latin',
     //defaultCategories: ['sans-serif', 'display', 'handwriting'],
@@ -22,9 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     variants: true,
     favourites: ['Open Sans'],
   })
-
-  picker.on('open', () => console.log('Picker open'))
-  picker.on('pick', async (font) => {
+  .on('open', () => console.log('Picker open'))
+  .on('pick', async (font) => {
     console.log('Picker pick', font, font.toId(), font.toString())
 
     const fontName = font.toString()
@@ -48,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.font = `900 italic 2em ${fontName}`
     ctx.fillText(fontName + ' extrabold italic ', 10, 100)
   })
-  picker.on('cancel', () => console.log('Picker cancel'))
-  picker.on('close', () => console.log('Picker close'))
-
+  .on('cancel', () => console.log('Picker cancel'))
+  .on('close', () => console.log('Picker close'))
 })

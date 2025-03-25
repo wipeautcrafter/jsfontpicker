@@ -1,10 +1,5 @@
 body {
-  margin: 0;
   font-family: sans-serif;
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-
   color: var(--fp-body-color);
   background-color: var(--fp-body-bg);
 }

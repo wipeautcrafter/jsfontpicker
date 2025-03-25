@@ -17,8 +17,9 @@ export class FontPicker extends EventEmitter<{
 }> {
   static FontLoader = FontLoader
 
-  private $el: HTMLButtonElement | HTMLInputElement
-  private isInput: boolean
+  private $el: HTMLButtonElement | HTMLInputElement | HTMLDivElement
+  private $inputEl: HTMLInputElement
+  private orgInputType: string
 
   private _font: Font
   get font() {
@@ -78,17 +79,24 @@ export class FontPicker extends EventEmitter<{
     super()
     this.$el = typeof el === 'string' ? document.querySelector(el)! : el
 
+    if (this.$el instanceof HTMLInputElement) {
+      // This is an <input> element. Wrap inside <div>.
+      this.orgInputType = this.$el.type
+      if (this.$el.value) { config.font = this.$el.value }
+      const $wrap = document.createElement('div')
+      $wrap.style.display = 'inline-block'
+      this.$el.after($wrap)
+      this.$inputEl = this.$el
+      this.$inputEl.type = 'hidden'
+      this.$el = $wrap
+
+      this.changeHandler = () => this.setFont(this.$inputEl.value)
+      this.$inputEl.addEventListener('change', this.changeHandler)
+    }
+
     this.$el.classList.add('font-picker', 'fpb__input', 'fpb__dropdown')
     this.clickHandler = this.open.bind(this)
     this.$el.addEventListener('click', this.clickHandler)
-
-    if ((this.isInput = this.$el instanceof HTMLInputElement)) {
-      this.$el.readOnly = true
-      this.$el.role = 'button'
-      if (this.$el.value) { config.font = this.$el.value }
-      this.changeHandler = () => this.setFont(this.$el.value)
-      this.$el.addEventListener('change', this.changeHandler)
-    }
 
     this.configure(config)
     this.initialize()
@@ -177,15 +185,13 @@ export class FontPicker extends EventEmitter<{
       throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`)
     }
 
-    this.$el.dataset.font = this.font.toId()
     const text = this._config.verbose ? this.font.toString() : this.font.toId()
     this.$el.textContent = text
-    if (this.isInput) {
-      // TODO: input-value should be this.font.toId(), but display should be this.font.toString() (if verbose)
-      // Currently, there's no separation between value and display
-      this.$el.value = this.font.toId()
+    this.$el.dataset.font = this.font.toId()
+    if (this.$inputEl) {
+      this.$inputEl.value = this.font.toId()
       if (fireOnChange) {
-        this.$el.dispatchEvent(new Event('change'))
+        this.$inputEl.dispatchEvent(new Event('change'))
       }
     }
 
@@ -237,15 +243,14 @@ export class FontPicker extends EventEmitter<{
     if (this.clickHandler) this.$el.removeEventListener('click', this.clickHandler)
 
     this.$el.classList.remove('font-picker', 'fpb__input', 'fpb__dropdown')
-    this.$el.value = ''
     this.$el.removeAttribute('data-font')
     this.$el.style.removeProperty('font-family')
     this.$el.style.removeProperty('font-weight')
     this.$el.style.removeProperty('font-style')
 
-    if (this.isInput) {
-      this.$el.removeAttribute('role')
-      this.$el.removeAttribute('readOnly')
+    if (this.$inputEl) {
+      this.$inputEl.type = this.orgInputType
+      //this.$inputEl.value = ''
     }
   }
 }

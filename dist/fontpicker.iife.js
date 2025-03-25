@@ -1583,7 +1583,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     constructor(el, config = {}) {
       super();
       __publicField(this, "$el");
-      __publicField(this, "isInput");
+      __publicField(this, "$inputEl");
+      __publicField(this, "orgInputType");
       __publicField(this, "_font");
       __publicField(this, "_families");
       __publicField(this, "_favourites");
@@ -1612,18 +1613,23 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       __publicField(this, "clickHandler");
       __publicField(this, "changeHandler");
       this.$el = typeof el === "string" ? document.querySelector(el) : el;
-      this.$el.classList.add("font-picker", "fpb__input", "fpb__dropdown");
-      this.clickHandler = this.open.bind(this);
-      this.$el.addEventListener("click", this.clickHandler);
-      if (this.isInput = this.$el instanceof HTMLInputElement) {
-        this.$el.readOnly = true;
-        this.$el.role = "button";
+      if (this.$el instanceof HTMLInputElement) {
+        this.orgInputType = this.$el.type;
         if (this.$el.value) {
           config.font = this.$el.value;
         }
-        this.changeHandler = () => this.setFont(this.$el.value);
-        this.$el.addEventListener("change", this.changeHandler);
+        const $wrap = document.createElement("div");
+        $wrap.style.display = "inline-block";
+        this.$el.after($wrap);
+        this.$inputEl = this.$el;
+        this.$inputEl.type = "hidden";
+        this.$el = $wrap;
+        this.changeHandler = () => this.setFont(this.$inputEl.value);
+        this.$inputEl.addEventListener("change", this.changeHandler);
       }
+      this.$el.classList.add("font-picker", "fpb__input", "fpb__dropdown");
+      this.clickHandler = this.open.bind(this);
+      this.$el.addEventListener("click", this.clickHandler);
       this.configure(config);
       this.initialize();
     }
@@ -1701,13 +1707,13 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (!this.font.family.variants.includes(this.font.variant)) {
         throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
       }
-      this.$el.dataset.font = this.font.toId();
       const text = this._config.verbose ? this.font.toString() : this.font.toId();
       this.$el.textContent = text;
-      if (this.isInput) {
-        this.$el.value = this.font.toId();
+      this.$el.dataset.font = this.font.toId();
+      if (this.$inputEl) {
+        this.$inputEl.value = this.font.toId();
         if (fireOnChange) {
-          this.$el.dispatchEvent(new Event("change"));
+          this.$inputEl.dispatchEvent(new Event("change"));
         }
       }
       this.$el.style.fontFamily = `${this.font.family}`;
@@ -1744,14 +1750,12 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (this.changeHandler) this.$el.removeEventListener("change", this.changeHandler);
       if (this.clickHandler) this.$el.removeEventListener("click", this.clickHandler);
       this.$el.classList.remove("font-picker", "fpb__input", "fpb__dropdown");
-      this.$el.value = "";
       this.$el.removeAttribute("data-font");
       this.$el.style.removeProperty("font-family");
       this.$el.style.removeProperty("font-weight");
       this.$el.style.removeProperty("font-style");
-      if (this.isInput) {
-        this.$el.removeAttribute("role");
-        this.$el.removeAttribute("readOnly");
+      if (this.$inputEl) {
+        this.$inputEl.type = this.orgInputType;
       }
     }
   }

@@ -64,7 +64,8 @@ declare class FontPicker extends default_2<{
 }> {
     static FontLoader: typeof FontLoader;
     private $el;
-    private isInput;
+    private $inputEl;
+    private orgInputType;
     private _font;
     get font(): Font;
     private _families;
