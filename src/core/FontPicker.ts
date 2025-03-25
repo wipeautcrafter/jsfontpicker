@@ -206,10 +206,6 @@ export class FontPicker extends EventEmitter<{
     }
   }
 
-  getFont() {
-    return this.font
-  }
-
   markFavourite(family: FontFamily, value?: boolean) {
     if (value === undefined) value = !this.favourites.has(family)
 

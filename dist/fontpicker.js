@@ -1721,9 +1721,6 @@ class FontPicker extends EventEmitter$1 {
       }
     }
   }
-  getFont() {
-    return this.font;
-  }
   markFavourite(family, value) {
     if (value === void 0) value = !this.favourites.has(family);
     if (value) {

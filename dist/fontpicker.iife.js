@@ -1723,9 +1723,6 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         }
       }
     }
-    getFont() {
-      return this.font;
-    }
     markFavourite(family, value) {
       if (value === void 0) value = !this.favourites.has(family);
       if (value) {

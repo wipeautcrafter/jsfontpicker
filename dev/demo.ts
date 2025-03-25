@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx = canvas.getContext('2d')
 
   document.querySelector('#getFont1Btn').onclick = () => {
-    console.log(picker4button.getFont())
+    console.log(picker4button.font)
   }
 
   document.querySelector('#getFont2Btn').onclick = () => {
-    console.log(picker4input.getFont())
+    console.log(picker4input.font)
   }
 
   document.querySelector('#setFont1Btn').onclick = () => {
