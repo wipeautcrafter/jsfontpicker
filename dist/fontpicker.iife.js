@@ -1625,6 +1625,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         this.$el = $wrap;
         this.changeHandler = () => this.setFont(this.$inputEl.value);
         this.$inputEl.addEventListener("change", this.changeHandler);
+      } else if (this.$el.dataset.font) {
+        config.font = this.$el.dataset.font;
       }
       this.$el.classList.add("font-picker", "fpb__input", "fpb__dropdown");
       this.clickHandler = this.open.bind(this);
