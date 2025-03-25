@@ -347,7 +347,7 @@ A FontPicker configuration object.
 > Whitelist for Google Fonts.  
 > **Type:** `string[] | null`
 
-> **googleFonts**  
+> **systemFonts**  
 > Whitelist for System Fonts.  
 > **Type:** `string[] | null`
 
