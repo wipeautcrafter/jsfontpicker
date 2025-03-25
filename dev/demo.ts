@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     //defaultSubset: 'latin',
     //defaultCategories: ['sans-serif', 'display', 'handwriting'],
     language: 'nl',
-    verbose: false,
-    variants: false,
+    verbose: true,
+    variants: true,
     favourites: ['Open Sans'],
   })
 
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     ctx.clearRect(0,0,canvas.width,canvas.height)
     ctx.textBaseline = 'top'
-    ctx.fillStyle = '#fff'
+    ctx.fillStyle = '#000'
     ctx.font = `2em ${fontName}`
     ctx.fillText(fontName + ' normal', 10, 0)
 
