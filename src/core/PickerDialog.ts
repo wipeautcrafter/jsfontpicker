@@ -511,8 +511,8 @@ export class PickerDialog {
   }
 
   submit() {
-    this.picker.setFont(this.selected, true /* Fire `change` event */)
-    this.picker.emit('pick', this.selected)
+    this.picker.setFont(this.selected, true /* Emit events */)
+    //this.picker.emit('pick', this.selected)
     this.close()
   }
 

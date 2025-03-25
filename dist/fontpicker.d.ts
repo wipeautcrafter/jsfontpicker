@@ -102,7 +102,7 @@ declare class FontPicker extends default_2<{
     private initialize;
     private updateFamilies;
     getFamily(name: string): FontFamily;
-    setFont(font: Font | FontFamily | string, fireOnChange?: boolean): void;
+    setFont(font: Font | FontFamily | string, emit?: boolean): void;
     markFavourite(family: FontFamily, value?: boolean): boolean;
     open(): Promise<Font>;
     close(): Promise<void>;

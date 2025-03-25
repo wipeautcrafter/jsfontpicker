@@ -1561,9 +1561,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.picker.setFont(
         this.selected,
         true
-        /* Fire `change` event */
+        /* Emit events */
       );
-      this.picker.emit("pick", this.selected);
       this.close();
     }
     cancel() {
@@ -1694,7 +1693,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (!family) throw new Error(`Could not find font family '${name}'!`);
       return family;
     }
-    setFont(font, fireOnChange = false) {
+    setFont(font, emit = false) {
       if (font instanceof Font) {
         this._font = font;
       } else if (typeof font === "string") {
@@ -1712,13 +1711,16 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.$el.dataset.font = this.font.toId();
       if (this.$inputEl) {
         this.$inputEl.value = this.font.toId();
-        if (fireOnChange) {
+        if (emit) {
           this.$inputEl.dispatchEvent(new Event("change"));
         }
       }
       this.$el.style.fontFamily = `${this.font.family}`;
       this.$el.style.fontWeight = this.font.weight.toString();
       this.$el.style.fontStyle = this.font.style;
+      if (emit) {
+        this.emit("pick", this.font);
+      }
       FontLoader.load(this.font.family);
     }
     markFavourite(family, value) {

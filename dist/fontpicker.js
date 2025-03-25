@@ -1559,9 +1559,8 @@ class PickerDialog {
     this.picker.setFont(
       this.selected,
       true
-      /* Fire `change` event */
+      /* Emit events */
     );
-    this.picker.emit("pick", this.selected);
     this.close();
   }
   cancel() {
@@ -1692,7 +1691,7 @@ class FontPicker extends EventEmitter$1 {
     if (!family) throw new Error(`Could not find font family '${name}'!`);
     return family;
   }
-  setFont(font, fireOnChange = false) {
+  setFont(font, emit2 = false) {
     if (font instanceof Font) {
       this._font = font;
     } else if (typeof font === "string") {
@@ -1710,13 +1709,16 @@ class FontPicker extends EventEmitter$1 {
     this.$el.dataset.font = this.font.toId();
     if (this.$inputEl) {
       this.$inputEl.value = this.font.toId();
-      if (fireOnChange) {
+      if (emit2) {
         this.$inputEl.dispatchEvent(new Event("change"));
       }
     }
     this.$el.style.fontFamily = `${this.font.family}`;
     this.$el.style.fontWeight = this.font.weight.toString();
     this.$el.style.fontStyle = this.font.style;
+    if (emit2) {
+      this.emit("pick", this.font);
+    }
     FontLoader.load(this.font.family);
   }
   markFavourite(family, value) {

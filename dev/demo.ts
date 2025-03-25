@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx = canvas.getContext('2d')
 
   document.querySelector('#test1Btn').onclick = () => {
-    picker4button.setFont('Quicksand')
+    picker4button.setFont('Quicksand', true)
   }
 
   document.querySelector('#test2Btn').onclick = () => {

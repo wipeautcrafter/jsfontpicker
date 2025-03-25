@@ -166,7 +166,7 @@ export class FontPicker extends EventEmitter<{
     return family
   }
 
-  setFont(font: Font | FontFamily | string, fireOnChange: boolean = false) {
+  setFont(font: Font | FontFamily | string, emit: boolean = false) {
     if (font instanceof Font) {
       // directly set font
       this._font = font
@@ -190,7 +190,7 @@ export class FontPicker extends EventEmitter<{
     this.$el.dataset.font = this.font.toId()
     if (this.$inputEl) {
       this.$inputEl.value = this.font.toId()
-      if (fireOnChange) {
+      if (emit) {
         this.$inputEl.dispatchEvent(new Event('change'))
       }
     }
@@ -198,6 +198,10 @@ export class FontPicker extends EventEmitter<{
     this.$el.style.fontFamily = `${this.font.family}`
     this.$el.style.fontWeight = this.font.weight.toString()
     this.$el.style.fontStyle = this.font.style
+
+    if (emit) {
+      this.emit('pick', this.font)
+    }
 
     FontLoader.load(this.font.family)
   }
