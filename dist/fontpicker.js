@@ -1709,17 +1709,20 @@ class FontPicker extends EventEmitter$1 {
     this.$el.dataset.font = this.font.toId();
     if (this.$inputEl) {
       this.$inputEl.value = this.font.toId();
-      if (emit2) {
-        this.$inputEl.dispatchEvent(new Event("change"));
-      }
     }
     this.$el.style.fontFamily = `${this.font.family}`;
     this.$el.style.fontWeight = this.font.weight.toString();
     this.$el.style.fontStyle = this.font.style;
+    FontLoader.load(this.font.family);
     if (emit2) {
       this.emit("pick", this.font);
+      if (this.$inputEl) {
+        this.$inputEl.dispatchEvent(new Event("change"));
+      }
     }
-    FontLoader.load(this.font.family);
+  }
+  getFont() {
+    return this.font;
   }
   markFavourite(family, value) {
     if (value === void 0) value = !this.favourites.has(family);

@@ -5,11 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.querySelector('#sampleCanvas'),
     ctx = canvas.getContext('2d')
 
-  document.querySelector('#test1Btn').onclick = () => {
+  document.querySelector('#getFont1Btn').onclick = () => {
+    console.log(picker4button.getFont())
+  }
+
+  document.querySelector('#getFont2Btn').onclick = () => {
+    console.log(picker4input.getFont())
+  }
+
+  document.querySelector('#setFont1Btn').onclick = () => {
     picker4button.setFont('Quicksand', true)
   }
 
-  document.querySelector('#test2Btn').onclick = () => {
+  document.querySelector('#setFont2Btn').onclick = () => {
     const picker = document.querySelector('#pickerInput');
     picker.value = 'Quicksand';
     picker.dispatchEvent(new Event('change'));

@@ -16,7 +16,8 @@
   <div style="text-align: center">
     <label for="pickerButton" class="form-label">Font (button)</label>
     <button id="pickerButton" style="margin:0 auto"></button>
-    <button id="test1Btn">Set font to Quicksand</button>
+    <button id="getFont1Btn">Get font</button>
+    <button id="setFont1Btn">Set font to Quicksand</button>
     <button id="destroy1Btn">Destroy</button>
 
     <p id="sampleText">The Quick Brown Fox Jumps Over The Lazy Dog</p>
@@ -28,7 +29,8 @@
     <label for="pickerInput" class="form-label">Font (input)</label>
     <input name="font" id="pickerInput" value="Roboto Condensed:800i" onchange="console.log('onchange',this.value)">
     <br>
-    <button id="test2Btn">Set font to Quicksand</button>
+    <button id="getFont2Btn">Get font</button>
+    <button id="setFont2Btn">Set font to Quicksand</button>
     <button id="destroy2Btn">Destroy</button>
     <br>
     <canvas id="sampleCanvas" width="400" height="150" style="border:1px solid red"></canvas>
