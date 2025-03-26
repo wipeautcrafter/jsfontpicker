@@ -179,6 +179,11 @@
   margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
+  font-family: inherit;
+}
+
+.fpb__modal button:hover {
+  background-color: transparent !important; /* CSS reset */
 }
 
 .fpb__modal-footer {
@@ -237,6 +242,7 @@
   border-block: 1px solid var(--fp-border-color) !important;
 
   padding: 0.5rem 1rem;
+  margin: 0;
 }
 
 .fpb__accordion-toggle::after {

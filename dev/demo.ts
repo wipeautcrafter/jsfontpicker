@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const picker4button = new FontPicker('#pickerButton', {
     variants: false,
-    verbose: true
+    verbose: true,
+	 googleFonts: ['Pacifico', 'Open Sans', 'Poppins'],
   })
   .on('pick', font => {
     console.log(font)
