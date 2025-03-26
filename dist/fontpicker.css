@@ -429,10 +429,10 @@ input:disabled + .fpb__btn-toggle {
 /* Font picker button element */
 .font-picker {
   text-align: start;
-
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  vertical-align: middle;
 }
 input.font-picker {
   caret-color: transparent;
