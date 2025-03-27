@@ -53,9 +53,12 @@ declare class FontLoader {
 
 declare class FontPicker extends default_2<{
     open: [];
+    opened: [];
     pick: [font: Font | null];
+    clear: [];
     cancel: [];
     close: [];
+    closed: [];
 }> {
     static FontLoader: typeof FontLoader;
     private $el;

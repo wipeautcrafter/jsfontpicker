@@ -526,18 +526,19 @@ export class PickerDialog {
 
     requestAnimationFrame(() => {
       this.modal.open()
+      this.picker.emit('open')
       this.modal.once('opened', () => {
-        this.picker.emit('open')
+        this.picker.emit('opened')
         this.$fonts.focus()
       })
     })
 
     await new Promise<void>((resolve) => {
-      // TODO: bind new closing event
+      this.modal.once('closing', () => this.picker.emit('close'))
       this.modal.once('closed', () => resolve())
     })
 
-    this.picker.emit('close')
+    this.picker.emit('closed')
     this.$modal.remove()
     this.$modalBackdrop.remove()
   }
@@ -549,7 +550,7 @@ export class PickerDialog {
   }
 
   clear() {
-    this.picker.clear()
+    this.picker.clear(true /* Emit events */)
     this.close()
   }
 

@@ -12,9 +12,12 @@ let pickerDialog: PickerDialog | null = null
 
 export class FontPicker extends EventEmitter<{
   open: []
+  opened: []
   pick: [font: Font | null]
+  clear: []
   cancel: []
   close: []
+  closed: []
 }> {
   static FontLoader = FontLoader
 
@@ -65,8 +68,8 @@ export class FontPicker extends EventEmitter<{
 
     extraFonts: [],
 
-    showCancelButton: false,
-    showClearButton: true,
+    showCancelButton: true,
+    showClearButton: false,
   }
 
   getConfig() {
@@ -235,6 +238,7 @@ export class FontPicker extends EventEmitter<{
 
   clear(emit?: boolean) {
     this.setFont(null, emit)
+    if (emit) this.emit('clear')
   }
 
   markFavourite(family: FontFamily, value?: boolean) {

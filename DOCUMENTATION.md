@@ -17,8 +17,11 @@
       - [favourites](#favourites)
     - [Events](#events)
       - [open](#open-1)
+      - [opened](#opened)
       - [close](#close-1)
+      - [closed](#closed)
       - [pick](#pick)
+      - [clear](#clear-1)
       - [cancel](#cancel)
   - [(class) Font](#class-font)
     - [Methods](#methods-1)
@@ -186,18 +189,34 @@ Destroys the font picker dialog.
 
 #### open
 
-Fires when the font picker dialog is opened.
+Fires when the font picker dialog starts opening.
 
 ```
 .on('open', () => ...)
 ```
 
+#### opened
+
+Fires when the font picker dialog has finished opening.
+
+```
+.on('opened', () => ...)
+```
+
 #### close
 
-Fires when the font picker dialog is closed.
+Fires when the font picker dialog starts closing.
 
 ```
 .on('close', () => ...)
+```
+
+#### closed
+
+Fires when the font picker dialog has finished closing.
+
+```
+.on('closed', () => ...)
 ```
 
 #### pick
@@ -213,6 +232,14 @@ Fires when a font is succesfully picked.
 > **font**  
 > The picked font.  
 > **Type:** [`Font`](#class-font) | `null`
+
+#### clear
+
+Fires when font is cleared.
+
+```
+.on('clear', () => ...)
+```
 
 #### cancel
 

@@ -1585,15 +1585,17 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.assignDefaults();
       requestAnimationFrame(() => {
         this.modal.open();
+        this.picker.emit("open");
         this.modal.once("opened", () => {
-          this.picker.emit("open");
+          this.picker.emit("opened");
           this.$fonts.focus();
         });
       });
       await new Promise((resolve) => {
+        this.modal.once("closing", () => this.picker.emit("close"));
         this.modal.once("closed", () => resolve());
       });
-      this.picker.emit("close");
+      this.picker.emit("closed");
       this.$modal.remove();
       this.$modalBackdrop.remove();
     }
@@ -1606,7 +1608,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.close();
     }
     clear() {
-      this.picker.clear();
+      this.picker.clear(
+        true
+        /* Emit events */
+      );
       this.close();
     }
     cancel() {
@@ -1652,8 +1657,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         googleFonts: null,
         systemFonts: null,
         extraFonts: [],
-        showCancelButton: false,
-        showClearButton: true
+        showCancelButton: true,
+        showClearButton: false
       });
       __publicField(this, "clickHandler");
       __publicField(this, "changeHandler");
@@ -1785,6 +1790,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     }
     clear(emit) {
       this.setFont(null, emit);
+      if (emit) this.emit("clear");
     }
     markFavourite(family, value) {
       if (value === void 0) value = !this.favourites.has(family);

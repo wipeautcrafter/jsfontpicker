@@ -38,15 +38,31 @@ document.addEventListener('DOMContentLoaded', () => {
     variants: true,
     verbose: true,
     googleFonts: ['Pacifico', 'Open Sans', 'Poppins'],
-  }).on('pick', (font) => {
-    console.log(font)
-    const $sample = document.querySelector<HTMLElement>('#sampleText')!
-    if (!font) return
-
-    $sample.style.fontFamily = font.family.name
-    $sample.style.fontWeight = font.weight.toString()
-    $sample.style.fontStyle = font.italic ? 'italic' : 'normal'
   })
+    .on('pick', (font) => {
+      console.log(font)
+      const $sample = document.querySelector<HTMLElement>('#sampleText')!
+      if (!font) return
+
+      $sample.style.fontFamily = font.family.name
+      $sample.style.fontWeight = font.weight.toString()
+      $sample.style.fontStyle = font.italic ? 'italic' : 'normal'
+    })
+    .on('open', () => {
+      console.log('open')
+    })
+    .on('opened', () => {
+      console.log('opened')
+    })
+    .on('close', () => {
+      console.log('close')
+    })
+    .on('closed', () => {
+      console.log('closed')
+    })
+    .on('clear', () => {
+      console.log('clear')
+    })
 
   const picker4input = new FontPicker('#pickerInput', {
     //font: 'Open Sans',

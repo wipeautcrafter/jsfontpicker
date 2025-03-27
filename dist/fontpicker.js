@@ -1583,15 +1583,17 @@ class PickerDialog {
     this.assignDefaults();
     requestAnimationFrame(() => {
       this.modal.open();
+      this.picker.emit("open");
       this.modal.once("opened", () => {
-        this.picker.emit("open");
+        this.picker.emit("opened");
         this.$fonts.focus();
       });
     });
     await new Promise((resolve) => {
+      this.modal.once("closing", () => this.picker.emit("close"));
       this.modal.once("closed", () => resolve());
     });
-    this.picker.emit("close");
+    this.picker.emit("closed");
     this.$modal.remove();
     this.$modalBackdrop.remove();
   }
@@ -1604,7 +1606,10 @@ class PickerDialog {
     this.close();
   }
   clear() {
-    this.picker.clear();
+    this.picker.clear(
+      true
+      /* Emit events */
+    );
     this.close();
   }
   cancel() {
@@ -1650,8 +1655,8 @@ class FontPicker extends EventEmitter$1 {
       googleFonts: null,
       systemFonts: null,
       extraFonts: [],
-      showCancelButton: false,
-      showClearButton: true
+      showCancelButton: true,
+      showClearButton: false
     });
     __publicField(this, "clickHandler");
     __publicField(this, "changeHandler");
@@ -1783,6 +1788,7 @@ class FontPicker extends EventEmitter$1 {
   }
   clear(emit2) {
     this.setFont(null, emit2);
+    if (emit2) this.emit("clear");
   }
   markFavourite(family, value) {
     if (value === void 0) value = !this.favourites.has(family);
