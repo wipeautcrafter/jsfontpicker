@@ -31,7 +31,7 @@ A font picker component supporting Google and system fonts. Zero dependencies.
 - 🇳🇱 Translations for English, Dutch, German, Spanish and French
 - 💪 No JQuery, just pure ES6
 
-## [Live Demo](https://wipeautcrafter.github.io/jsfontpicker/demo)
+## [Live Demo](https://jsfontpicker.com)
 
 👆 Try it out now!
 
