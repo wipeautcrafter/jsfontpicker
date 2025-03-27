@@ -1776,7 +1776,11 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       }
       if (this.font) {
         if (!this.font.family.variants.includes(this.font.variant)) {
-          throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
+          const variant = this.font.family.getDefaultVariant();
+          console.warn(
+            `Variant ${this.font.variant} not supported by '${this.font.family.name}', falling back to ${variant}.`
+          );
+          this._font = Font.parse(this.font.family, variant);
         }
         const text = this._config.verbose ? this.font.toString() : this.font.toConcise();
         this.$el.textContent = text;
