@@ -1232,6 +1232,9 @@ class PickerDialog {
     __publicField(this, "$preview");
     __publicField(this, "$fonts");
     __publicField(this, "$variants");
+    __publicField(this, "$filtersText");
+    __publicField(this, "$metricsText");
+    __publicField(this, "$sortText");
     __publicField(this, "$clearFiltersBtn");
     __publicField(this, "$cancelBtn");
     __publicField(this, "$clearBtn");
@@ -1272,6 +1275,9 @@ class PickerDialog {
     this.$cancelBtn = this.$modal.querySelector("#fp__cancel");
     this.$clearBtn = this.$modal.querySelector("#fp__clear");
     this.$pickBtn = this.$modal.querySelector("#fp__pick");
+    this.$filtersText = this.$modal.querySelector("#fp__t-filters");
+    this.$metricsText = this.$modal.querySelector("#fp__t-metrics");
+    this.$sortText = this.$modal.querySelector("#fp__t-sort");
     this.modal = new Modal(this.$modal);
     new Accordion(this.$modal.querySelector(".fpb__accordion"));
   }
@@ -1404,9 +1410,9 @@ class PickerDialog {
     this.$curvature.append(...createOptions(dict.curvatures));
     this.$sort.append(...createOptions(dict.sorts));
     this.$preview.textContent = this.config.previewText ?? dict.sampleText;
-    this.$modal.querySelector("#fp__t-filters").textContent = dict.filters;
-    this.$modal.querySelector("#fp__t-metrics").textContent = dict.metrics;
-    this.$modal.querySelector("#fp__t-sort").textContent = dict.sort;
+    this.$filtersText.textContent = dict.filters;
+    this.$metricsText.textContent = dict.metrics;
+    this.$sortText.textContent = dict.sort;
     this.$modal.querySelector("#fp__t-clear-filters").textContent = dict.clearFilters;
     this.$modal.querySelector("#fp__t-cancel").textContent = dict.cancel;
     this.$modal.querySelector("#fp__t-clear").textContent = dict.clear;
@@ -1517,19 +1523,23 @@ class PickerDialog {
   }
   bindEvents() {
     var _a, _b;
-    const filterCallback = () => {
-      this.filtersChanged();
+    const filtersCallback = () => {
+      this.filtersChanged(this.$filtersText);
       this.updateFilter();
     };
-    this.$categories.addEventListener("input", filterCallback);
-    this.$search.addEventListener("input", filterCallback);
-    this.$subset.addEventListener("input", filterCallback);
-    this.$width.addEventListener("input", filterCallback);
-    this.$thickness.addEventListener("input", filterCallback);
-    this.$complexity.addEventListener("input", filterCallback);
-    this.$curvature.addEventListener("input", filterCallback);
+    this.$categories.addEventListener("input", filtersCallback);
+    this.$search.addEventListener("input", filtersCallback);
+    this.$subset.addEventListener("input", filtersCallback);
+    const metricsCallback = () => {
+      this.filtersChanged(this.$metricsText);
+      this.updateFilter();
+    };
+    this.$width.addEventListener("input", metricsCallback);
+    this.$thickness.addEventListener("input", metricsCallback);
+    this.$complexity.addEventListener("input", metricsCallback);
+    this.$curvature.addEventListener("input", metricsCallback);
     const sortCallback = () => {
-      this.filtersChanged();
+      this.filtersChanged(this.$sortText);
       this.updateSort();
     };
     this.$sort.addEventListener("input", sortCallback);
@@ -1553,8 +1563,15 @@ class PickerDialog {
     if (!this.config.showClearButton) this.$clearBtn.remove();
     if (!this.config.showCancelButton) this.$cancelBtn.remove();
   }
-  filtersChanged(changed = true) {
-    this.$clearFiltersBtn.classList.toggle("fpb__hidden", !changed);
+  filtersChanged($target) {
+    if ($target) {
+      $target.classList.add("fp__changed");
+    } else {
+      this.$filtersText.classList.remove("fp__changed");
+      this.$metricsText.classList.remove("fp__changed");
+      this.$sortText.classList.remove("fp__changed");
+    }
+    this.$clearFiltersBtn.classList.toggle("fpb__hidden", !$target);
   }
   assignDefaults() {
     setActiveBadges(this.$categories, this.config.defaultCategories);
@@ -1568,7 +1585,7 @@ class PickerDialog {
     this.$sortOrder.classList.toggle("active", this.config.sortReverse);
     this.updateSort();
     this.updateFilter();
-    this.filtersChanged(false);
+    this.filtersChanged(null);
   }
   async open(picker) {
     if (this.opened) return;

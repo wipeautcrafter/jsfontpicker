@@ -10,6 +10,12 @@ input.font-picker {
   caret-color: transparent;
 }
 
+/* Filters */
+.fp__changed::after {
+  content: '*';
+  color: var(--fp-secondary);
+}
+
 /* Font list */
 #fp__fonts {
   display: flex;

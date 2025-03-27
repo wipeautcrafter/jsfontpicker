@@ -44,6 +44,10 @@ export class PickerDialog {
   private $fonts: HTMLDivElement
   private $variants: HTMLDivElement
 
+  private $filtersText: HTMLSpanElement
+  private $metricsText: HTMLSpanElement
+  private $sortText: HTMLSpanElement
+
   private $clearFiltersBtn: HTMLButtonElement
 
   private $cancelBtn: HTMLButtonElement
@@ -98,6 +102,10 @@ export class PickerDialog {
     this.$cancelBtn = this.$modal.querySelector('#fp__cancel')!
     this.$clearBtn = this.$modal.querySelector('#fp__clear')!
     this.$pickBtn = this.$modal.querySelector('#fp__pick')!
+
+    this.$filtersText = this.$modal.querySelector('#fp__t-filters')!
+    this.$metricsText = this.$modal.querySelector('#fp__t-metrics')!
+    this.$sortText = this.$modal.querySelector('#fp__t-sort')!
 
     this.modal = new Modal(this.$modal)
     new Accordion(this.$modal.querySelector('.fpb__accordion')!)
@@ -276,9 +284,9 @@ export class PickerDialog {
 
     this.$preview.textContent = this.config.previewText ?? dict.sampleText
 
-    this.$modal.querySelector('#fp__t-filters')!.textContent = dict.filters
-    this.$modal.querySelector('#fp__t-metrics')!.textContent = dict.metrics
-    this.$modal.querySelector('#fp__t-sort')!.textContent = dict.sort
+    this.$filtersText.textContent = dict.filters
+    this.$metricsText.textContent = dict.metrics
+    this.$sortText.textContent = dict.sort
 
     this.$modal.querySelector('#fp__t-clear-filters')!.textContent = dict.clearFilters
 
@@ -430,21 +438,27 @@ export class PickerDialog {
   }
 
   private bindEvents() {
-    const filterCallback = () => {
-      this.filtersChanged()
+    const filtersCallback = () => {
+      this.filtersChanged(this.$filtersText)
       this.updateFilter()
     }
 
-    this.$categories.addEventListener('input', filterCallback)
-    this.$search.addEventListener('input', filterCallback)
-    this.$subset.addEventListener('input', filterCallback)
-    this.$width.addEventListener('input', filterCallback)
-    this.$thickness.addEventListener('input', filterCallback)
-    this.$complexity.addEventListener('input', filterCallback)
-    this.$curvature.addEventListener('input', filterCallback)
+    this.$categories.addEventListener('input', filtersCallback)
+    this.$search.addEventListener('input', filtersCallback)
+    this.$subset.addEventListener('input', filtersCallback)
+
+    const metricsCallback = () => {
+      this.filtersChanged(this.$metricsText)
+      this.updateFilter()
+    }
+
+    this.$width.addEventListener('input', metricsCallback)
+    this.$thickness.addEventListener('input', metricsCallback)
+    this.$complexity.addEventListener('input', metricsCallback)
+    this.$curvature.addEventListener('input', metricsCallback)
 
     const sortCallback = () => {
-      this.filtersChanged()
+      this.filtersChanged(this.$sortText)
       this.updateSort()
     }
 
@@ -482,8 +496,16 @@ export class PickerDialog {
     if (!this.config.showCancelButton) this.$cancelBtn.remove()
   }
 
-  private filtersChanged(changed = true) {
-    this.$clearFiltersBtn.classList.toggle('fpb__hidden', !changed)
+  private filtersChanged($target: HTMLElement | null) {
+    if ($target) {
+      $target.classList.add('fp__changed')
+    } else {
+      this.$filtersText.classList.remove('fp__changed')
+      this.$metricsText.classList.remove('fp__changed')
+      this.$sortText.classList.remove('fp__changed')
+    }
+
+    this.$clearFiltersBtn.classList.toggle('fpb__hidden', !$target)
   }
 
   private assignDefaults() {
@@ -505,7 +527,7 @@ export class PickerDialog {
     this.updateFilter()
 
     // Hide filter clear button
-    this.filtersChanged(false)
+    this.filtersChanged(null)
   }
 
   async open(picker: FontPicker) {

@@ -99,6 +99,10 @@
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 }
+.fpb__input:hover {
+  background-color: var(--fp-body-bg) !important;
+  border: 1px solid var(--fp-border-color) !important;
+}
 .fpb__input:focus {
   outline: 0;
   border-color: var(--fp-ring-color);
@@ -461,6 +465,12 @@ input:disabled + .fpb__btn-toggle {
 }
 input.font-picker {
   caret-color: transparent;
+}
+
+/* Filters */
+.fp__changed::after {
+  content: '*';
+  color: var(--fp-secondary);
 }
 
 /* Font list */
