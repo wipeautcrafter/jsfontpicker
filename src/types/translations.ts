@@ -43,6 +43,7 @@ type Criteria = { [criterion in Criterion]: string }
 export interface Translation {
   selectFont: string
   sampleText: string
+  pickHint: string
 
   filters: string
   search: string

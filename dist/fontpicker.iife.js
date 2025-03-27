@@ -757,6 +757,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     en: {
       selectFont: "Select a font",
       sampleText: "The quick brown fox jumps over the lazy dog.",
+      pickHint: "Pick a font...",
       filters: "Filters",
       search: "Search",
       subsets: {
@@ -847,6 +848,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     nl: {
       selectFont: "Selecteer een lettertype",
       sampleText: "Wazig tv-filmpje rond chique skybox.",
+      pickHint: "Kies een lettertype...",
       filters: "Filters",
       search: "Zoeken",
       subsets: {
@@ -937,6 +939,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     de: {
       selectFont: "Schriftart auswählen",
       sampleText: "Falsches Üben von Xylophonmusik quält jeden größeren Zwerg.",
+      pickHint: "Wähle eine Schriftart...",
       filters: "Filter",
       search: "Suche",
       subsets: {
@@ -1027,6 +1030,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     es: {
       selectFont: "Selecciona una fuente",
       sampleText: "El veloz murciélago hindú comía feliz cardillo y kiwi.",
+      pickHint: "Elige una fuente...",
       filters: "Filtros",
       search: "Buscar",
       subsets: {
@@ -1117,6 +1121,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     fr: {
       selectFont: "Sélectionnez une police",
       sampleText: "Portez ce vieux whisky au juge blond qui fume.",
+      pickHint: "Choisissez une police...",
       filters: "Filtres",
       search: "Rechercher",
       subsets: {
@@ -1762,7 +1767,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         this.$el.style.fontStyle = this.font.style;
         FontLoader.load(this.font.family);
       } else {
-        this.$el.textContent = "Pick a font...";
+        this.$el.textContent = translations[this._config.language].pickHint;
         this.$el.dataset.font = "";
         if (this.$inputEl) {
           this.$inputEl.value = "";

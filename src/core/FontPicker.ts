@@ -3,6 +3,7 @@ import { PickerDialog } from './PickerDialog'
 import { Font } from '../helpers/Font'
 import { FontLoader } from '../helpers/FontLoader'
 import { FontFamily } from '../helpers/FontFamily'
+import { translations } from '../data/translations'
 import { googleFonts, systemFonts } from '../data/fonts'
 
 import type { PickerConfig } from '../types/fontpicker'
@@ -213,7 +214,7 @@ export class FontPicker extends EventEmitter<{
 
       FontLoader.load(this.font.family)
     } else {
-      this.$el.textContent = 'Pick a font...'
+      this.$el.textContent = translations[this._config.language].pickHint
       this.$el.dataset.font = ''
       if (this.$inputEl) {
         this.$inputEl.value = ''

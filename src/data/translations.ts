@@ -4,6 +4,7 @@ export const translations: Translations = {
   en: {
     selectFont: 'Select a font',
     sampleText: 'The quick brown fox jumps over the lazy dog.',
+    pickHint: 'Pick a font...',
 
     filters: 'Filters',
     search: 'Search',
@@ -101,6 +102,7 @@ export const translations: Translations = {
   nl: {
     selectFont: 'Selecteer een lettertype',
     sampleText: 'Wazig tv-filmpje rond chique skybox.',
+    pickHint: 'Kies een lettertype...',
 
     filters: 'Filters',
     search: 'Zoeken',
@@ -198,6 +200,7 @@ export const translations: Translations = {
   de: {
     selectFont: 'Schriftart auswählen',
     sampleText: 'Falsches Üben von Xylophonmusik quält jeden größeren Zwerg.',
+    pickHint: 'Wähle eine Schriftart...',
 
     filters: 'Filter',
     search: 'Suche',
@@ -295,6 +298,7 @@ export const translations: Translations = {
   es: {
     selectFont: 'Selecciona una fuente',
     sampleText: 'El veloz murciélago hindú comía feliz cardillo y kiwi.',
+    pickHint: 'Elige una fuente...',
 
     filters: 'Filtros',
     search: 'Buscar',
@@ -392,6 +396,7 @@ export const translations: Translations = {
   fr: {
     selectFont: 'Sélectionnez une police',
     sampleText: 'Portez ce vieux whisky au juge blond qui fume.',
+    pickHint: 'Choisissez une police...',
 
     filters: 'Filtres',
     search: 'Rechercher',

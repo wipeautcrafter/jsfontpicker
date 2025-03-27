@@ -755,6 +755,7 @@ const translations = {
   en: {
     selectFont: "Select a font",
     sampleText: "The quick brown fox jumps over the lazy dog.",
+    pickHint: "Pick a font...",
     filters: "Filters",
     search: "Search",
     subsets: {
@@ -845,6 +846,7 @@ const translations = {
   nl: {
     selectFont: "Selecteer een lettertype",
     sampleText: "Wazig tv-filmpje rond chique skybox.",
+    pickHint: "Kies een lettertype...",
     filters: "Filters",
     search: "Zoeken",
     subsets: {
@@ -935,6 +937,7 @@ const translations = {
   de: {
     selectFont: "Schriftart auswählen",
     sampleText: "Falsches Üben von Xylophonmusik quält jeden größeren Zwerg.",
+    pickHint: "Wähle eine Schriftart...",
     filters: "Filter",
     search: "Suche",
     subsets: {
@@ -1025,6 +1028,7 @@ const translations = {
   es: {
     selectFont: "Selecciona una fuente",
     sampleText: "El veloz murciélago hindú comía feliz cardillo y kiwi.",
+    pickHint: "Elige una fuente...",
     filters: "Filtros",
     search: "Buscar",
     subsets: {
@@ -1115,6 +1119,7 @@ const translations = {
   fr: {
     selectFont: "Sélectionnez une police",
     sampleText: "Portez ce vieux whisky au juge blond qui fume.",
+    pickHint: "Choisissez une police...",
     filters: "Filtres",
     search: "Rechercher",
     subsets: {
@@ -1760,7 +1765,7 @@ class FontPicker extends EventEmitter$1 {
       this.$el.style.fontStyle = this.font.style;
       FontLoader.load(this.font.family);
     } else {
-      this.$el.textContent = "Pick a font...";
+      this.$el.textContent = translations[this._config.language].pickHint;
       this.$el.dataset.font = "";
       if (this.$inputEl) {
         this.$inputEl.value = "";
