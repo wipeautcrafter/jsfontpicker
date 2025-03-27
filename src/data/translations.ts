@@ -92,7 +92,9 @@ export const translations: Translations = {
       curvature: 'Sort by Curvature',
     },
 
-    clear: 'Clear filters',
+    clearFilters: 'Clear filters',
+
+    clear: 'Clear',
     cancel: 'Cancel',
     select: 'Select',
   },
@@ -187,7 +189,9 @@ export const translations: Translations = {
       curvature: 'Sorteer op kromming',
     },
 
-    clear: 'Filters wissen',
+    clearFilters: 'Filters wissen',
+
+    clear: 'Wissen',
     cancel: 'Annuleren',
     select: 'Selecteren',
   },
@@ -282,7 +286,9 @@ export const translations: Translations = {
       curvature: 'Nach Krümmung sortieren',
     },
 
-    clear: 'Filter löschen',
+    clearFilters: 'Filter löschen',
+
+    clear: 'Löschen',
     cancel: 'Abbrechen',
     select: 'Auswählen',
   },
@@ -377,7 +383,9 @@ export const translations: Translations = {
       curvature: 'Ordenar por curvatura',
     },
 
-    clear: 'Borrar filtros',
+    clearFilters: 'Borrar filtros',
+
+    clear: 'Borrar',
     cancel: 'Cancelar',
     select: 'Seleccionar',
   },
@@ -472,7 +480,9 @@ export const translations: Translations = {
       curvature: 'Trier par courbure',
     },
 
-    clear: 'Effacer filtres',
+    clearFilters: 'Effacer filtres',
+
+    clear: 'Effacer',
     cancel: 'Annuler',
     select: 'Sélectionner',
   },

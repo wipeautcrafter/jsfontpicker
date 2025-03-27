@@ -14,9 +14,9 @@ export class Font {
     900: 'Black',
   }
 
-  family: FontFamily
-  weight: FontWeight
-  italic: boolean
+  readonly family: FontFamily
+  readonly weight: FontWeight
+  readonly italic: boolean
 
   constructor(family: FontFamily, weight: FontWeight, italic: boolean) {
     this.family = family
@@ -34,6 +34,11 @@ export class Font {
 
   toId() {
     return `${this.family}:${this.variant}`
+  }
+
+  toConcise() {
+    if (this.family.getDefaultVariant() === this.variant) return this.family.name
+    return this.toId()
   }
 
   toString() {

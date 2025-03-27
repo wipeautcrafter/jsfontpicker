@@ -7,11 +7,14 @@
       - [getConfig](#getconfig)
       - [configure](#configure)
       - [setFont](#setfont)
+      - [clear](#clear)
       - [open](#open)
       - [close](#close)
       - [destroy](#destroy)
     - [Properties](#properties)
       - [font](#font)
+      - [families](#families)
+      - [favourites](#favourites)
     - [Events](#events)
       - [open](#open-1)
       - [close](#close-1)
@@ -20,6 +23,7 @@
   - [(class) Font](#class-font)
     - [Methods](#methods-1)
       - [toId](#toid)
+      - [toConcise](#toconcise)
       - [toString](#tostring)
     - [Properties](#properties-1)
       - [family](#family)
@@ -54,8 +58,8 @@ new FontPicker(element, config)
 **Arguments**
 
 > **element**  
-> The (query for a) button or input element to bind to.
-> **Type:** [`HTMLButtonElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement) | [`HTMLInputElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement) | string
+> The (query for a) button or input element to bind to  
+> **Type:** [`HTMLButtonElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLButtonElement) | [`HTMLInputElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement) | `string`
 
 > **config** _(partial, optional)_  
 > Picker configuration options.  
@@ -95,14 +99,34 @@ Sets the picker configuration.
 Sets the currently selected font.
 
 ```js
-.setFont(font)
+.setFont(font, [emit])
 ```
 
 **Arguments**
 
 > **font**  
 > Font family name, optionally with variant.  
-> **Type:** `string`
+> **Type:** [`Font`](#class-font) | [`FontFamily`](#class-fontfamily) | `string` | `null`
+
+> **emit**  
+> Emit an event?  
+> **Type:** `boolean`  
+> **Default:** `false`
+
+#### clear
+
+Clears the picker, so no font is currently selected.
+
+```js
+.clear([emit])
+```
+
+**Arguments**
+
+> **emit**  
+> Emit an event?  
+> **Type:** `boolean`  
+> **Default:** `false`
 
 #### open
 
@@ -115,7 +139,7 @@ Opens the font picker dialog.
 **Returns**
 
 > Promise with the picked font.  
-> **Type:** [`Promise<Font>`](#class-font)
+> **Type:** [`Promise<Font | null>`](#class-font)
 
 #### close
 
@@ -124,6 +148,11 @@ Closes the font picker dialog.
 ```js
 .close()
 ```
+
+**Returns**
+
+> Empty promise.  
+> **Type:** `Promise<void>`
 
 #### destroy
 
@@ -137,8 +166,21 @@ Destroys the font picker dialog.
 
 #### font
 
+> _(readonly)_  
 > The currently selected font.  
-> **Type:** [`Font`](#class-font)
+> **Type:** [`Font`](#class-font) | `null`
+
+#### families
+
+> _(readonly)_  
+> A list of available font families.  
+> **Type:** [`Map<string, FontFamily>`](#class-fontfamily)
+
+#### favourites
+
+> _(readonly)_  
+> A list of favourited font families.  
+> **Type:** [`Set<FontFamily>`](#class-fontfamily)
 
 ### Events
 
@@ -170,7 +212,7 @@ Fires when a font is succesfully picked.
 
 > **font**  
 > The picked font.  
-> **Type:** [`Font`](#class-font)
+> **Type:** [`Font`](#class-font) | `null`
 
 #### cancel
 
@@ -197,6 +239,19 @@ Get the font's ID string.
 > The font's ID string.  
 > **Type:** `string`
 
+#### toConcise
+
+Get the font's concise name string.
+
+```js
+.toConcise()
+```
+
+**Returns**
+
+> The font's concise name string.  
+> **Type:** `string`
+
 #### toString
 
 Get the font's verbose name string.
@@ -214,16 +269,19 @@ Get the font's verbose name string.
 
 #### family
 
+> _(readonly)_  
 > The font family.  
 > **Type:** [`FontFamily`](#class-fontfamily)
 
 #### weight
 
+> _(readonly)_  
 > The font weight.  
 > **Type:** [`FontWeight`](#type-fontweight)
 
 #### italic
 
+> _(readonly)_  
 > Whether the font is italic.  
 > **Type:** `boolean`
 
@@ -289,7 +347,7 @@ A FontPicker configuration object.
 
 > **font**  
 > Default font family and variant.  
-> **Type:** `string`
+> **Type:** `string | null`
 
 > **verbose**  
 > Show the full variant name on the picker button?  
@@ -354,6 +412,14 @@ A FontPicker configuration object.
 > **extraFonts**  
 > Extra fonts to also include in the picker.  
 > **Type:** [`FamilyProps[]`](#interface-familyprops)
+
+> **showCancelButton**  
+> Show the cancel button?  
+> **Type:** `boolean`
+
+> **showClearButton**  
+> Show the clear button?  
+> **Type:** `boolean`
 
 ## (interface) FamilyProps
 

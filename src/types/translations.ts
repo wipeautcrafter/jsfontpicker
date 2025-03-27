@@ -59,6 +59,8 @@ export interface Translation {
   sort: string
   sorts: Criteria
 
+  clearFilters: string
+
   clear: string
   cancel: string
   select: string

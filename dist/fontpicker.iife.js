@@ -378,7 +378,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
   }
   var eventsExports = events.exports;
   const EventEmitter$1 = /* @__PURE__ */ getDefaultExportFromCjs(eventsExports);
-  const dialogContent = '<div id="fp__modal" class="fpb__modal" tabindex="-1" role="dialog" aria-modal="true"><div class="fpb__modal-header"><h5 id="fp__title" class="fp__modal-title"></h5><button type="button" id="fp__close" class="fpb__btn-close" aria-label="Close">&times;</button></div><div class="fpb__accordion"><div class="fpb__accordion-item fpb__open"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.4s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1s" dur="0.4s" values="12;0"/></path></g></svg><span id="fp__t-filters"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><input id="fp__search" class="fpb__input" /></div><div><select id="fp__subsets" class="fpb__input fpb__dropdown"></select></div><div class="fpb__span-2"><div id="fp__categories" class="fpb__hlist"></div></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path></svg><span id="fp__t-metrics"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><select id="fp__width" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__thickness" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__complexity" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__curvature" class="fpb__input fpb__dropdown"></select></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="12" stroke-dashoffset="12" d="M17 21l0 -10.5M7 3l0 10.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="12;0"/></path><path stroke-dasharray="8" stroke-dashoffset="8" d="M17 10l-4 4M17 10l4 4M7 14l-4 -4M7 14l4 -4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.4s" values="8;0"/></path></g></svg><span id="fp__t-sort"></span></button><div class="fpb__accordion-content"><div class="fpb__input-group"><select id="fp__sort" class="fpb__input fpb__dropdown"></select><input type="checkbox" id="fp__sort-order" class="fpb__hidden-input" /><label for="fp__sort-order" type="button" class="fpb__btn fpb__btn-toggle fpb__btn-flip fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 9l4-4l4 4M7 5v14m14-4l-4 4l-4-4m4 4V5"/></svg></label></div></div></div></div><div id="fp__fonts" tabindex="0"></div><div class="fp__preview-container"><div id="fp__preview" contenteditable spellcheck="false"></div></div><div id="fp__variants"></div><div class="fpb__modal-footer"><div class="fpb__grow"><button id="fp__clear" type="button" class="fpb__btn fpb__btn-link fpb__btn-secondary fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="56" stroke-dashoffset="56" d="M3 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 15l6 6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="10;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 21l6 -6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.6s" dur="0.4s" values="10;0"/></path></g></svg><span id="fp__t-clear"></span></button></div><button id="fp__cancel" type="button" class="fpb__btn fpb__btn-link fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M5.64 5.64c3.51 -3.51 9.21 -3.51 12.73 0c3.51 3.51 3.51 9.21 0 12.73c-3.51 3.51 -9.21 3.51 -12.73 0c-3.51 -3.51 -3.51 -9.21 -0 -12.73Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0"/></path><path stroke-dasharray="20" stroke-dashoffset="20" d="M6 6l12 12"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="20;0"/></path></g></svg><span id="fp__t-cancel"></span></button><button id="fp__pick" type="button" class="fpb__btn fpb__btn-pill fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg><span id="fp__t-pick"></span></button></div></div><div id="fp__backdrop" class="fpb__backdrop"></div>';
+  const dialogContent = '<div id="fp__modal" class="fpb__modal" tabindex="-1" role="dialog" aria-modal="true"><div class="fpb__modal-header"><h5 id="fp__title" class="fp__modal-title"></h5><button type="button" id="fp__close" class="fpb__btn-close" aria-label="Close">&times;</button></div><div class="fpb__accordion"><div class="fpb__accordion-item fpb__open"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.4s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1s" dur="0.4s" values="12;0"/></path></g></svg><span id="fp__t-filters"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><input id="fp__search" class="fpb__input" /></div><div><select id="fp__subsets" class="fpb__input fpb__dropdown"></select></div><div class="fpb__span-2"><div id="fp__categories" class="fpb__hlist"></div></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path></svg><span id="fp__t-metrics"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><select id="fp__width" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__thickness" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__complexity" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__curvature" class="fpb__input fpb__dropdown"></select></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="12" stroke-dashoffset="12" d="M17 21l0 -10.5M7 3l0 10.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="12;0"/></path><path stroke-dasharray="8" stroke-dashoffset="8" d="M17 10l-4 4M17 10l4 4M7 14l-4 -4M7 14l4 -4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.4s" values="8;0"/></path></g></svg><span id="fp__t-sort"></span></button><div class="fpb__accordion-content"><div class="fpb__input-group"><select id="fp__sort" class="fpb__input fpb__dropdown"></select><input type="checkbox" id="fp__sort-order" class="fpb__hidden-input" /><label for="fp__sort-order" type="button" class="fpb__btn fpb__btn-toggle fpb__btn-flip fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 9l4-4l4 4M7 5v14m14-4l-4 4l-4-4m4 4V5"/></svg></label></div></div></div></div><div id="fp__fonts" tabindex="0"></div><div class="fp__preview-container"><div id="fp__preview" contenteditable spellcheck="false"></div></div><div id="fp__variants"></div><div class="fpb__modal-footer"><div class="fpb__grow"><button id="fp__clear-filters" type="button" class="fpb__btn fpb__btn-link fpb__btn-secondary fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="56" stroke-dashoffset="56" d="M3 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 15l6 6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="10;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 21l6 -6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.6s" dur="0.4s" values="10;0"/></path></g></svg><span id="fp__t-clear-filters"></span></button></div><button id="fp__cancel" type="button" class="fpb__btn fpb__btn-link fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M5 5l14 14"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path d="M19 5l-14 14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></svg><span id="fp__t-cancel"></span></button><button id="fp__clear" type="button" class="fpb__btn fpb__btn-link fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M5.64 5.64c3.51 -3.51 9.21 -3.51 12.73 0c3.51 3.51 3.51 9.21 0 12.73c-3.51 3.51 -9.21 3.51 -12.73 0c-3.51 -3.51 -3.51 -9.21 -0 -12.73Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0"/></path><path stroke-dasharray="20" stroke-dashoffset="20" d="M6 6l12 12"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="20;0"/></path></g></svg><span id="fp__t-clear"></span></button><button id="fp__pick" type="button" class="fpb__btn fpb__btn-pill fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg><span id="fp__t-pick"></span></button></div></div><div id="fp__backdrop" class="fpb__backdrop"></div>';
   const heartSVG = `<div class="fp__heart" role="button"><svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg></div>`;
   const createLazyFont = (font) => {
     const $item = document.createElement("div");
@@ -636,6 +636,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     toId() {
       return `${this.family}:${this.variant}`;
     }
+    toConcise() {
+      if (this.family.getDefaultVariant() === this.variant) return this.family.name;
+      return this.toId();
+    }
     toString() {
       if (this.family.getDefaultVariant() === this.variant) return this.family.name;
       const entries = [this.family.name];
@@ -835,7 +839,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         complexity: "Sort by Complexity",
         curvature: "Sort by Curvature"
       },
-      clear: "Clear filters",
+      clearFilters: "Clear filters",
+      clear: "Clear",
       cancel: "Cancel",
       select: "Select"
     },
@@ -924,7 +929,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         complexity: "Sorteer op complexiteit",
         curvature: "Sorteer op kromming"
       },
-      clear: "Filters wissen",
+      clearFilters: "Filters wissen",
+      clear: "Wissen",
       cancel: "Annuleren",
       select: "Selecteren"
     },
@@ -1013,7 +1019,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         complexity: "Nach Komplexität sortieren",
         curvature: "Nach Krümmung sortieren"
       },
-      clear: "Filter löschen",
+      clearFilters: "Filter löschen",
+      clear: "Löschen",
       cancel: "Abbrechen",
       select: "Auswählen"
     },
@@ -1102,7 +1109,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         complexity: "Ordenar por complejidad",
         curvature: "Ordenar por curvatura"
       },
-      clear: "Borrar filtros",
+      clearFilters: "Borrar filtros",
+      clear: "Borrar",
       cancel: "Cancelar",
       select: "Seleccionar"
     },
@@ -1191,7 +1199,8 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         complexity: "Trier par complexité",
         curvature: "Trier par courbure"
       },
-      clear: "Effacer filtres",
+      clearFilters: "Effacer filtres",
+      clear: "Effacer",
       cancel: "Annuler",
       select: "Sélectionner"
     }
@@ -1220,8 +1229,9 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       __publicField(this, "$preview");
       __publicField(this, "$fonts");
       __publicField(this, "$variants");
-      __publicField(this, "$clearBtn");
+      __publicField(this, "$clearFiltersBtn");
       __publicField(this, "$cancelBtn");
+      __publicField(this, "$clearBtn");
       __publicField(this, "$pickBtn");
       this.createLayout(parent);
       this.observer = new IntersectionObserver((entries) => {
@@ -1239,7 +1249,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       });
     }
     createLayout(parent) {
-      parent.insertAdjacentHTML("afterend", dialogContent);
+      parent.insertAdjacentHTML("beforeend", dialogContent);
       this.$modal = document.querySelector("#fp__modal");
       this.$modalBackdrop = document.querySelector("#fp__backdrop");
       this.$closeBtn = this.$modal.querySelector("#fp__close");
@@ -1255,8 +1265,9 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.$preview = this.$modal.querySelector("#fp__preview");
       this.$fonts = this.$modal.querySelector("#fp__fonts");
       this.$variants = this.$modal.querySelector("#fp__variants");
-      this.$clearBtn = this.$modal.querySelector("#fp__clear");
+      this.$clearFiltersBtn = this.$modal.querySelector("#fp__clear-filters");
       this.$cancelBtn = this.$modal.querySelector("#fp__cancel");
+      this.$clearBtn = this.$modal.querySelector("#fp__clear");
       this.$pickBtn = this.$modal.querySelector("#fp__pick");
       this.modal = new Modal(this.$modal);
       new Accordion(this.$modal.querySelector(".fpb__accordion"));
@@ -1285,8 +1296,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         const $favourite = this.getElementFor(favourite);
         this.$fonts.prepend($favourite);
       }
-      const $selected = this.getElementFor(this.selected.family);
-      this.$fonts.prepend($selected);
+      if (this.selected) {
+        const $selected = this.getElementFor(this.selected.family);
+        this.$fonts.prepend($selected);
+      }
       this.$fonts.scrollTop = 0;
     }
     filterFamilies(filters) {
@@ -1317,15 +1330,22 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     }
     updatePreview() {
       const font = this.hovered ?? this.selected;
-      this.$preview.style.fontFamily = `"${font.family}"`;
-      this.$preview.style.fontWeight = font.weight.toString();
-      this.$preview.style.fontStyle = font.style;
+      if (font) {
+        this.$preview.style.fontFamily = `"${font.family}"`;
+        this.$preview.style.fontWeight = font.weight.toString();
+        this.$preview.style.fontStyle = font.style;
+      } else {
+        this.$preview.style.removeProperty("font-family");
+        this.$preview.style.removeProperty("font-weight");
+        this.$preview.style.removeProperty("font-style");
+      }
     }
     selectFont(font) {
       for (const $font of this.$fonts.querySelectorAll(".fp__selected")) {
         $font.classList.remove("fp__selected");
       }
       this.selected = font;
+      if (!font) return;
       this.getElementFor(font.family).classList.add("fp__selected");
       if (!this.config.variants) return;
       this.$variants.textContent = "";
@@ -1346,6 +1366,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     }
     updateVariant() {
       if (!this.config.variants) return;
+      if (!this.selected) return;
       const $weight = this.$variants.querySelector("[name=fp__weight]:checked");
       const $italic = this.$variants.querySelector("#fp__italic");
       if (!$weight) throw new Error("Could not find weight button for selected font.");
@@ -1358,8 +1379,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (!hasRegular) italic = true;
       if (!hasItalic) italic = false;
       $italic.classList.toggle("active", italic);
-      this.selected.weight = weight;
-      this.selected.italic = italic;
+      this.selected = new Font(this.selected.family, weight, italic);
       this.updatePreview();
     }
     createLazyFontList() {
@@ -1384,14 +1404,16 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.$modal.querySelector("#fp__t-filters").textContent = dict.filters;
       this.$modal.querySelector("#fp__t-metrics").textContent = dict.metrics;
       this.$modal.querySelector("#fp__t-sort").textContent = dict.sort;
-      this.$modal.querySelector("#fp__t-clear").textContent = dict.clear;
+      this.$modal.querySelector("#fp__t-clear-filters").textContent = dict.clearFilters;
       this.$modal.querySelector("#fp__t-cancel").textContent = dict.cancel;
+      this.$modal.querySelector("#fp__t-clear").textContent = dict.clear;
       this.$modal.querySelector("#fp__t-pick").textContent = dict.select;
     }
     onFontHover(event) {
+      var _a;
       const family = this.getFamilyFor(event.target);
       if (!family) return;
-      if (family === this.selected.family) {
+      if (family === ((_a = this.selected) == null ? void 0 : _a.family)) {
         this.hovered = null;
       } else {
         this.hovered = Font.parse(family);
@@ -1404,6 +1426,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.updatePreview();
     }
     onFontClick(event) {
+      var _a;
       const $target = event.target;
       if ($target.classList.contains("fp__heart")) {
         const family2 = this.getFamilyFor($target.parentElement);
@@ -1414,7 +1437,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         return;
       }
       const family = this.getFamilyFor($target);
-      if (!family || this.selected.family === family) return;
+      if (!family || family === ((_a = this.selected) == null ? void 0 : _a.family)) return;
       this.selectFont(Font.parse(family));
     }
     onFontDoubleClick(event) {
@@ -1422,6 +1445,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.submit();
     }
     selectClosestFont(excluded, reverse, $from) {
+      if (!this.selected) {
+        this.$fonts.firstElementChild.click();
+        return;
+      }
       let $target = $from ? $from : this.getElementFor(this.selected.family);
       while (excluded || $target.classList.contains("fpb__hidden")) {
         excluded = false;
@@ -1429,6 +1456,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         if (!$next) return;
         $target = $next;
       }
+      this.hovered = null;
       $target.click();
       $target.scrollIntoView({
         behavior: "instant",
@@ -1460,7 +1488,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (event.key === "Escape") {
         this.cancel();
       } else if (event.key === "f") {
-        this.favouriteFont(this.selected);
+        if (this.selected) this.favouriteFont(this.selected);
       } else if (event.key === "PageUp") {
         this.selectClosestFont(false, false, this.$fonts.firstElementChild);
       } else if (event.key === "PageDown") {
@@ -1485,6 +1513,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       if (handled) event.preventDefault();
     }
     bindEvents() {
+      var _a, _b;
       const filterCallback = () => {
         this.filtersChanged();
         this.updateFilter();
@@ -1507,9 +1536,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.$fonts.addEventListener("click", (event) => this.onFontClick(event));
       this.$fonts.addEventListener("dblclick", (event) => this.onFontDoubleClick(event));
       this.$variants.addEventListener("input", () => this.updateVariant());
-      this.$clearBtn.addEventListener("click", () => this.assignDefaults());
+      this.$clearFiltersBtn.addEventListener("click", () => this.assignDefaults());
       this.$pickBtn.addEventListener("click", () => this.submit());
-      this.$cancelBtn.addEventListener("click", () => this.cancel());
+      (_a = this.$clearBtn) == null ? void 0 : _a.addEventListener("click", () => this.clear());
+      (_b = this.$cancelBtn) == null ? void 0 : _b.addEventListener("click", () => this.cancel());
       this.$modalBackdrop.addEventListener("click", () => this.cancel());
       this.$closeBtn.addEventListener("click", () => this.cancel());
       this.$modal.addEventListener("keydown", (event) => this.onKeyPressed(event));
@@ -1517,9 +1547,11 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
     applyConfiguration() {
       this.picker.favourites.forEach((family) => this.getElementFor(family).classList.add("fp__fav"));
       this.$variants.classList.toggle("fpb__hidden", !this.config.variants);
+      if (!this.config.showClearButton) this.$clearBtn.remove();
+      if (!this.config.showCancelButton) this.$cancelBtn.remove();
     }
     filtersChanged(changed = true) {
-      this.$clearBtn.classList.toggle("fpb__hidden", !changed);
+      this.$clearFiltersBtn.classList.toggle("fpb__hidden", !changed);
     }
     assignDefaults() {
       setActiveBadges(this.$categories, this.config.defaultCategories);
@@ -1548,7 +1580,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.assignDefaults();
       requestAnimationFrame(() => {
         this.modal.open();
-        this.modal.once("opened", () => this.picker.emit("open"));
+        this.modal.once("opened", () => {
+          this.picker.emit("open");
+          this.$fonts.focus();
+        });
       });
       await new Promise((resolve) => {
         this.modal.once("closed", () => resolve());
@@ -1563,6 +1598,10 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         true
         /* Emit events */
       );
+      this.close();
+    }
+    clear() {
+      this.picker.clear();
       this.close();
     }
     cancel() {
@@ -1591,7 +1630,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         language: "en",
         container: document.body,
         previewText: null,
-        font: "Arial",
+        font: null,
         verbose: false,
         variants: true,
         favourites: [],
@@ -1607,7 +1646,9 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         sortReverse: false,
         googleFonts: null,
         systemFonts: null,
-        extraFonts: []
+        extraFonts: [],
+        showCancelButton: false,
+        showClearButton: true
       });
       __publicField(this, "clickHandler");
       __publicField(this, "changeHandler");
@@ -1617,8 +1658,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
         if (this.$el.value) {
           config.font = this.$el.value;
         }
-        const $wrap = document.createElement("div");
-        $wrap.style.display = "inline-block";
+        const $wrap = document.createElement("button");
         this.$el.after($wrap);
         this.$inputEl = this.$el;
         this.$inputEl.type = "hidden";
@@ -1696,7 +1736,9 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       return family;
     }
     setFont(font, emit = false) {
-      if (font instanceof Font) {
+      if (!font) {
+        this._font = null;
+      } else if (font instanceof Font) {
         this._font = font;
       } else if (typeof font === "string") {
         const [name, variant] = font.split(":");
@@ -1705,25 +1747,39 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       } else {
         this._font = Font.parse(font);
       }
-      if (!this.font.family.variants.includes(this.font.variant)) {
-        throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
+      if (this.font) {
+        if (!this.font.family.variants.includes(this.font.variant)) {
+          throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`);
+        }
+        const text = this._config.verbose ? this.font.toString() : this.font.toConcise();
+        this.$el.textContent = text;
+        this.$el.dataset.font = this.font.toId();
+        if (this.$inputEl) {
+          this.$inputEl.value = this.font.toId();
+        }
+        this.$el.style.fontFamily = `"${this.font.family}"`;
+        this.$el.style.fontWeight = this.font.weight.toString();
+        this.$el.style.fontStyle = this.font.style;
+        FontLoader.load(this.font.family);
+      } else {
+        this.$el.textContent = "Pick a font...";
+        this.$el.dataset.font = "";
+        if (this.$inputEl) {
+          this.$inputEl.value = "";
+        }
+        this.$el.style.removeProperty("font-family");
+        this.$el.style.removeProperty("font-weight");
+        this.$el.style.removeProperty("font-style");
       }
-      const text = this._config.verbose ? this.font.toString() : this.font.toId();
-      this.$el.textContent = text;
-      this.$el.dataset.font = this.font.toId();
-      if (this.$inputEl) {
-        this.$inputEl.value = this.font.toId();
-      }
-      this.$el.style.fontFamily = `${this.font.family}`;
-      this.$el.style.fontWeight = this.font.weight.toString();
-      this.$el.style.fontStyle = this.font.style;
-      FontLoader.load(this.font.family);
       if (emit) {
         this.emit("pick", this.font);
         if (this.$inputEl) {
           this.$inputEl.dispatchEvent(new Event("change"));
         }
       }
+    }
+    clear(emit) {
+      this.setFont(null, emit);
     }
     markFavourite(family, value) {
       if (value === void 0) value = !this.favourites.has(family);
@@ -1760,6 +1816,7 @@ var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "acce
       this.$el.style.removeProperty("font-style");
       if (this.$inputEl) {
         this.$inputEl.type = this.orgInputType;
+        this.$el.remove();
       }
     }
   }

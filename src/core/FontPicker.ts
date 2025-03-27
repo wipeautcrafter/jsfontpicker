@@ -11,7 +11,7 @@ let pickerDialog: PickerDialog | null = null
 
 export class FontPicker extends EventEmitter<{
   open: []
-  pick: [font: Font]
+  pick: [font: Font | null]
   cancel: []
   close: []
 }> {
@@ -21,7 +21,7 @@ export class FontPicker extends EventEmitter<{
   private $inputEl: HTMLInputElement
   private orgInputType: string
 
-  private _font: Font
+  private _font: Font | null
   get font() {
     return this._font
   }
@@ -41,7 +41,7 @@ export class FontPicker extends EventEmitter<{
     container: document.body,
     previewText: null,
 
-    font: 'Arial',
+    font: null,
     verbose: false,
     variants: true,
 
@@ -63,6 +63,9 @@ export class FontPicker extends EventEmitter<{
     systemFonts: null,
 
     extraFonts: [],
+
+    showCancelButton: false,
+    showClearButton: true,
   }
 
   getConfig() {
@@ -82,18 +85,20 @@ export class FontPicker extends EventEmitter<{
     if (this.$el instanceof HTMLInputElement) {
       // This is an <input> element. Wrap inside <div>.
       this.orgInputType = this.$el.type
-      if (this.$el.value) { config.font = this.$el.value }
-      const $wrap = document.createElement('div')
-      $wrap.style.display = 'inline-block'
+      if (this.$el.value) {
+        config.font = this.$el.value
+      }
+      const $wrap = document.createElement('button')
       this.$el.after($wrap)
+
       this.$inputEl = this.$el
       this.$inputEl.type = 'hidden'
+
       this.$el = $wrap
 
       this.changeHandler = () => this.setFont(this.$inputEl.value)
       this.$inputEl.addEventListener('change', this.changeHandler)
-    }
-    else if (this.$el.dataset.font) {
+    } else if (this.$el.dataset.font) {
       config.font = this.$el.dataset.font
     }
 
@@ -106,7 +111,11 @@ export class FontPicker extends EventEmitter<{
   }
 
   configure(options: Partial<PickerConfig>) {
-    if ('container' in options && options.container && !(options.container instanceof HTMLElement)) {
+    if (
+      'container' in options &&
+      options.container &&
+      !(options.container instanceof HTMLElement)
+    ) {
       // container can be a DOM element or a string
       options.container = document.querySelector(options.container) ?? undefined
     }
@@ -169,8 +178,10 @@ export class FontPicker extends EventEmitter<{
     return family
   }
 
-  setFont(font: Font | FontFamily | string, emit: boolean = false) {
-    if (font instanceof Font) {
+  setFont(font: Font | FontFamily | string | null, emit: boolean = false) {
+    if (!font) {
+      this._font = null
+    } else if (font instanceof Font) {
       // directly set font
       this._font = font
     } else if (typeof font === 'string') {
@@ -183,23 +194,35 @@ export class FontPicker extends EventEmitter<{
       this._font = Font.parse(font)
     }
 
-    // check if font variant is supported by font family
-    if (!this.font.family.variants.includes(this.font.variant)) {
-      throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`)
+    if (this.font) {
+      // check if font variant is supported by font family
+      if (!this.font.family.variants.includes(this.font.variant)) {
+        throw new Error(`Variant ${this.font.variant} not supported by '${this.font.family.name}'!`)
+      }
+
+      const text = this._config.verbose ? this.font.toString() : this.font.toConcise()
+      this.$el.textContent = text
+      this.$el.dataset.font = this.font.toId()
+      if (this.$inputEl) {
+        this.$inputEl.value = this.font.toId()
+      }
+
+      this.$el.style.fontFamily = `"${this.font.family}"`
+      this.$el.style.fontWeight = this.font.weight.toString()
+      this.$el.style.fontStyle = this.font.style
+
+      FontLoader.load(this.font.family)
+    } else {
+      this.$el.textContent = 'Pick a font...'
+      this.$el.dataset.font = ''
+      if (this.$inputEl) {
+        this.$inputEl.value = ''
+      }
+
+      this.$el.style.removeProperty('font-family')
+      this.$el.style.removeProperty('font-weight')
+      this.$el.style.removeProperty('font-style')
     }
-
-    const text = this._config.verbose ? this.font.toString() : this.font.toId()
-    this.$el.textContent = text
-    this.$el.dataset.font = this.font.toId()
-    if (this.$inputEl) {
-      this.$inputEl.value = this.font.toId()
-    }
-
-    this.$el.style.fontFamily = `${this.font.family}`
-    this.$el.style.fontWeight = this.font.weight.toString()
-    this.$el.style.fontStyle = this.font.style
-
-    FontLoader.load(this.font.family)
 
     if (emit) {
       this.emit('pick', this.font)
@@ -207,6 +230,10 @@ export class FontPicker extends EventEmitter<{
         this.$inputEl.dispatchEvent(new Event('change'))
       }
     }
+  }
+
+  clear(emit?: boolean) {
+    this.setFont(null, emit)
   }
 
   markFavourite(family: FontFamily, value?: boolean) {
@@ -257,7 +284,7 @@ export class FontPicker extends EventEmitter<{
 
     if (this.$inputEl) {
       this.$inputEl.type = this.orgInputType
-      //this.$inputEl.value = ''
+      this.$el.remove()
     }
   }
 }

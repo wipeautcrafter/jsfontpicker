@@ -1,40 +1,45 @@
 <!doctype html>
 <html lang="en" data-fp-theme="ligh">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FontPicker Demo</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FontPicker Demo</title>
 
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 
-  <link rel="stylesheet" href="./demo.css" />
-  <script type="module" src="./demo.ts"></script>
-</head>
-<body>
-  <h1 style="text-align:center">JSFontPicker Demo</h1>
-  <div style="text-align: center">
-    <label for="pickerButton" class="form-label">Font (button)</label>
-    <button id="pickerButton" data-font="Poppins:700i" style="margin:0 auto"></button>
-    <button id="getFont1Btn">Get font</button>
-    <button id="setFont1Btn">Set font to Quicksand</button>
-    <button id="destroy1Btn">Destroy</button>
+    <link rel="stylesheet" href="./demo.css" />
+    <script type="module" src="./demo.ts"></script>
+  </head>
+  <body>
+    <h1 style="text-align: center">JSFontPicker Demo</h1>
+    <div style="text-align: center">
+      <label for="pickerButton" class="form-label">Font (button)</label>
+      <button id="pickerButton" style="margin: 0 auto"></button>
+      <button id="getFont1Btn">Get font</button>
+      <button id="setFont1Btn">Set font to Quicksand</button>
+      <button id="clearFont1Btn">Clear</button>
+      <button id="destroy1Btn">Destroy</button>
 
-    <p id="sampleText">The Quick Brown Fox Jumps Over The Lazy Dog</p>
-  </div>
+      <p id="sampleText">The Quick Brown Fox Jumps Over The Lazy Dog</p>
+    </div>
 
-  <hr style="width:50%;margin:2em auto">
+    <hr style="width: 50%; margin: 2em auto" />
 
-  <div style="text-align: center">
-    <label for="pickerInput" class="form-label">Font (input)</label>
-    <input name="font" id="pickerInput" value="Roboto Condensed:800i" onchange="console.log('onchange',this.value)">
-    <br>
-    <button id="getFont2Btn">Get font</button>
-    <button id="setFont2Btn">Set font to Quicksand</button>
-    <button id="destroy2Btn">Destroy</button>
-    <br>
-    <canvas id="sampleCanvas" width="400" height="150" style="border:1px solid red"></canvas>
-  </div>
-
-</body>
+    <div style="text-align: center">
+      <label for="pickerInput" class="form-label">Font (input)</label>
+      <input
+        name="font"
+        id="pickerInput"
+        value="Roboto Condensed:800i"
+        onchange="console.log('onchange',this.value)"
+      />
+      <br />
+      <button id="getFont2Btn">Get font</button>
+      <button id="setFont2Btn">Set font to Quicksand</button>
+      <button id="destroy2Btn">Destroy</button>
+      <br />
+      <canvas id="sampleCanvas" width="400" height="150" style="border: 1px solid red"></canvas>
+    </div>
+  </body>
 </html>

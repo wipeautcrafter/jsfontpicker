@@ -6,7 +6,7 @@ export interface PickerConfig {
   container: HTMLElement
   previewText: string | null
 
-  font: string
+  font: string | null
   verbose: boolean
   variants: boolean
 
@@ -28,4 +28,7 @@ export interface PickerConfig {
   systemFonts: string[] | null
 
   extraFonts: FamilyProps[]
+
+  showCancelButton: boolean
+  showClearButton: boolean
 }

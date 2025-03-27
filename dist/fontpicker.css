@@ -228,8 +228,9 @@
 .fpb__accordion-toggle {
   --fp-accordion-toggle-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236ea8fe'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 
-  display: block;
+  display: flex;
   width: 100%;
+  align-items: center;
 
   color: var(--fp-body-color);
   font-size: 1rem;
@@ -243,6 +244,10 @@
 
   padding: 0.5rem 1rem;
   margin: 0;
+
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .fpb__accordion-toggle::after {
@@ -306,8 +311,8 @@ button {
     box-shadow 0.15s,
     opacity 0.15s;
 }
-button.fpb__btn:hover {
-  text-decoration: underline;
+.fpb__btn:hover {
+  opacity: 0.8;
 }
 .fpb__btn-small {
   font-size: 0.75rem;
@@ -316,7 +321,8 @@ button.fpb__btn:hover {
 .fpb__btn-pill {
   border-radius: 9999px;
 }
-button.fpb__btn-pill:hover {/* CSS reset */
+button.fpb__btn-pill:hover {
+  /* CSS reset */
   background-color: var(--fpb-variant) !important;
   border-color: var(--fpb-variant) !important;
 }
@@ -328,8 +334,24 @@ button.fpb__btn-pill:hover {/* CSS reset */
   background: none;
   border: none;
 }
-.fpb__btn-link:hover {/* CSS reset */
+.fpb__btn-link::after {
+  content: '';
+  width: 0px;
+  height: 1px;
+  display: block;
+  background: currentColor;
+  opacity: 0;
+  transition:
+    width 0.2s,
+    opacity 0.2s;
+}
+.fpb__btn-link:hover {
+  /* CSS reset */
   background: inherit !important;
+}
+.fpb__btn-link:hover::after {
+  width: 100%;
+  opacity: 1;
 }
 
 .fpb__hidden-input {
@@ -408,11 +430,14 @@ input:disabled + .fpb__btn-toggle {
 }
 
 /* Text utility */
-.fpb__has-icon {
-  display: flex;
-  align-items: center;
-  gap: 0.15em;
+.fpb__has-icon,
+.fpb__has-icon * {
+  vertical-align: middle;
 }
+.fpb__has-icon svg {
+  margin-right: 0.25rem;
+}
+
 .fpb__primary {
   color: var(--fp-primary);
 }
@@ -444,12 +469,19 @@ input.font-picker {
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
+
   padding: 0.25rem;
-  border-top: 1px solid var(--fp-border-color);
   margin-top: -1px;
+
+  border-block: 1px solid var(--fp-border-color);
 }
-#fp__fonts:focus {
+#fp__fonts:focus-visible {
   outline: 0;
+  box-shadow: var(--fp-ring-shadow);
+  border-color: var(--fp-ring-color);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 /* Font item */
@@ -506,8 +538,7 @@ input.font-picker {
 
 /* Preview */
 .fp__preview-container {
-  padding: 0.25rem 1rem;
-  border-top: 1px solid var(--fp-border-color);
+  padding: 0.25rem;
 }
 #fp__preview {
   white-space: nowrap;
@@ -516,6 +547,18 @@ input.font-picker {
   text-align: center;
   font-size: 1.25rem;
   line-height: 1.5;
+
+  padding-inline: 0.75rem;
+  border: 1px solid transparent;
+
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+#fp__preview:focus {
+  outline: 0;
+  border-color: var(--fp-ring-color);
+  box-shadow: var(--fp-ring-shadow);
 }
 
 /* Variants */
@@ -529,4 +572,7 @@ input.font-picker {
 }
 #fp__variants:has(#fp__italic:checked) {
   font-style: italic !important;
+}
+#fp__variants:empty {
+  display: none;
 }

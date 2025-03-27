@@ -1,14 +1,8 @@
-import { Category as Category_2 } from '../types/translations';
-import { Criterion } from '../types/translations';
 import { default as default_2 } from 'events';
-import { FamilyProps as FamilyProps_2 } from '../types/fonts';
-import { Language } from '../types/translations';
-import { Metric } from '../types/translations';
-import { Subset as Subset_2 } from '../types/translations';
 
 declare type Category = 'serif' | 'sans-serif' | 'display' | 'handwriting' | 'monospace';
 
-declare type Criterion_2 = 'name' | 'popularity' | 'width' | 'thickness' | 'complexity' | 'curvature';
+declare type Criterion = 'name' | 'popularity' | 'width' | 'thickness' | 'complexity' | 'curvature';
 
 declare interface FamilyProps {
     name: string;
@@ -29,13 +23,14 @@ declare class Font {
     static weightNames: {
         [weight in FontWeight]: string;
     };
-    family: FontFamily;
-    weight: FontWeight;
-    italic: boolean;
+    readonly family: FontFamily;
+    readonly weight: FontWeight;
+    readonly italic: boolean;
     constructor(family: FontFamily, weight: FontWeight, italic: boolean);
     get style(): "italic" | "normal";
     get variant(): string;
     toId(): string;
+    toConcise(): string;
     toString(): string;
     static parse(family: FontFamily, variant?: string): Font;
 }
@@ -58,7 +53,7 @@ declare class FontLoader {
 
 declare class FontPicker extends default_2<{
     open: [];
-    pick: [font: Font];
+    pick: [font: Font | null];
     cancel: [];
     close: [];
 }> {
@@ -67,7 +62,7 @@ declare class FontPicker extends default_2<{
     private $inputEl;
     private orgInputType;
     private _font;
-    get font(): Font;
+    get font(): Font | null;
     private _families;
     get families(): Map<string, FontFamily>;
     private _favourites;
@@ -77,14 +72,14 @@ declare class FontPicker extends default_2<{
         language: Language;
         container: HTMLElement;
         previewText: string | null;
-        font: string;
+        font: string | null;
         verbose: boolean;
         variants: boolean;
         favourites: string[];
         saveFavourites: boolean;
         storageKey: string;
-        defaultSubset: Subset_2;
-        defaultCategories: Category_2[];
+        defaultSubset: Subset;
+        defaultCategories: Category[];
         defaultWidth: Metric;
         defaultThickness: Metric;
         defaultComplexity: Metric;
@@ -93,7 +88,9 @@ declare class FontPicker extends default_2<{
         sortReverse: boolean;
         googleFonts: string[] | null;
         systemFonts: string[] | null;
-        extraFonts: FamilyProps_2[];
+        extraFonts: FamilyProps[];
+        showCancelButton: boolean;
+        showClearButton: boolean;
     };
     private clickHandler?;
     private changeHandler?;
@@ -102,9 +99,10 @@ declare class FontPicker extends default_2<{
     private initialize;
     private updateFamilies;
     getFamily(name: string): FontFamily;
-    setFont(font: Font | FontFamily | string, emit?: boolean): void;
+    setFont(font: Font | FontFamily | string | null, emit?: boolean): void;
+    clear(emit?: boolean): void;
     markFavourite(family: FontFamily, value?: boolean): boolean;
-    open(): Promise<Font>;
+    open(): Promise<Font | null>;
     close(): Promise<void>;
     destroy(): void;
 }
@@ -112,15 +110,15 @@ export default FontPicker;
 
 declare type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 
-declare type Language_2 = 'en' | 'nl' | 'de' | 'es' | 'fr';
+declare type Language = 'en' | 'nl' | 'de' | 'es' | 'fr';
 
-declare type Metric_2 = 'all' | '0!' | '1!' | '2!' | '3!' | '4!';
+declare type Metric = 'all' | '0!' | '1!' | '2!' | '3!' | '4!';
 
 declare interface PickerConfig {
-    language: Language_2;
+    language: Language;
     container: HTMLElement;
     previewText: string | null;
-    font: string;
+    font: string | null;
     verbose: boolean;
     variants: boolean;
     favourites: string[];
@@ -128,15 +126,17 @@ declare interface PickerConfig {
     storageKey: string;
     defaultSubset: Subset;
     defaultCategories: Category[];
-    defaultWidth: Metric_2;
-    defaultThickness: Metric_2;
-    defaultComplexity: Metric_2;
-    defaultCurvature: Metric_2;
-    sortBy: Criterion_2;
+    defaultWidth: Metric;
+    defaultThickness: Metric;
+    defaultComplexity: Metric;
+    defaultCurvature: Metric;
+    sortBy: Criterion;
     sortReverse: boolean;
     googleFonts: string[] | null;
     systemFonts: string[] | null;
     extraFonts: FamilyProps[];
+    showCancelButton: boolean;
+    showClearButton: boolean;
 }
 
 declare type Subset = 'all' | 'arabic' | 'bengali' | 'chinese-hongkong' | 'chinese-simplified' | 'chinese-traditional' | 'cyrillic' | 'cyrillic-ext' | 'devanagari' | 'greek' | 'greek-ext' | 'gujarati' | 'gurmukhi' | 'hebrew' | 'japanese' | 'kannada' | 'khmer' | 'korean' | 'latin' | 'latin-ext' | 'malayalam' | 'myanmar' | 'oriya' | 'sinhala' | 'tamil' | 'telugu' | 'thai' | 'tibetan' | 'vietnamese';

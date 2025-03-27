@@ -16,12 +16,19 @@ input.font-picker {
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
+
   padding: 0.25rem;
-  border-top: 1px solid var(--fp-border-color);
   margin-top: -1px;
+
+  border-block: 1px solid var(--fp-border-color);
 }
-#fp__fonts:focus {
+#fp__fonts:focus-visible {
   outline: 0;
+  box-shadow: var(--fp-ring-shadow);
+  border-color: var(--fp-ring-color);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 /* Font item */
@@ -78,8 +85,7 @@ input.font-picker {
 
 /* Preview */
 .fp__preview-container {
-  padding: 0.25rem 1rem;
-  border-top: 1px solid var(--fp-border-color);
+  padding: 0.25rem;
 }
 #fp__preview {
   white-space: nowrap;
@@ -88,6 +94,18 @@ input.font-picker {
   text-align: center;
   font-size: 1.25rem;
   line-height: 1.5;
+
+  padding-inline: 0.75rem;
+  border: 1px solid transparent;
+
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+#fp__preview:focus {
+  outline: 0;
+  border-color: var(--fp-ring-color);
+  box-shadow: var(--fp-ring-shadow);
 }
 
 /* Variants */
@@ -101,4 +119,7 @@ input.font-picker {
 }
 #fp__variants:has(#fp__italic:checked) {
   font-style: italic !important;
+}
+#fp__variants:empty {
+  display: none;
 }
