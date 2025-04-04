@@ -19,6 +19,7 @@ export class PickerDialog {
   private opened = false
   private picker: FontPicker
   private config: PickerConfig
+  private override: Partial<PickerConfig>
 
   private observer: IntersectionObserver
 
@@ -75,7 +76,7 @@ export class PickerDialog {
   }
 
   private createLayout(parent: HTMLElement) {
-    parent.insertAdjacentHTML('beforeend', dialogContent)
+    parent.insertAdjacentHTML('afterbegin', dialogContent)
 
     this.$modal = document.querySelector('#fp__modal')!
     this.$modalBackdrop = document.querySelector('#fp__backdrop')!
@@ -253,7 +254,7 @@ export class PickerDialog {
     $italic.disabled = !hasRegular || !hasItalic
     if (!hasRegular) italic = true
     if (!hasItalic) italic = false
-    $italic.classList.toggle('active', italic)
+    $italic.checked = italic
 
     this.selected = new Font(this.selected.family, weight, italic)
     this.updatePreview()
@@ -472,7 +473,11 @@ export class PickerDialog {
 
     this.$variants.addEventListener('input', () => this.updateVariant())
 
-    this.$clearFiltersBtn.addEventListener('click', () => this.assignDefaults())
+    this.$clearFiltersBtn.addEventListener('click', () => {
+      this.override = {}
+      this.assignDefaults()
+    })
+
     this.$pickBtn.addEventListener('click', () => this.submit())
 
     this.$clearBtn?.addEventListener('click', () => this.clear())
@@ -509,25 +514,68 @@ export class PickerDialog {
   }
 
   private assignDefaults() {
-    DOM.setActiveBadges(this.$categories, this.config.defaultCategories)
+    const config = { ...this.config, ...this.override }
 
-    this.$search.value = ''
+    this.$search.value = config.defaultSearch
 
-    this.$subset.value = this.config.defaultSubset
-    this.$width.value = this.config.defaultWidth
-    this.$thickness.value = this.config.defaultThickness
-    this.$complexity.value = this.config.defaultComplexity
-    this.$curvature.value = this.config.defaultCurvature
-
-    this.$sort.value = this.config.sortBy
-    this.$sortOrder.classList.toggle('active', this.config.sortReverse)
+    DOM.setActiveBadges(this.$categories, config.defaultCategories)
+    this.$subset.value = config.defaultSubset
+    this.$width.value = config.defaultWidth
+    this.$thickness.value = config.defaultThickness
+    this.$complexity.value = config.defaultComplexity
+    this.$curvature.value = config.defaultCurvature
+    this.$sort.value = config.sortBy
+    this.$sortOrder.checked = config.sortReverse
 
     // Apply changed defaults
     this.updateSort()
     this.updateFilter()
 
-    // Hide filter clear button
+    // If no overrides were passed, don't check
     this.filtersChanged(null)
+    if (!Object.values(this.override).length) return
+
+    // Update filters clear button
+    const filters = [
+      this.config.defaultSearch !== this.override.defaultSearch,
+      JSON.stringify(this.config.defaultCategories.toSorted()) !==
+        JSON.stringify(this.override.defaultCategories?.toSorted()),
+      this.config.defaultSubset !== this.override.defaultSubset,
+    ]
+
+    if (filters.some((v) => v)) this.filtersChanged(this.$filtersText)
+
+    const metrics = [
+      this.config.defaultWidth !== this.override.defaultWidth,
+      this.config.defaultThickness !== this.override.defaultThickness,
+      this.config.defaultComplexity !== this.override.defaultComplexity,
+      this.config.defaultCurvature !== this.override.defaultCurvature,
+    ]
+
+    if (metrics.some((v) => v)) this.filtersChanged(this.$metricsText)
+
+    const sort = [
+      this.config.sortBy !== this.override.sortBy,
+      this.config.sortReverse !== this.override.sortReverse,
+    ]
+
+    if (sort.some((v) => v)) this.filtersChanged(this.$sortText)
+  }
+
+  private storeDefaults() {
+    const config: Partial<PickerConfig> = {
+      defaultSearch: this.$search.value,
+      defaultCategories: DOM.getActiveBadges(this.$categories) as Category[],
+      defaultSubset: this.$subset.value as Subset,
+      defaultWidth: this.$width.value as Metric,
+      defaultThickness: this.$thickness.value as Metric,
+      defaultComplexity: this.$complexity.value as Metric,
+      defaultCurvature: this.$curvature.value as Metric,
+      sortBy: this.$sort.value as Criterion,
+      sortReverse: this.$sortOrder.checked,
+    }
+
+    this.picker.setOverride(config)
   }
 
   async open(picker: FontPicker) {
@@ -535,7 +583,9 @@ export class PickerDialog {
 
     this.opened = true
     this.picker = picker
+
     this.config = this.picker.getConfig()
+    this.override = this.picker.getOverride()
 
     this.applyTranslations()
     this.bindEvents()
@@ -555,14 +605,19 @@ export class PickerDialog {
       })
     })
 
-    await new Promise<void>((resolve) => {
-      this.modal.once('closing', () => this.picker.emit('close'))
-      this.modal.once('closed', () => resolve())
+    // Destroy elements without blocking
+    this.modal.once('closed', () => {
+      this.picker.emit('close')
+      this.$modal.remove()
+      this.$modalBackdrop.remove()
     })
 
-    this.picker.emit('closed')
-    this.$modal.remove()
-    this.$modalBackdrop.remove()
+    // Resolve when modal starts closing
+    await new Promise<void>((resolve) => {
+      this.modal.once('closing', () => resolve())
+    })
+
+    this.storeDefaults()
   }
 
   submit() {

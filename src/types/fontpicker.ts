@@ -14,6 +14,7 @@ export interface PickerConfig {
   saveFavourites: boolean
   storageKey: string
 
+  defaultSearch: string
   defaultSubset: Subset
   defaultCategories: Category[]
   defaultWidth: Metric

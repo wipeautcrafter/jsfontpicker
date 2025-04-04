@@ -1213,6 +1213,7 @@ class PickerDialog {
     __publicField(this, "opened", false);
     __publicField(this, "picker");
     __publicField(this, "config");
+    __publicField(this, "override");
     __publicField(this, "observer");
     __publicField(this, "selected");
     __publicField(this, "hovered", null);
@@ -1255,7 +1256,7 @@ class PickerDialog {
     });
   }
   createLayout(parent) {
-    parent.insertAdjacentHTML("beforeend", dialogContent);
+    parent.insertAdjacentHTML("afterbegin", dialogContent);
     this.$modal = document.querySelector("#fp__modal");
     this.$modalBackdrop = document.querySelector("#fp__backdrop");
     this.$closeBtn = this.$modal.querySelector("#fp__close");
@@ -1387,7 +1388,7 @@ class PickerDialog {
     $italic.disabled = !hasRegular || !hasItalic;
     if (!hasRegular) italic = true;
     if (!hasItalic) italic = false;
-    $italic.classList.toggle("active", italic);
+    $italic.checked = italic;
     this.selected = new Font(this.selected.family, weight, italic);
     this.updatePreview();
   }
@@ -1549,7 +1550,10 @@ class PickerDialog {
     this.$fonts.addEventListener("click", (event) => this.onFontClick(event));
     this.$fonts.addEventListener("dblclick", (event) => this.onFontDoubleClick(event));
     this.$variants.addEventListener("input", () => this.updateVariant());
-    this.$clearFiltersBtn.addEventListener("click", () => this.assignDefaults());
+    this.$clearFiltersBtn.addEventListener("click", () => {
+      this.override = {};
+      this.assignDefaults();
+    });
     this.$pickBtn.addEventListener("click", () => this.submit());
     (_a = this.$clearBtn) == null ? void 0 : _a.addEventListener("click", () => this.clear());
     (_b = this.$cancelBtn) == null ? void 0 : _b.addEventListener("click", () => this.cancel());
@@ -1574,24 +1578,60 @@ class PickerDialog {
     this.$clearFiltersBtn.classList.toggle("fpb__hidden", !$target);
   }
   assignDefaults() {
-    setActiveBadges(this.$categories, this.config.defaultCategories);
-    this.$search.value = "";
-    this.$subset.value = this.config.defaultSubset;
-    this.$width.value = this.config.defaultWidth;
-    this.$thickness.value = this.config.defaultThickness;
-    this.$complexity.value = this.config.defaultComplexity;
-    this.$curvature.value = this.config.defaultCurvature;
-    this.$sort.value = this.config.sortBy;
-    this.$sortOrder.classList.toggle("active", this.config.sortReverse);
+    var _a;
+    const config = { ...this.config, ...this.override };
+    this.$search.value = config.defaultSearch;
+    setActiveBadges(this.$categories, config.defaultCategories);
+    this.$subset.value = config.defaultSubset;
+    this.$width.value = config.defaultWidth;
+    this.$thickness.value = config.defaultThickness;
+    this.$complexity.value = config.defaultComplexity;
+    this.$curvature.value = config.defaultCurvature;
+    this.$sort.value = config.sortBy;
+    this.$sortOrder.checked = config.sortReverse;
     this.updateSort();
     this.updateFilter();
     this.filtersChanged(null);
+    if (!Object.values(this.override).length) return;
+    const filters = [
+      this.config.defaultSearch !== this.override.defaultSearch,
+      JSON.stringify(this.config.defaultCategories.toSorted()) !== JSON.stringify((_a = this.override.defaultCategories) == null ? void 0 : _a.toSorted()),
+      this.config.defaultSubset !== this.override.defaultSubset
+    ];
+    if (filters.some((v) => v)) this.filtersChanged(this.$filtersText);
+    const metrics = [
+      this.config.defaultWidth !== this.override.defaultWidth,
+      this.config.defaultThickness !== this.override.defaultThickness,
+      this.config.defaultComplexity !== this.override.defaultComplexity,
+      this.config.defaultCurvature !== this.override.defaultCurvature
+    ];
+    if (metrics.some((v) => v)) this.filtersChanged(this.$metricsText);
+    const sort = [
+      this.config.sortBy !== this.override.sortBy,
+      this.config.sortReverse !== this.override.sortReverse
+    ];
+    if (sort.some((v) => v)) this.filtersChanged(this.$sortText);
+  }
+  storeDefaults() {
+    const config = {
+      defaultSearch: this.$search.value,
+      defaultCategories: getActiveBadges(this.$categories),
+      defaultSubset: this.$subset.value,
+      defaultWidth: this.$width.value,
+      defaultThickness: this.$thickness.value,
+      defaultComplexity: this.$complexity.value,
+      defaultCurvature: this.$curvature.value,
+      sortBy: this.$sort.value,
+      sortReverse: this.$sortOrder.checked
+    };
+    this.picker.setOverride(config);
   }
   async open(picker) {
     if (this.opened) return;
     this.opened = true;
     this.picker = picker;
     this.config = this.picker.getConfig();
+    this.override = this.picker.getOverride();
     this.applyTranslations();
     this.bindEvents();
     this.createLazyFontList();
@@ -1606,13 +1646,15 @@ class PickerDialog {
         this.$fonts.focus();
       });
     });
-    await new Promise((resolve) => {
-      this.modal.once("closing", () => this.picker.emit("close"));
-      this.modal.once("closed", () => resolve());
+    this.modal.once("closed", () => {
+      this.picker.emit("close");
+      this.$modal.remove();
+      this.$modalBackdrop.remove();
     });
-    this.picker.emit("closed");
-    this.$modal.remove();
-    this.$modalBackdrop.remove();
+    await new Promise((resolve) => {
+      this.modal.once("closing", () => resolve());
+    });
+    this.storeDefaults();
   }
   submit() {
     this.picker.setFont(
@@ -1661,6 +1703,7 @@ class FontPicker extends EventEmitter$1 {
       favourites: [],
       saveFavourites: true,
       storageKey: "fp__favourites",
+      defaultSearch: "",
       defaultSubset: "all",
       defaultCategories: ["display", "handwriting", "monospace", "sans-serif", "serif"],
       defaultWidth: "all",
@@ -1675,6 +1718,7 @@ class FontPicker extends EventEmitter$1 {
       showCancelButton: true,
       showClearButton: false
     });
+    __publicField(this, "_override", {});
     __publicField(this, "clickHandler");
     __publicField(this, "changeHandler");
     this.$el = typeof el === "string" ? document.querySelector(el) : el;
@@ -1710,6 +1754,12 @@ class FontPicker extends EventEmitter$1 {
   }
   getConfig() {
     return { ...this._config };
+  }
+  getOverride() {
+    return { ...this._override };
+  }
+  setOverride(override) {
+    this._override = override;
   }
   configure(options) {
     if ("container" in options && options.container && !(options.container instanceof HTMLElement)) {

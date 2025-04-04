@@ -53,6 +53,7 @@ export class FontPicker extends EventEmitter<{
     saveFavourites: true,
     storageKey: 'fp__favourites',
 
+    defaultSearch: '',
     defaultSubset: 'all',
     defaultCategories: ['display', 'handwriting', 'monospace', 'sans-serif', 'serif'],
     defaultWidth: 'all',
@@ -74,6 +75,16 @@ export class FontPicker extends EventEmitter<{
 
   getConfig() {
     return { ...this._config }
+  }
+
+  private _override: Partial<PickerConfig> = {}
+
+  getOverride() {
+    return { ...this._override }
+  }
+
+  setOverride(override: Partial<PickerConfig>) {
+    this._override = override
   }
 
   private clickHandler?: () => void
