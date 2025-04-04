@@ -396,6 +396,11 @@ A FontPicker configuration object.
 > Key to use for accessing localStorage.  
 > **Type:** `string`
 
+> **stateKey**  
+> Key to use when saving the state of applied filters.  
+> Filters will persist between pickers with the same _stateKey_!  
+> **Type:** `string`
+
 > **defaultSubset**  
 > Default subset filter.  
 > **Type:** [`Subset`](#type-subset)

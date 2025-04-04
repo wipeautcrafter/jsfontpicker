@@ -15,6 +15,8 @@ import type { FontWeight } from '../types/fonts'
 import type { Category, Criterion, Metric, Subset } from '../types/translations'
 import type { PickerConfig } from '../types/fontpicker'
 
+const configOverrides = new Map<string, Partial<PickerConfig>>()
+
 export class PickerDialog {
   private opened = false
   private picker: FontPicker
@@ -536,46 +538,63 @@ export class PickerDialog {
     if (!Object.values(this.override).length) return
 
     // Update filters clear button
-    const filters = [
-      this.config.defaultSearch !== this.override.defaultSearch,
-      JSON.stringify(this.config.defaultCategories.toSorted()) !==
-        JSON.stringify(this.override.defaultCategories?.toSorted()),
-      this.config.defaultSubset !== this.override.defaultSubset,
-    ]
+    if (
+      this.override.defaultSearch !== undefined ||
+      this.override.defaultCategories !== undefined ||
+      this.override.defaultSubset !== undefined
+    )
+      this.filtersChanged(this.$filtersText)
 
-    if (filters.some((v) => v)) this.filtersChanged(this.$filtersText)
+    if (
+      this.override.defaultWidth !== undefined ||
+      this.override.defaultThickness !== undefined ||
+      this.override.defaultComplexity !== undefined ||
+      this.override.defaultCurvature !== undefined
+    )
+      this.filtersChanged(this.$metricsText)
 
-    const metrics = [
-      this.config.defaultWidth !== this.override.defaultWidth,
-      this.config.defaultThickness !== this.override.defaultThickness,
-      this.config.defaultComplexity !== this.override.defaultComplexity,
-      this.config.defaultCurvature !== this.override.defaultCurvature,
-    ]
-
-    if (metrics.some((v) => v)) this.filtersChanged(this.$metricsText)
-
-    const sort = [
-      this.config.sortBy !== this.override.sortBy,
-      this.config.sortReverse !== this.override.sortReverse,
-    ]
-
-    if (sort.some((v) => v)) this.filtersChanged(this.$sortText)
+    if (this.override.sortBy !== undefined || this.override.sortReverse !== undefined)
+      this.filtersChanged(this.$sortText)
   }
 
   private storeDefaults() {
-    const config: Partial<PickerConfig> = {
-      defaultSearch: this.$search.value,
-      defaultCategories: DOM.getActiveBadges(this.$categories) as Category[],
-      defaultSubset: this.$subset.value as Subset,
-      defaultWidth: this.$width.value as Metric,
-      defaultThickness: this.$thickness.value as Metric,
-      defaultComplexity: this.$complexity.value as Metric,
-      defaultCurvature: this.$curvature.value as Metric,
-      sortBy: this.$sort.value as Criterion,
-      sortReverse: this.$sortOrder.checked,
-    }
+    const override: Partial<PickerConfig> = {}
 
-    this.picker.setOverride(config)
+    const defaultSearch = this.$search.value
+    if (defaultSearch !== this.config.defaultSearch) override.defaultSearch = defaultSearch
+
+    const defaultCategories = DOM.getActiveBadges(this.$categories) as Category[]
+    if (
+      JSON.stringify(defaultCategories.toSorted()) !==
+      JSON.stringify(this.config.defaultCategories?.toSorted())
+    )
+      override.defaultCategories = defaultCategories
+
+    const defaultSubset = this.$subset.value as Subset
+    if (defaultSubset !== this.config.defaultSubset) override.defaultSubset = defaultSubset
+
+    const defaultWidth = this.$width.value as Metric
+    if (defaultWidth !== this.config.defaultWidth) override.defaultWidth = defaultWidth
+
+    const defaultThickness = this.$thickness.value as Metric
+    if (defaultThickness !== this.config.defaultThickness)
+      override.defaultThickness = defaultThickness
+
+    const defaultComplexity = this.$complexity.value as Metric
+    if (defaultComplexity !== this.config.defaultComplexity)
+      override.defaultComplexity = defaultComplexity
+
+    const defaultCurvature = this.$curvature.value as Metric
+    if (defaultCurvature !== this.config.defaultCurvature)
+      override.defaultCurvature = defaultCurvature
+
+    const sortBy = this.$sort.value as Criterion
+    if (sortBy !== this.config.sortBy) override.sortBy = sortBy
+
+    const sortReverse = this.$sortOrder.checked
+    if (sortReverse !== this.config.sortReverse) override.sortReverse = sortReverse
+
+    configOverrides.set(this.config.stateKey, override)
   }
 
   async open(picker: FontPicker) {
@@ -585,7 +604,7 @@ export class PickerDialog {
     this.picker = picker
 
     this.config = this.picker.getConfig()
-    this.override = this.picker.getOverride()
+    this.override = configOverrides.get(this.config.stateKey) ?? {}
 
     this.applyTranslations()
     this.bindEvents()

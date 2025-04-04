@@ -1208,6 +1208,7 @@ const translations = {
     select: "Sélectionner"
   }
 };
+const configOverrides = /* @__PURE__ */ new Map();
 class PickerDialog {
   constructor(parent) {
     __publicField(this, "opened", false);
@@ -1578,7 +1579,6 @@ class PickerDialog {
     this.$clearFiltersBtn.classList.toggle("fpb__hidden", !$target);
   }
   assignDefaults() {
-    var _a;
     const config = { ...this.config, ...this.override };
     this.$search.value = config.defaultSearch;
     setActiveBadges(this.$categories, config.defaultCategories);
@@ -1593,45 +1593,46 @@ class PickerDialog {
     this.updateFilter();
     this.filtersChanged(null);
     if (!Object.values(this.override).length) return;
-    const filters = [
-      this.config.defaultSearch !== this.override.defaultSearch,
-      JSON.stringify(this.config.defaultCategories.toSorted()) !== JSON.stringify((_a = this.override.defaultCategories) == null ? void 0 : _a.toSorted()),
-      this.config.defaultSubset !== this.override.defaultSubset
-    ];
-    if (filters.some((v) => v)) this.filtersChanged(this.$filtersText);
-    const metrics = [
-      this.config.defaultWidth !== this.override.defaultWidth,
-      this.config.defaultThickness !== this.override.defaultThickness,
-      this.config.defaultComplexity !== this.override.defaultComplexity,
-      this.config.defaultCurvature !== this.override.defaultCurvature
-    ];
-    if (metrics.some((v) => v)) this.filtersChanged(this.$metricsText);
-    const sort = [
-      this.config.sortBy !== this.override.sortBy,
-      this.config.sortReverse !== this.override.sortReverse
-    ];
-    if (sort.some((v) => v)) this.filtersChanged(this.$sortText);
+    if (this.override.defaultSearch !== void 0 || this.override.defaultCategories !== void 0 || this.override.defaultSubset !== void 0)
+      this.filtersChanged(this.$filtersText);
+    if (this.override.defaultWidth !== void 0 || this.override.defaultThickness !== void 0 || this.override.defaultComplexity !== void 0 || this.override.defaultCurvature !== void 0)
+      this.filtersChanged(this.$metricsText);
+    if (this.override.sortBy !== void 0 || this.override.sortReverse !== void 0)
+      this.filtersChanged(this.$sortText);
   }
   storeDefaults() {
-    const config = {
-      defaultSearch: this.$search.value,
-      defaultCategories: getActiveBadges(this.$categories),
-      defaultSubset: this.$subset.value,
-      defaultWidth: this.$width.value,
-      defaultThickness: this.$thickness.value,
-      defaultComplexity: this.$complexity.value,
-      defaultCurvature: this.$curvature.value,
-      sortBy: this.$sort.value,
-      sortReverse: this.$sortOrder.checked
-    };
-    this.picker.setOverride(config);
+    var _a;
+    const override = {};
+    const defaultSearch = this.$search.value;
+    if (defaultSearch !== this.config.defaultSearch) override.defaultSearch = defaultSearch;
+    const defaultCategories = getActiveBadges(this.$categories);
+    if (JSON.stringify(defaultCategories.toSorted()) !== JSON.stringify((_a = this.config.defaultCategories) == null ? void 0 : _a.toSorted()))
+      override.defaultCategories = defaultCategories;
+    const defaultSubset = this.$subset.value;
+    if (defaultSubset !== this.config.defaultSubset) override.defaultSubset = defaultSubset;
+    const defaultWidth = this.$width.value;
+    if (defaultWidth !== this.config.defaultWidth) override.defaultWidth = defaultWidth;
+    const defaultThickness = this.$thickness.value;
+    if (defaultThickness !== this.config.defaultThickness)
+      override.defaultThickness = defaultThickness;
+    const defaultComplexity = this.$complexity.value;
+    if (defaultComplexity !== this.config.defaultComplexity)
+      override.defaultComplexity = defaultComplexity;
+    const defaultCurvature = this.$curvature.value;
+    if (defaultCurvature !== this.config.defaultCurvature)
+      override.defaultCurvature = defaultCurvature;
+    const sortBy = this.$sort.value;
+    if (sortBy !== this.config.sortBy) override.sortBy = sortBy;
+    const sortReverse = this.$sortOrder.checked;
+    if (sortReverse !== this.config.sortReverse) override.sortReverse = sortReverse;
+    configOverrides.set(this.config.stateKey, override);
   }
   async open(picker) {
     if (this.opened) return;
     this.opened = true;
     this.picker = picker;
     this.config = this.picker.getConfig();
-    this.override = this.picker.getOverride();
+    this.override = configOverrides.get(this.config.stateKey) ?? {};
     this.applyTranslations();
     this.bindEvents();
     this.createLazyFontList();
@@ -1703,6 +1704,7 @@ class FontPicker extends EventEmitter$1 {
       favourites: [],
       saveFavourites: true,
       storageKey: "fp__favourites",
+      stateKey: "default",
       defaultSearch: "",
       defaultSubset: "all",
       defaultCategories: ["display", "handwriting", "monospace", "sans-serif", "serif"],
@@ -1718,7 +1720,6 @@ class FontPicker extends EventEmitter$1 {
       showCancelButton: true,
       showClearButton: false
     });
-    __publicField(this, "_override", {});
     __publicField(this, "clickHandler");
     __publicField(this, "changeHandler");
     this.$el = typeof el === "string" ? document.querySelector(el) : el;
@@ -1754,12 +1755,6 @@ class FontPicker extends EventEmitter$1 {
   }
   getConfig() {
     return { ...this._config };
-  }
-  getOverride() {
-    return { ...this._override };
-  }
-  setOverride(override) {
-    this._override = override;
   }
   configure(options) {
     if ("container" in options && options.container && !(options.container instanceof HTMLElement)) {

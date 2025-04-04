@@ -13,6 +13,7 @@ export interface PickerConfig {
   favourites: string[]
   saveFavourites: boolean
   storageKey: string
+  stateKey: string
 
   defaultSearch: string
   defaultSubset: Subset
