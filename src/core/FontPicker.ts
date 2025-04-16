@@ -95,6 +95,7 @@ export class FontPicker extends EventEmitter<{
         config.font = this.$el.value
       }
       const $wrap = document.createElement('button')
+      $wrap.setAttribute('type', 'button');
       this.$el.after($wrap)
 
       this.$inputEl = this.$el
