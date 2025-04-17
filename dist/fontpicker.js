@@ -13,369 +13,375 @@ function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
 var events = { exports: {} };
-var R = typeof Reflect === "object" ? Reflect : null;
-var ReflectApply = R && typeof R.apply === "function" ? R.apply : function ReflectApply2(target, receiver, args) {
-  return Function.prototype.apply.call(target, receiver, args);
-};
-var ReflectOwnKeys;
-if (R && typeof R.ownKeys === "function") {
-  ReflectOwnKeys = R.ownKeys;
-} else if (Object.getOwnPropertySymbols) {
-  ReflectOwnKeys = function ReflectOwnKeys2(target) {
-    return Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target));
+var hasRequiredEvents;
+function requireEvents() {
+  if (hasRequiredEvents) return events.exports;
+  hasRequiredEvents = 1;
+  var R = typeof Reflect === "object" ? Reflect : null;
+  var ReflectApply = R && typeof R.apply === "function" ? R.apply : function ReflectApply2(target, receiver, args) {
+    return Function.prototype.apply.call(target, receiver, args);
   };
-} else {
-  ReflectOwnKeys = function ReflectOwnKeys2(target) {
-    return Object.getOwnPropertyNames(target);
+  var ReflectOwnKeys;
+  if (R && typeof R.ownKeys === "function") {
+    ReflectOwnKeys = R.ownKeys;
+  } else if (Object.getOwnPropertySymbols) {
+    ReflectOwnKeys = function ReflectOwnKeys2(target) {
+      return Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target));
+    };
+  } else {
+    ReflectOwnKeys = function ReflectOwnKeys2(target) {
+      return Object.getOwnPropertyNames(target);
+    };
+  }
+  function ProcessEmitWarning(warning) {
+    if (console && console.warn) console.warn(warning);
+  }
+  var NumberIsNaN = Number.isNaN || function NumberIsNaN2(value) {
+    return value !== value;
   };
-}
-function ProcessEmitWarning(warning) {
-  if (console && console.warn) console.warn(warning);
-}
-var NumberIsNaN = Number.isNaN || function NumberIsNaN2(value) {
-  return value !== value;
-};
-function EventEmitter() {
-  EventEmitter.init.call(this);
-}
-events.exports = EventEmitter;
-events.exports.once = once2;
-EventEmitter.EventEmitter = EventEmitter;
-EventEmitter.prototype._events = void 0;
-EventEmitter.prototype._eventsCount = 0;
-EventEmitter.prototype._maxListeners = void 0;
-var defaultMaxListeners = 10;
-function checkListener(listener) {
-  if (typeof listener !== "function") {
-    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
+  function EventEmitter2() {
+    EventEmitter2.init.call(this);
   }
-}
-Object.defineProperty(EventEmitter, "defaultMaxListeners", {
-  enumerable: true,
-  get: function() {
-    return defaultMaxListeners;
-  },
-  set: function(arg) {
-    if (typeof arg !== "number" || arg < 0 || NumberIsNaN(arg)) {
-      throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + ".");
-    }
-    defaultMaxListeners = arg;
-  }
-});
-EventEmitter.init = function() {
-  if (this._events === void 0 || this._events === Object.getPrototypeOf(this)._events) {
-    this._events = /* @__PURE__ */ Object.create(null);
-    this._eventsCount = 0;
-  }
-  this._maxListeners = this._maxListeners || void 0;
-};
-EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
-  if (typeof n !== "number" || n < 0 || NumberIsNaN(n)) {
-    throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + ".");
-  }
-  this._maxListeners = n;
-  return this;
-};
-function _getMaxListeners(that) {
-  if (that._maxListeners === void 0)
-    return EventEmitter.defaultMaxListeners;
-  return that._maxListeners;
-}
-EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
-  return _getMaxListeners(this);
-};
-EventEmitter.prototype.emit = function emit(type) {
-  var args = [];
-  for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
-  var doError = type === "error";
-  var events2 = this._events;
-  if (events2 !== void 0)
-    doError = doError && events2.error === void 0;
-  else if (!doError)
-    return false;
-  if (doError) {
-    var er;
-    if (args.length > 0)
-      er = args[0];
-    if (er instanceof Error) {
-      throw er;
-    }
-    var err = new Error("Unhandled error." + (er ? " (" + er.message + ")" : ""));
-    err.context = er;
-    throw err;
-  }
-  var handler = events2[type];
-  if (handler === void 0)
-    return false;
-  if (typeof handler === "function") {
-    ReflectApply(handler, this, args);
-  } else {
-    var len = handler.length;
-    var listeners2 = arrayClone(handler, len);
-    for (var i = 0; i < len; ++i)
-      ReflectApply(listeners2[i], this, args);
-  }
-  return true;
-};
-function _addListener(target, type, listener, prepend) {
-  var m;
-  var events2;
-  var existing;
-  checkListener(listener);
-  events2 = target._events;
-  if (events2 === void 0) {
-    events2 = target._events = /* @__PURE__ */ Object.create(null);
-    target._eventsCount = 0;
-  } else {
-    if (events2.newListener !== void 0) {
-      target.emit(
-        "newListener",
-        type,
-        listener.listener ? listener.listener : listener
-      );
-      events2 = target._events;
-    }
-    existing = events2[type];
-  }
-  if (existing === void 0) {
-    existing = events2[type] = listener;
-    ++target._eventsCount;
-  } else {
-    if (typeof existing === "function") {
-      existing = events2[type] = prepend ? [listener, existing] : [existing, listener];
-    } else if (prepend) {
-      existing.unshift(listener);
-    } else {
-      existing.push(listener);
-    }
-    m = _getMaxListeners(target);
-    if (m > 0 && existing.length > m && !existing.warned) {
-      existing.warned = true;
-      var w = new Error("Possible EventEmitter memory leak detected. " + existing.length + " " + String(type) + " listeners added. Use emitter.setMaxListeners() to increase limit");
-      w.name = "MaxListenersExceededWarning";
-      w.emitter = target;
-      w.type = type;
-      w.count = existing.length;
-      ProcessEmitWarning(w);
+  events.exports = EventEmitter2;
+  events.exports.once = once;
+  EventEmitter2.EventEmitter = EventEmitter2;
+  EventEmitter2.prototype._events = void 0;
+  EventEmitter2.prototype._eventsCount = 0;
+  EventEmitter2.prototype._maxListeners = void 0;
+  var defaultMaxListeners = 10;
+  function checkListener(listener) {
+    if (typeof listener !== "function") {
+      throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
     }
   }
-  return target;
-}
-EventEmitter.prototype.addListener = function addListener(type, listener) {
-  return _addListener(this, type, listener, false);
-};
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-EventEmitter.prototype.prependListener = function prependListener(type, listener) {
-  return _addListener(this, type, listener, true);
-};
-function onceWrapper() {
-  if (!this.fired) {
-    this.target.removeListener(this.type, this.wrapFn);
-    this.fired = true;
-    if (arguments.length === 0)
-      return this.listener.call(this.target);
-    return this.listener.apply(this.target, arguments);
-  }
-}
-function _onceWrap(target, type, listener) {
-  var state = { fired: false, wrapFn: void 0, target, type, listener };
-  var wrapped = onceWrapper.bind(state);
-  wrapped.listener = listener;
-  state.wrapFn = wrapped;
-  return wrapped;
-}
-EventEmitter.prototype.once = function once(type, listener) {
-  checkListener(listener);
-  this.on(type, _onceWrap(this, type, listener));
-  return this;
-};
-EventEmitter.prototype.prependOnceListener = function prependOnceListener(type, listener) {
-  checkListener(listener);
-  this.prependListener(type, _onceWrap(this, type, listener));
-  return this;
-};
-EventEmitter.prototype.removeListener = function removeListener(type, listener) {
-  var list, events2, position, i, originalListener;
-  checkListener(listener);
-  events2 = this._events;
-  if (events2 === void 0)
-    return this;
-  list = events2[type];
-  if (list === void 0)
-    return this;
-  if (list === listener || list.listener === listener) {
-    if (--this._eventsCount === 0)
-      this._events = /* @__PURE__ */ Object.create(null);
-    else {
-      delete events2[type];
-      if (events2.removeListener)
-        this.emit("removeListener", type, list.listener || listener);
-    }
-  } else if (typeof list !== "function") {
-    position = -1;
-    for (i = list.length - 1; i >= 0; i--) {
-      if (list[i] === listener || list[i].listener === listener) {
-        originalListener = list[i].listener;
-        position = i;
-        break;
+  Object.defineProperty(EventEmitter2, "defaultMaxListeners", {
+    enumerable: true,
+    get: function() {
+      return defaultMaxListeners;
+    },
+    set: function(arg) {
+      if (typeof arg !== "number" || arg < 0 || NumberIsNaN(arg)) {
+        throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + ".");
       }
-    }
-    if (position < 0)
-      return this;
-    if (position === 0)
-      list.shift();
-    else {
-      spliceOne(list, position);
-    }
-    if (list.length === 1)
-      events2[type] = list[0];
-    if (events2.removeListener !== void 0)
-      this.emit("removeListener", type, originalListener || listener);
-  }
-  return this;
-};
-EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-EventEmitter.prototype.removeAllListeners = function removeAllListeners(type) {
-  var listeners2, events2, i;
-  events2 = this._events;
-  if (events2 === void 0)
-    return this;
-  if (events2.removeListener === void 0) {
-    if (arguments.length === 0) {
-      this._events = /* @__PURE__ */ Object.create(null);
-      this._eventsCount = 0;
-    } else if (events2[type] !== void 0) {
-      if (--this._eventsCount === 0)
-        this._events = /* @__PURE__ */ Object.create(null);
-      else
-        delete events2[type];
-    }
-    return this;
-  }
-  if (arguments.length === 0) {
-    var keys = Object.keys(events2);
-    var key;
-    for (i = 0; i < keys.length; ++i) {
-      key = keys[i];
-      if (key === "removeListener") continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners("removeListener");
-    this._events = /* @__PURE__ */ Object.create(null);
-    this._eventsCount = 0;
-    return this;
-  }
-  listeners2 = events2[type];
-  if (typeof listeners2 === "function") {
-    this.removeListener(type, listeners2);
-  } else if (listeners2 !== void 0) {
-    for (i = listeners2.length - 1; i >= 0; i--) {
-      this.removeListener(type, listeners2[i]);
-    }
-  }
-  return this;
-};
-function _listeners(target, type, unwrap) {
-  var events2 = target._events;
-  if (events2 === void 0)
-    return [];
-  var evlistener = events2[type];
-  if (evlistener === void 0)
-    return [];
-  if (typeof evlistener === "function")
-    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
-  return unwrap ? unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
-}
-EventEmitter.prototype.listeners = function listeners(type) {
-  return _listeners(this, type, true);
-};
-EventEmitter.prototype.rawListeners = function rawListeners(type) {
-  return _listeners(this, type, false);
-};
-EventEmitter.listenerCount = function(emitter, type) {
-  if (typeof emitter.listenerCount === "function") {
-    return emitter.listenerCount(type);
-  } else {
-    return listenerCount.call(emitter, type);
-  }
-};
-EventEmitter.prototype.listenerCount = listenerCount;
-function listenerCount(type) {
-  var events2 = this._events;
-  if (events2 !== void 0) {
-    var evlistener = events2[type];
-    if (typeof evlistener === "function") {
-      return 1;
-    } else if (evlistener !== void 0) {
-      return evlistener.length;
-    }
-  }
-  return 0;
-}
-EventEmitter.prototype.eventNames = function eventNames() {
-  return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
-};
-function arrayClone(arr, n) {
-  var copy = new Array(n);
-  for (var i = 0; i < n; ++i)
-    copy[i] = arr[i];
-  return copy;
-}
-function spliceOne(list, index) {
-  for (; index + 1 < list.length; index++)
-    list[index] = list[index + 1];
-  list.pop();
-}
-function unwrapListeners(arr) {
-  var ret = new Array(arr.length);
-  for (var i = 0; i < ret.length; ++i) {
-    ret[i] = arr[i].listener || arr[i];
-  }
-  return ret;
-}
-function once2(emitter, name) {
-  return new Promise(function(resolve, reject) {
-    function errorListener(err) {
-      emitter.removeListener(name, resolver);
-      reject(err);
-    }
-    function resolver() {
-      if (typeof emitter.removeListener === "function") {
-        emitter.removeListener("error", errorListener);
-      }
-      resolve([].slice.call(arguments));
-    }
-    eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
-    if (name !== "error") {
-      addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
+      defaultMaxListeners = arg;
     }
   });
-}
-function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
-  if (typeof emitter.on === "function") {
-    eventTargetAgnosticAddListener(emitter, "error", handler, flags);
-  }
-}
-function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
-  if (typeof emitter.on === "function") {
-    if (flags.once) {
-      emitter.once(name, listener);
-    } else {
-      emitter.on(name, listener);
+  EventEmitter2.init = function() {
+    if (this._events === void 0 || this._events === Object.getPrototypeOf(this)._events) {
+      this._events = /* @__PURE__ */ Object.create(null);
+      this._eventsCount = 0;
     }
-  } else if (typeof emitter.addEventListener === "function") {
-    emitter.addEventListener(name, function wrapListener(arg) {
-      if (flags.once) {
-        emitter.removeEventListener(name, wrapListener);
-      }
-      listener(arg);
-    });
-  } else {
-    throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
+    this._maxListeners = this._maxListeners || void 0;
+  };
+  EventEmitter2.prototype.setMaxListeners = function setMaxListeners(n) {
+    if (typeof n !== "number" || n < 0 || NumberIsNaN(n)) {
+      throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + ".");
+    }
+    this._maxListeners = n;
+    return this;
+  };
+  function _getMaxListeners(that) {
+    if (that._maxListeners === void 0)
+      return EventEmitter2.defaultMaxListeners;
+    return that._maxListeners;
   }
+  EventEmitter2.prototype.getMaxListeners = function getMaxListeners() {
+    return _getMaxListeners(this);
+  };
+  EventEmitter2.prototype.emit = function emit(type) {
+    var args = [];
+    for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+    var doError = type === "error";
+    var events2 = this._events;
+    if (events2 !== void 0)
+      doError = doError && events2.error === void 0;
+    else if (!doError)
+      return false;
+    if (doError) {
+      var er;
+      if (args.length > 0)
+        er = args[0];
+      if (er instanceof Error) {
+        throw er;
+      }
+      var err = new Error("Unhandled error." + (er ? " (" + er.message + ")" : ""));
+      err.context = er;
+      throw err;
+    }
+    var handler = events2[type];
+    if (handler === void 0)
+      return false;
+    if (typeof handler === "function") {
+      ReflectApply(handler, this, args);
+    } else {
+      var len = handler.length;
+      var listeners = arrayClone(handler, len);
+      for (var i = 0; i < len; ++i)
+        ReflectApply(listeners[i], this, args);
+    }
+    return true;
+  };
+  function _addListener(target, type, listener, prepend) {
+    var m;
+    var events2;
+    var existing;
+    checkListener(listener);
+    events2 = target._events;
+    if (events2 === void 0) {
+      events2 = target._events = /* @__PURE__ */ Object.create(null);
+      target._eventsCount = 0;
+    } else {
+      if (events2.newListener !== void 0) {
+        target.emit(
+          "newListener",
+          type,
+          listener.listener ? listener.listener : listener
+        );
+        events2 = target._events;
+      }
+      existing = events2[type];
+    }
+    if (existing === void 0) {
+      existing = events2[type] = listener;
+      ++target._eventsCount;
+    } else {
+      if (typeof existing === "function") {
+        existing = events2[type] = prepend ? [listener, existing] : [existing, listener];
+      } else if (prepend) {
+        existing.unshift(listener);
+      } else {
+        existing.push(listener);
+      }
+      m = _getMaxListeners(target);
+      if (m > 0 && existing.length > m && !existing.warned) {
+        existing.warned = true;
+        var w = new Error("Possible EventEmitter memory leak detected. " + existing.length + " " + String(type) + " listeners added. Use emitter.setMaxListeners() to increase limit");
+        w.name = "MaxListenersExceededWarning";
+        w.emitter = target;
+        w.type = type;
+        w.count = existing.length;
+        ProcessEmitWarning(w);
+      }
+    }
+    return target;
+  }
+  EventEmitter2.prototype.addListener = function addListener(type, listener) {
+    return _addListener(this, type, listener, false);
+  };
+  EventEmitter2.prototype.on = EventEmitter2.prototype.addListener;
+  EventEmitter2.prototype.prependListener = function prependListener(type, listener) {
+    return _addListener(this, type, listener, true);
+  };
+  function onceWrapper() {
+    if (!this.fired) {
+      this.target.removeListener(this.type, this.wrapFn);
+      this.fired = true;
+      if (arguments.length === 0)
+        return this.listener.call(this.target);
+      return this.listener.apply(this.target, arguments);
+    }
+  }
+  function _onceWrap(target, type, listener) {
+    var state = { fired: false, wrapFn: void 0, target, type, listener };
+    var wrapped = onceWrapper.bind(state);
+    wrapped.listener = listener;
+    state.wrapFn = wrapped;
+    return wrapped;
+  }
+  EventEmitter2.prototype.once = function once2(type, listener) {
+    checkListener(listener);
+    this.on(type, _onceWrap(this, type, listener));
+    return this;
+  };
+  EventEmitter2.prototype.prependOnceListener = function prependOnceListener(type, listener) {
+    checkListener(listener);
+    this.prependListener(type, _onceWrap(this, type, listener));
+    return this;
+  };
+  EventEmitter2.prototype.removeListener = function removeListener(type, listener) {
+    var list, events2, position, i, originalListener;
+    checkListener(listener);
+    events2 = this._events;
+    if (events2 === void 0)
+      return this;
+    list = events2[type];
+    if (list === void 0)
+      return this;
+    if (list === listener || list.listener === listener) {
+      if (--this._eventsCount === 0)
+        this._events = /* @__PURE__ */ Object.create(null);
+      else {
+        delete events2[type];
+        if (events2.removeListener)
+          this.emit("removeListener", type, list.listener || listener);
+      }
+    } else if (typeof list !== "function") {
+      position = -1;
+      for (i = list.length - 1; i >= 0; i--) {
+        if (list[i] === listener || list[i].listener === listener) {
+          originalListener = list[i].listener;
+          position = i;
+          break;
+        }
+      }
+      if (position < 0)
+        return this;
+      if (position === 0)
+        list.shift();
+      else {
+        spliceOne(list, position);
+      }
+      if (list.length === 1)
+        events2[type] = list[0];
+      if (events2.removeListener !== void 0)
+        this.emit("removeListener", type, originalListener || listener);
+    }
+    return this;
+  };
+  EventEmitter2.prototype.off = EventEmitter2.prototype.removeListener;
+  EventEmitter2.prototype.removeAllListeners = function removeAllListeners(type) {
+    var listeners, events2, i;
+    events2 = this._events;
+    if (events2 === void 0)
+      return this;
+    if (events2.removeListener === void 0) {
+      if (arguments.length === 0) {
+        this._events = /* @__PURE__ */ Object.create(null);
+        this._eventsCount = 0;
+      } else if (events2[type] !== void 0) {
+        if (--this._eventsCount === 0)
+          this._events = /* @__PURE__ */ Object.create(null);
+        else
+          delete events2[type];
+      }
+      return this;
+    }
+    if (arguments.length === 0) {
+      var keys = Object.keys(events2);
+      var key;
+      for (i = 0; i < keys.length; ++i) {
+        key = keys[i];
+        if (key === "removeListener") continue;
+        this.removeAllListeners(key);
+      }
+      this.removeAllListeners("removeListener");
+      this._events = /* @__PURE__ */ Object.create(null);
+      this._eventsCount = 0;
+      return this;
+    }
+    listeners = events2[type];
+    if (typeof listeners === "function") {
+      this.removeListener(type, listeners);
+    } else if (listeners !== void 0) {
+      for (i = listeners.length - 1; i >= 0; i--) {
+        this.removeListener(type, listeners[i]);
+      }
+    }
+    return this;
+  };
+  function _listeners(target, type, unwrap) {
+    var events2 = target._events;
+    if (events2 === void 0)
+      return [];
+    var evlistener = events2[type];
+    if (evlistener === void 0)
+      return [];
+    if (typeof evlistener === "function")
+      return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+    return unwrap ? unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+  }
+  EventEmitter2.prototype.listeners = function listeners(type) {
+    return _listeners(this, type, true);
+  };
+  EventEmitter2.prototype.rawListeners = function rawListeners(type) {
+    return _listeners(this, type, false);
+  };
+  EventEmitter2.listenerCount = function(emitter, type) {
+    if (typeof emitter.listenerCount === "function") {
+      return emitter.listenerCount(type);
+    } else {
+      return listenerCount.call(emitter, type);
+    }
+  };
+  EventEmitter2.prototype.listenerCount = listenerCount;
+  function listenerCount(type) {
+    var events2 = this._events;
+    if (events2 !== void 0) {
+      var evlistener = events2[type];
+      if (typeof evlistener === "function") {
+        return 1;
+      } else if (evlistener !== void 0) {
+        return evlistener.length;
+      }
+    }
+    return 0;
+  }
+  EventEmitter2.prototype.eventNames = function eventNames() {
+    return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
+  };
+  function arrayClone(arr, n) {
+    var copy = new Array(n);
+    for (var i = 0; i < n; ++i)
+      copy[i] = arr[i];
+    return copy;
+  }
+  function spliceOne(list, index) {
+    for (; index + 1 < list.length; index++)
+      list[index] = list[index + 1];
+    list.pop();
+  }
+  function unwrapListeners(arr) {
+    var ret = new Array(arr.length);
+    for (var i = 0; i < ret.length; ++i) {
+      ret[i] = arr[i].listener || arr[i];
+    }
+    return ret;
+  }
+  function once(emitter, name) {
+    return new Promise(function(resolve, reject) {
+      function errorListener(err) {
+        emitter.removeListener(name, resolver);
+        reject(err);
+      }
+      function resolver() {
+        if (typeof emitter.removeListener === "function") {
+          emitter.removeListener("error", errorListener);
+        }
+        resolve([].slice.call(arguments));
+      }
+      eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
+      if (name !== "error") {
+        addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
+      }
+    });
+  }
+  function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
+    if (typeof emitter.on === "function") {
+      eventTargetAgnosticAddListener(emitter, "error", handler, flags);
+    }
+  }
+  function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
+    if (typeof emitter.on === "function") {
+      if (flags.once) {
+        emitter.once(name, listener);
+      } else {
+        emitter.on(name, listener);
+      }
+    } else if (typeof emitter.addEventListener === "function") {
+      emitter.addEventListener(name, function wrapListener(arg) {
+        if (flags.once) {
+          emitter.removeEventListener(name, wrapListener);
+        }
+        listener(arg);
+      });
+    } else {
+      throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
+    }
+  }
+  return events.exports;
 }
-var eventsExports = events.exports;
-const EventEmitter$1 = /* @__PURE__ */ getDefaultExportFromCjs(eventsExports);
+var eventsExports = requireEvents();
+const EventEmitter = /* @__PURE__ */ getDefaultExportFromCjs(eventsExports);
 const dialogContent = '<div id="fp__modal" class="fpb__modal" tabindex="-1" role="dialog" aria-modal="true"><div class="fpb__modal-header"><h5 id="fp__title" class="fp__modal-title"></h5><button type="button" id="fp__close" class="fpb__btn-close" aria-label="Close">&times;</button></div><div class="fpb__accordion"><div class="fpb__accordion-item fpb__open"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.4s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1s" dur="0.4s" values="12;0"/></path></g></svg><span id="fp__t-filters"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><input id="fp__search" class="fpb__input" /></div><div><select id="fp__subsets" class="fpb__input fpb__dropdown"></select></div><div class="fpb__span-2"><div id="fp__categories" class="fpb__hlist"></div></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="1.2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path></svg><span id="fp__t-metrics"></span></button><div class="fpb__accordion-content"><div class="fpb__grid-2"><div><select id="fp__width" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__thickness" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__complexity" class="fpb__input fpb__dropdown"></select></div><div><select id="fp__curvature" class="fpb__input fpb__dropdown"></select></div></div></div></div><div class="fpb__accordion-item"><button class="fpb__accordion-toggle fpb__has-icon" type="button"><svg class="fpb__primary" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="12" stroke-dashoffset="12" d="M17 21l0 -10.5M7 3l0 10.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="12;0"/></path><path stroke-dasharray="8" stroke-dashoffset="8" d="M17 10l-4 4M17 10l4 4M7 14l-4 -4M7 14l4 -4"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.4s" values="8;0"/></path></g></svg><span id="fp__t-sort"></span></button><div class="fpb__accordion-content"><div class="fpb__input-group"><select id="fp__sort" class="fpb__input fpb__dropdown"></select><input type="checkbox" id="fp__sort-order" class="fpb__hidden-input" /><label for="fp__sort-order" type="button" class="fpb__btn fpb__btn-toggle fpb__btn-flip fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 9l4-4l4 4M7 5v14m14-4l-4 4l-4-4m4 4V5"/></svg></label></div></div></div></div><div id="fp__fonts" tabindex="0"></div><div class="fp__preview-container"><div id="fp__preview" contenteditable spellcheck="false"></div></div><div id="fp__variants"></div><div class="fpb__modal-footer"><div class="fpb__grow"><button id="fp__clear-filters" type="button" class="fpb__btn fpb__btn-link fpb__btn-secondary fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" fill-opacity="0" stroke-dasharray="56" stroke-dashoffset="56" d="M3 4h14l-5 6.5v9.5l-4 -4v-5.5Z"><animate fill="freeze" attributeName="fill-opacity" begin="2s" dur="0.3s" values="0;0.3"/><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="56;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 15l6 6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="10;0"/></path><path stroke-dasharray="10" stroke-dashoffset="10" d="M16 21l6 -6"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.6s" dur="0.4s" values="10;0"/></path></g></svg><span id="fp__t-clear-filters"></span></button></div><button id="fp__cancel" type="button" class="fpb__btn fpb__btn-link fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M5 5l14 14"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path d="M19 5l-14 14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></svg><span id="fp__t-cancel"></span></button><button id="fp__clear" type="button" class="fpb__btn fpb__btn-link fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M5.64 5.64c3.51 -3.51 9.21 -3.51 12.73 0c3.51 3.51 3.51 9.21 0 12.73c-3.51 3.51 -9.21 3.51 -12.73 0c-3.51 -3.51 -3.51 -9.21 -0 -12.73Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0"/></path><path stroke-dasharray="20" stroke-dashoffset="20" d="M6 6l12 12"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.2s" dur="0.4s" values="20;0"/></path></g></svg><span id="fp__t-clear"></span></button><button id="fp__pick" type="button" class="fpb__btn fpb__btn-pill fpb__has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><mask id="lineMdCheckAll0"><g fill="none" stroke="#fff" stroke-dasharray="24" stroke-dashoffset="24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.8s" values="24;0"/></path><path stroke="#000" stroke-width="6" d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path><path d="M7.5 13.5l4 4l10.75 -10.75"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.8s" values="24;0"/></path></g></mask><rect width="24" height="24" fill="currentColor" mask="url(#lineMdCheckAll0)"/></svg><span id="fp__t-pick"></span></button></div></div><div id="fp__backdrop" class="fpb__backdrop"></div>';
 const heartSVG = `<div class="fp__heart" role="button"><svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" viewBox="0 0 18 18"><path d="M9 2.314 C13.438-2.248 24.534 5.735 9 16-6.534 5.736 4.562-2.248 9 2.314z" /></svg></div>`;
 const createLazyFont = (font) => {
@@ -479,7 +485,7 @@ const createOption = (key, label) => {
 const createOptions = (options) => {
   return Object.entries(options).map(([key, label]) => createOption(key, label));
 };
-class Modal extends EventEmitter$1 {
+class Modal extends EventEmitter {
   constructor($el) {
     super();
     __publicField(this, "$el");
@@ -1685,7 +1691,7 @@ class PickerDialog {
   }
 }
 let pickerDialog = null;
-class FontPicker extends EventEmitter$1 {
+class FontPicker extends EventEmitter {
   constructor(el, config = {}) {
     super();
     __publicField(this, "$el");
@@ -1729,6 +1735,7 @@ class FontPicker extends EventEmitter$1 {
         config.font = this.$el.value;
       }
       const $wrap = document.createElement("button");
+      $wrap.setAttribute("type", "button");
       this.$el.after($wrap);
       this.$inputEl = this.$el;
       this.$inputEl.type = "hidden";
@@ -1805,7 +1812,7 @@ class FontPicker extends EventEmitter$1 {
     if (!family) throw new Error(`Could not find font family '${name}'!`);
     return family;
   }
-  setFont(font, emit2 = false) {
+  setFont(font, emit = false) {
     if (!font) {
       this._font = null;
     } else if (font instanceof Font) {
@@ -1845,16 +1852,16 @@ class FontPicker extends EventEmitter$1 {
       this.$el.style.removeProperty("font-weight");
       this.$el.style.removeProperty("font-style");
     }
-    if (emit2) {
+    if (emit) {
       this.emit("pick", this.font);
       if (this.$inputEl) {
         this.$inputEl.dispatchEvent(new Event("change"));
       }
     }
   }
-  clear(emit2) {
-    this.setFont(null, emit2);
-    if (emit2) this.emit("clear");
+  clear(emit) {
+    this.setFont(null, emit);
+    if (emit) this.emit("clear");
   }
   markFavourite(family, value) {
     if (value === void 0) value = !this.favourites.has(family);
