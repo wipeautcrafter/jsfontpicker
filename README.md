@@ -2,7 +2,7 @@
 
 An open source, free (as in beer), versatile, flexible and lightweight Javascript Font Picker Component for System fonts, Google fonts and custom (woff/ttf) fonts. Features dynamic font loading, favourites, keyboard navigation, fuzzy search, advanced metrics filters, property sorting and much more. Available in multiple languages.
 
-> **Please visit [jsfontpicker.com](https://www.jsfontpicker.com/) for a more detailed documentation and extensive demos!**
+## Please visit [jsfontpicker.com](https://www.jsfontpicker.com/) for a more detailed documentation and extensive demos!<br><br>
 
 ## Table of Contents
 
@@ -147,3 +147,10 @@ To run:
 ```bash
 bun|deno|npm|pnpm|yarn run dev
 ```
+
+## License
+
+This component is released under the MIT license. It is simple and easy to understand and places almost no restrictions on what you can do with the code.
+[More Information](http://en.wikipedia.org/wiki/MIT_License)
+
+The development of this component was funded by [Zygomatic](https://www.zygomatic.nl/).
