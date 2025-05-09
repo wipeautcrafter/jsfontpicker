@@ -2,7 +2,7 @@
 
 An open source, free (as in beer), versatile, flexible and lightweight Javascript Font Picker Component for System fonts, Google fonts and custom (woff/ttf) fonts. Features dynamic font loading, favourites, keyboard navigation, fuzzy search, advanced metrics filters, property sorting and much more. Available in multiple languages.
 
-## Please visit [jsfontpicker.com](https://www.jsfontpicker.com/) for a more detailed documentation and extensive demo's.<br><br>
+## Please visit [jsfontpicker.com](https://www.jsfontpicker.com/) for more detailed documentation and extensive demo's.<br><br>
 
 ## Table of Contents
 
