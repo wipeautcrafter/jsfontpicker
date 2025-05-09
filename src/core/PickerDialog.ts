@@ -233,7 +233,6 @@ export class PickerDialog {
     const $family = this.getElementFor(font.family)
     const value = $family.classList.toggle('fp__fav')
     this.picker.markFavourite(font.family, value)
-    this.updateSort()
   }
 
   private updateVariant() {
