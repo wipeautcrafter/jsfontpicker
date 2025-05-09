@@ -525,6 +525,7 @@ input.font-picker {
 .fp__heart svg {
   height: 1em;
   pointer-events: none;
+  vertical-align: baseline;
 
   --fp-heart-color: var(--fp-border-color-rgb);
 
