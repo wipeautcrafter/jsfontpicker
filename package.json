@@ -12,12 +12,12 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.5",
     "events": "^3.3.0",
     "leven": "^4.0.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",
-    "vite": "^6.2.3",
+    "vite": "^6.3.5",
     "vite-plugin-dts": "^4.2.3"
   }
 }
