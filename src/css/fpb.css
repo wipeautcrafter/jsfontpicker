@@ -126,10 +126,10 @@
 .fpb__modal {
   position: fixed;
   max-width: 32rem;
-  width: calc(100vw - 1rem);
-  height: calc(100vh - 3rem);
-  top: 50%;
+  width: calc(100dvw - 1rem);
+  height: calc(100dvh - 3rem);
   left: 50%;
+  top: 1.5rem;
 
   border: 1px solid var(--fp-border-color-translucent);
   border-radius: var(--fp-border-radius-lg);
@@ -142,7 +142,7 @@
 
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -51%);
+  transform: translateX(-50%);
 
   transition:
     opacity 0.5s,
@@ -153,12 +153,11 @@
 .fpb__modal.fpb__open {
   opacity: 1;
   pointer-events: all;
-  transform: translate(-50%, -50%);
 }
 .fpb__backdrop {
   position: fixed;
-  width: 100vw;
-  height: 100vh;
+  width: 100dvw;
+  height: 100dvh;
   inset: 0;
   z-index: 1054;
 
@@ -448,7 +447,8 @@ input:disabled + .fpb__btn-toggle {
 
 @media (max-width: 576px) {
   .fpb__modal {
-    height: calc(100vh - 1rem);
+    height: 100dvh;
+    top: 0;
   }
   .fpb__grid-2 {
     display: flex;
